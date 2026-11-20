@@ -1,0 +1,1821 @@
+{
+  "schema_version": "1.1",
+  "template_id": "nonfinancial",
+  "version": "1.0.0",
+  "family": "nonfinancial",
+  "label_vn": "Doanh nghiệp phi tài chính (chung)",
+  "description_vn": "L1 chung cho mọi doanh nghiệp phi tài chính; L2 chung (CPBH/CPQL, vốn lưu động, TSCĐ, nợ vay, phân phối). Template ngành kế thừa và chỉ thêm L2/L3 riêng.",
+  "frequencies": {
+    "implemented": [
+      "annual"
+    ],
+    "default": "annual",
+    "engine": "Kịch bản tạo theo năm (năm gốc = báo cáo cả năm mới nhất). Engine chạy theo quý đến hết Q4 năm sau quý công bố mới nhất, rồi theo năm (quick_model/hybrid.py); số năm của các năm có quý = tổng các quý (owner 2026-11-18)."
+  },
+  "files": {
+    "survey": "survey.json"
+  },
+  "blocks": [
+    {
+      "block_id": "revenue",
+      "label_vn": "Doanh thu",
+      "segmentable": false
+    },
+    {
+      "block_id": "cogs",
+      "label_vn": "Giá vốn",
+      "segmentable": false
+    },
+    {
+      "block_id": "sga",
+      "label_vn": "CPBH & CPQL",
+      "segmentable": false
+    },
+    {
+      "block_id": "working_capital",
+      "label_vn": "Vốn lưu động",
+      "segmentable": false
+    },
+    {
+      "block_id": "ppe",
+      "label_vn": "TSCĐ",
+      "segmentable": false
+    },
+    {
+      "block_id": "debt",
+      "label_vn": "Nợ vay",
+      "segmentable": false
+    },
+    {
+      "block_id": "non_operating",
+      "label_vn": "Ngoài HĐKD",
+      "segmentable": false
+    },
+    {
+      "block_id": "tax_equity",
+      "label_vn": "Thuế & vốn chủ",
+      "segmentable": false
+    }
+  ],
+  "one_off": {
+    "description_vn": "Owner 2026-11-18: tự làm sạch, không đợi xác nhận. Quét quý ở 9 năm lịch sử (mỗi năm trên chuỗi gốc, không tuần tự: tránh khóa trend khi dòng tăng cấu trúc) rồi các quý đã công bố của năm hiện tại, chỉ dòng ngoài hoạt động lõi (doanh thu, giá vốn, chi phí lõi không tự tách vì thay đổi chu kỳ dễ bị nhận nhầm). Cờ khi |thực tế − trend OLS 12 quý trước| > 3σ và vượt mức trọng yếu 0,5% doanh thu quý; quý bất thường được thay bằng trung bình các quý trong cửa sổ (k = thực tế − trung bình) trong chuỗi làm default năm và quý. Số thực tế giữ nguyên; analyst bỏ qua được từng khoản. L1 v2.5.1 (owner 2026-11-19): DT tài chính theo quy tắc đột biến cô lập — quý ≥ 5 × trung vị 8 quý trước và quý sau đã quay về ≤ 2 × trung vị thì loại (thay bằng trung vị); quý công bố mới nhất chặn trần 5 × trung vị; quý cao mà quý sau vẫn cao (mức mới) giữ nguyên. L1 v2.6: LDLK cũng theo quy tắc đột biến cô lập.",
+    "window": 12,
+    "min_obs": 8,
+    "threshold": 3.0,
+    "materiality_to_revenue": 0.005,
+    "lines": {
+      "financial_income": {
+        "codes": [
+          "+ISA6"
+        ],
+        "metrics": [
+          "financial_income_run_rate"
+        ],
+        "rule": "isolated_spike",
+        "base": 8,
+        "spike_ratio": 5.0,
+        "revert_ratio": 2.0,
+        "latest_cap": 5.0
+      },
+      "other_financial_expense": {
+        "codes": [
+          "+ISA7",
+          "-ISA8"
+        ],
+        "metrics": [
+          "other_financial_expense_ratio"
+        ]
+      },
+      "jv_associates": {
+        "codes": [
+          "+ISA102"
+        ],
+        "metrics": [
+          "jv_associates_run_rate"
+        ],
+        "rule": "isolated_spike",
+        "base": 8,
+        "spike_ratio": 5.0,
+        "revert_ratio": 2.0,
+        "latest_cap": 5.0
+      },
+      "other_profit": {
+        "codes": [
+          "+ISA14"
+        ],
+        "metrics": []
+      }
+    },
+    "history_years": 9,
+    "auto_history": true,
+    "auto_current": true,
+    "replace_with": "mean",
+    "sequential": false
+  },
+  "default_paths": {
+    "description_vn": "Đường default L1 (owner duyệt 2026-11-17, thay bản giữ nguyên một giá trị): (1) giả định có stat 'converge' đi từ mức thực tế gần nhất về mức neo trong fade_years năm (tính từ kỳ dự phóng đầu, không theo số năm dự phóng); (2) mức neo = EMA với span ema_span_years năm trên anchor_window_years năm gần nhất (xu hướng gần nặng hơn, ít bị outlier xa kéo; thay trung vị); riêng tăng trưởng doanh thu neo về long_run_growth = min(EMA 5 năm YoY, 8%) và đạt mức này ở năm thứ 5; (3) chạy theo quý, tỷ lệ lấy theo cùng quý trong năm (mùa vụ); (4) CPBH/CPQL tách cố định + biến đổi theo chi phí biên (hồi quy Δchi phí theo Δdoanh thu). Dải kịch bản (quick_model/engine/bands.py) không đổi giả định: kết quả cơ sở × 0,9 / × 1,1. Owner 2026-11-18: chuỗi chưa đủ độ dài cho EMA (năm: < 5 năm; quý: < 8 quý) thì dùng số kỳ liền trước (short_history = latest), cả cho mức neo; đường hội tụ/giảm dần vẫn áp như cũ từ mức đó.",
+    "fade_years": 4,
+    "anchor_window_years": 10,
+    "seasonal_years": 3,
+    "cost_structure_window_years": 8,
+    "cost_structure_window_quarters": 12,
+    "cost_structure_min_obs": 4,
+    "anchor_stat": "ema",
+    "ema_span_years": 5,
+    "short_history": "latest"
+  },
+  "methods": [
+    {
+      "method_id": "revenue.L1.yoy_growth",
+      "block": "revenue",
+      "level": "L1",
+      "kind": "growth_matching_period",
+      "label_vn": "Tăng trưởng so với kỳ tương ứng năm trước",
+      "version": "1",
+      "implemented": true,
+      "required_items": [
+        "ISA3"
+      ],
+      "outputs": [
+        "net_revenue"
+      ],
+      "notes_vn": "Doanh thu kỳ = doanh thu kỳ tương ứng năm trước × (1 + g). Theo quý: cùng quý năm trước; theo năm: năm trước.",
+      "line_formulas": {
+        "net_revenue": [
+          "Doanh thu kỳ tương ứng năm trước × (1 + g)",
+          [
+            "revenue_yoy_growth"
+          ]
+        ],
+        "sales_volume": [
+          "Không có ở L1",
+          []
+        ],
+        "asp": [
+          "Không có ở L1",
+          []
+        ],
+        "volume_revenue": [
+          "Không có ở L1",
+          []
+        ],
+        "other_revenue": [
+          "Không có ở L1",
+          []
+        ]
+      }
+    },
+    {
+      "method_id": "cogs.L1.gross_margin",
+      "block": "cogs",
+      "level": "L1",
+      "kind": "gross_margin",
+      "label_vn": "Biên lợi nhuận gộp",
+      "version": "1",
+      "implemented": true,
+      "required_items": [
+        "ISA3",
+        "ISA4",
+        "ISA5"
+      ],
+      "outputs": [
+        "cogs",
+        "gross_profit"
+      ],
+      "line_formulas": {
+        "cogs": [
+          "−(1 − biên gộp) × doanh thu",
+          [
+            "gross_margin"
+          ]
+        ],
+        "unit_cogs": [
+          "Không có ở L1",
+          []
+        ]
+      }
+    },
+    {
+      "method_id": "sga.L1.cost_structure",
+      "block": "sga",
+      "level": "L1",
+      "kind": "expense_cost_structure",
+      "label_vn": "Cố định + biến đổi theo doanh thu (ước lượng từ lịch sử)",
+      "version": "2",
+      "implemented": true,
+      "required_items": [
+        "ISA3",
+        "ISA9",
+        "ISA10"
+      ],
+      "outputs": [
+        "selling_expense",
+        "admin_expense"
+      ],
+      "line_formulas": {
+        "selling_expense": [
+          "−(cố định + tỷ lệ biến đổi × doanh thu)",
+          [
+            "selling_fixed_cost",
+            "selling_expense_ratio"
+          ]
+        ],
+        "admin_expense": [
+          "−(cố định + tỷ lệ biến đổi × doanh thu)",
+          [
+            "admin_fixed_cost",
+            "admin_expense_ratio"
+          ]
+        ]
+      },
+      "notes_vn": "CPBH = cố định + tỷ lệ biến đổi × doanh thu; CPQL tương tự. Default hồi quy chi phí theo doanh thu trên lịch sử: doanh thu tăng thì biên mở rộng (đòn bẩy hoạt động)."
+    },
+    {
+      "method_id": "sga.L2.fixed_variable",
+      "block": "sga",
+      "level": "L2",
+      "kind": "expense_fixed_variable",
+      "label_vn": "Phần biến đổi + phần cố định",
+      "version": "1",
+      "implemented": true,
+      "required_items": [
+        "ISA3",
+        "ISA9",
+        "ISA10"
+      ],
+      "outputs": [
+        "selling_expense",
+        "admin_expense"
+      ],
+      "notes_vn": "CPBH = tỷ lệ × doanh thu + cố định; CPQL = tỷ lệ × doanh thu + cố định.",
+      "line_formulas": {
+        "selling_expense": [
+          "−(tỷ lệ × doanh thu + cố định)",
+          [
+            "selling_variable_ratio",
+            "selling_fixed"
+          ]
+        ],
+        "admin_expense": [
+          "−(tỷ lệ × doanh thu + cố định)",
+          [
+            "admin_variable_ratio",
+            "admin_fixed"
+          ]
+        ]
+      }
+    },
+    {
+      "method_id": "working_capital.L1.days",
+      "block": "working_capital",
+      "level": "L1",
+      "kind": "wc_days_cogs_proxy",
+      "label_vn": "Số ngày phải thu, tồn kho, phải trả",
+      "version": "1",
+      "implemented": true,
+      "required_items": [
+        "ISA3",
+        "ISA4",
+        "BSA9",
+        "BSA15",
+        "BSA57"
+      ],
+      "outputs": [
+        "trade_receivables",
+        "inventories",
+        "trade_payables"
+      ],
+      "notes_vn": "Phải trả tính theo giá vốn: xấp xỉ, vì giá trị mua hàng thực tế khác giá vốn.",
+      "roles": {
+        "wc_days": [
+          "dso_days",
+          "dio_days",
+          "dpo_days"
+        ]
+      },
+      "line_formulas": {
+        "purchases": [
+          "Không tính (L1 dùng giá vốn)",
+          []
+        ],
+        "trade_payables": [
+          "−Giá vốn × số ngày phải trả / số ngày của kỳ (xấp xỉ)",
+          [
+            "dpo_days"
+          ]
+        ],
+        "prepayments_to_suppliers": [
+          "Giữ nguyên số dư (L1)",
+          []
+        ],
+        "advances_from_customers": [
+          "Giữ nguyên số dư (L1)",
+          []
+        ]
+      }
+    },
+    {
+      "method_id": "working_capital.L2.purchases",
+      "block": "working_capital",
+      "level": "L2",
+      "kind": "wc_days_purchases",
+      "label_vn": "Tách mua hàng, trả trước người bán, người mua trả trước",
+      "version": "1",
+      "implemented": true,
+      "required_items": [
+        "ISA3",
+        "ISA4",
+        "BSA9",
+        "BSA10",
+        "BSA15",
+        "BSA57",
+        "BSA58",
+        "CFA2"
+      ],
+      "outputs": [
+        "trade_receivables",
+        "inventories",
+        "trade_payables",
+        "prepayments_to_suppliers",
+        "advances_from_customers"
+      ],
+      "notes_vn": "Mua hàng = giá vốn + Δ tồn kho − khấu hao nằm trong giá vốn. Phải trả và trả trước người bán tính theo mua hàng; người mua trả trước theo doanh thu.",
+      "roles": {
+        "wc_days": [
+          "dso_days",
+          "dio_days",
+          "dpo_purchases_days"
+        ]
+      },
+      "line_formulas": {
+        "purchases": [
+          "−Giá vốn + Δ tồn kho − tỷ lệ × khấu hao",
+          [
+            "noncash_cogs_share"
+          ]
+        ],
+        "trade_payables": [
+          "Mua hàng × số ngày phải trả / số ngày của kỳ",
+          [
+            "dpo_purchases_days"
+          ]
+        ],
+        "prepayments_to_suppliers": [
+          "Mua hàng × số ngày trả trước / số ngày của kỳ",
+          [
+            "prepayment_days"
+          ]
+        ],
+        "advances_from_customers": [
+          "Doanh thu × số ngày người mua trả trước / số ngày của kỳ",
+          [
+            "customer_advance_days"
+          ]
+        ]
+      }
+    },
+    {
+      "method_id": "ppe.L1.capex_intensity",
+      "block": "ppe",
+      "level": "L1",
+      "kind": "capex_intensity_depreciation_rate",
+      "label_vn": "Capex theo % doanh thu + tỷ lệ khấu hao",
+      "version": "1",
+      "implemented": true,
+      "required_items": [
+        "ISA3",
+        "CFA19",
+        "CFA2",
+        "BSA29",
+        "BSA163"
+      ],
+      "outputs": [
+        "capex",
+        "depreciation",
+        "fixed_assets",
+        "cip"
+      ],
+      "notes_vn": "Không tách XDCB: capex ghi vào TSCĐ, dở dang dài hạn giữ nguyên; khấu hao theo tỷ lệ trên (TSCĐ + dở dang) đầu kỳ.",
+      "line_formulas": {
+        "capex": [
+          "−Capex/doanh thu × doanh thu",
+          [
+            "capex_to_revenue"
+          ]
+        ],
+        "depreciation": [
+          "Tỷ lệ × (TSCĐ + dở dang) đầu kỳ × ngày / 365",
+          [
+            "depreciation_rate"
+          ]
+        ],
+        "cip_transfer": [
+          "Không tách (0)",
+          []
+        ],
+        "gross_cost": [
+          "Không theo dõi",
+          []
+        ],
+        "fixed_assets": [
+          "Đầu kỳ + capex − khấu hao",
+          [
+            "capex_to_revenue",
+            "depreciation_rate"
+          ]
+        ],
+        "cip": [
+          "Giữ nguyên (L1 không tách XDCB)",
+          []
+        ]
+      }
+    },
+    {
+      "method_id": "ppe.L2.asset_rollforward",
+      "block": "ppe",
+      "level": "L2",
+      "kind": "cip_rollforward_useful_life",
+      "label_vn": "Roll-forward XDCB → TSCĐ, khấu hao theo thời gian sử dụng",
+      "version": "1",
+      "implemented": true,
+      "required_items": [
+        "CFA19",
+        "CFA2",
+        "BSA29",
+        "BSA31",
+        "BSA34",
+        "BSA37",
+        "BSA163"
+      ],
+      "outputs": [
+        "capex",
+        "depreciation",
+        "fixed_assets",
+        "cip"
+      ],
+      "notes_vn": "Capex vào dở dang dài hạn; chuyển sang TSCĐ theo tỷ lệ; khấu hao = nguyên giá đầu kỳ / thời gian sử dụng. Chưa theo dõi thanh lý và tài sản đã khấu hao hết.",
+      "line_formulas": {
+        "capex": [
+          "−Capex khai báo",
+          [
+            "capex_amount"
+          ]
+        ],
+        "depreciation": [
+          "Nguyên giá đầu kỳ / thời gian sử dụng × ngày / 365",
+          [
+            "useful_life_years"
+          ]
+        ],
+        "cip_transfer": [
+          "Tỷ lệ × (dở dang đầu kỳ + capex)",
+          [
+            "cip_transfer_rate"
+          ]
+        ],
+        "gross_cost": [
+          "Nguyên giá đầu kỳ + chuyển từ dở dang",
+          []
+        ],
+        "fixed_assets": [
+          "Đầu kỳ + chuyển từ dở dang − khấu hao",
+          [
+            "cip_transfer_rate",
+            "useful_life_years"
+          ]
+        ],
+        "cip": [
+          "Đầu kỳ + capex − chuyển sang TSCĐ",
+          [
+            "capex_amount",
+            "cip_transfer_rate"
+          ]
+        ]
+      }
+    },
+    {
+      "method_id": "ppe.L3.projects",
+      "block": "ppe",
+      "level": "L3",
+      "kind": "project_schedule",
+      "label_vn": "Theo dự án: ngân sách, tiến độ, ngày vận hành",
+      "version": "0",
+      "implemented": false,
+      "unavailable_reason": "Chưa triển khai; cần danh sách dự án do analyst nhập."
+    },
+    {
+      "method_id": "debt.L1.auto_balance",
+      "block": "debt",
+      "level": "L1",
+      "kind": "declared_revolver",
+      "label_vn": "Cân nguồn tự động: vay ngắn và dài hạn theo tiền tối thiểu, trong trần nợ/tài sản",
+      "version": "1",
+      "implemented": true,
+      "required_items": [
+        "BSA56",
+        "BSA71",
+        "ISA8",
+        "BSA2",
+        "BSA53"
+      ],
+      "outputs": [
+        "st_borrowings",
+        "lt_borrowings",
+        "interest_expense"
+      ],
+      "notes_vn": "Dư nợ hiện hữu giữ nguyên. Tiền trước tài trợ thấp hơn tiền tối thiểu thì rút vay tự động, chia ngắn/dài hạn theo tỷ trọng; tiền dư thì trả phần vay tự động đã rút (ngắn hạn trước). Tổng nợ không vượt trần nợ/tổng tài sản; phần thiếu còn lại là funding gap. Lãi vay trên dư nợ đầu kỳ.",
+      "line_formulas": {
+        "interest_expense": [
+          "−Lãi suất × tổng vay đầu kỳ × ngày / 365",
+          [
+            "interest_rate"
+          ]
+        ],
+        "borrowings_drawn": [
+          "Vay tự động trong kỳ",
+          [
+            "min_cash_ratio",
+            "auto_st_share",
+            "max_debt_to_assets"
+          ]
+        ],
+        "borrowings_repaid": [
+          "−Trả vay tự động trong kỳ",
+          [
+            "min_cash_ratio"
+          ]
+        ],
+        "st_borrowings": [
+          "Đầu kỳ + vay tự động ngắn hạn − trả",
+          [
+            "auto_st_share"
+          ]
+        ],
+        "lt_borrowings": [
+          "Đầu kỳ + vay tự động dài hạn − trả",
+          [
+            "auto_st_share"
+          ]
+        ],
+        "lt_borrowing_draw": [
+          "Phần dài hạn của vay tự động",
+          [
+            "auto_st_share"
+          ]
+        ],
+        "funding_gap": [
+          "max(0, tiền tối thiểu − tiền cuối kỳ) sau cân nguồn (khi chạm trần nợ)",
+          [
+            "min_cash_ratio",
+            "max_debt_to_assets"
+          ]
+        ],
+        "min_cash_level": [
+          "Tỷ lệ tiền tối thiểu × doanh thu kỳ",
+          [
+            "min_cash_ratio"
+          ]
+        ],
+        "auto_draw": [
+          "max(0, tiền tối thiểu − tiền trước tài trợ), giới hạn bởi trần nợ",
+          [
+            "max_debt_to_assets"
+          ]
+        ],
+        "auto_repay": [
+          "min(tiền dư so với tối thiểu, dư nợ vay tự động)",
+          []
+        ],
+        "auto_outstanding": [
+          "Lũy kế vay tự động − trả",
+          []
+        ],
+        "debt_cap": [
+          "Trần nợ/tổng tài sản × tổng tài sản",
+          [
+            "max_debt_to_assets"
+          ]
+        ]
+      }
+    },
+    {
+      "method_id": "debt.L2.facility_schedule",
+      "block": "debt",
+      "level": "L2",
+      "kind": "debt_facility_schedule",
+      "label_vn": "Lịch vay ngắn hạn / dài hạn, lãi suất riêng",
+      "version": "1",
+      "implemented": true,
+      "required_items": [
+        "BSA56",
+        "BSA71",
+        "ISA8"
+      ],
+      "outputs": [
+        "st_borrowings",
+        "lt_borrowings",
+        "interest_expense"
+      ],
+      "notes_vn": "Ngắn hạn: thay đổi ròng; dài hạn: giải ngân và trả gốc riêng. Lãi = lãi suất từng loại × dư nợ đầu kỳ.",
+      "roles": {
+        "funding_draw": "lt_drawdown"
+      },
+      "line_formulas": {
+        "interest_expense": [
+          "−(lãi suất NH × vay NH đầu kỳ + lãi suất DH × vay DH đầu kỳ) × ngày / 365",
+          [
+            "st_interest_rate",
+            "lt_interest_rate"
+          ]
+        ],
+        "borrowings_drawn": [
+          "Phần dương của thay đổi vay NH + giải ngân DH",
+          [
+            "st_net_change",
+            "lt_drawdown"
+          ]
+        ],
+        "borrowings_repaid": [
+          "Phần âm của thay đổi vay NH − trả gốc DH",
+          [
+            "st_net_change",
+            "lt_repayment"
+          ]
+        ],
+        "lt_borrowing_draw": [
+          "Số khai báo",
+          [
+            "lt_drawdown"
+          ]
+        ],
+        "st_borrowings": [
+          "Đầu kỳ + thay đổi ròng vay ngắn hạn",
+          [
+            "st_net_change"
+          ]
+        ],
+        "lt_borrowings": [
+          "Đầu kỳ + giải ngân − trả gốc",
+          [
+            "lt_drawdown",
+            "lt_repayment"
+          ]
+        ],
+        "funding_gap": [
+          "max(0, tiền tối thiểu − tiền cuối kỳ)",
+          [
+            "min_cash"
+          ]
+        ],
+        "min_cash_level": [
+          "Tiền tối thiểu khai báo",
+          [
+            "min_cash"
+          ]
+        ]
+      }
+    },
+    {
+      "method_id": "non_operating.L1.policies",
+      "block": "non_operating",
+      "level": "L1",
+      "kind": "non_operating_policies",
+      "label_vn": "Thu nhập tài chính, chi phí tài chính khác, liên doanh, lợi nhuận khác",
+      "version": "1",
+      "implemented": true,
+      "required_items": [
+        "ISA6",
+        "ISA7",
+        "ISA8"
+      ],
+      "outputs": [
+        "financial_income",
+        "other_financial_expense",
+        "jv_associates",
+        "other_profit"
+      ]
+    },
+    {
+      "method_id": "tax_equity.L1.policies",
+      "block": "tax_equity",
+      "level": "L1",
+      "kind": "tax_payout_policies",
+      "label_vn": "Thuế suất hiệu dụng, tỷ lệ cổ đông thiểu số, cổ tức tiền theo tỷ lệ, phát hành",
+      "version": "1",
+      "implemented": true,
+      "required_items": [
+        "ISA16",
+        "ISA19",
+        "ISA20",
+        "ISA21"
+      ],
+      "outputs": [
+        "income_tax",
+        "npat",
+        "npat_parent",
+        "dividends"
+      ],
+      "line_formulas": {
+        "dividends_paid": [
+          "−Tỷ lệ chi trả × LNST công ty mẹ (nếu > 0)",
+          [
+            "cash_dividend_payout"
+          ]
+        ],
+        "welfare_appropriation": [
+          "Không dự phóng (0)",
+          []
+        ],
+        "bonus_welfare_fund": [
+          "Giữ nguyên số dư (L1)",
+          []
+        ],
+        "equity_parent": [
+          "Đầu kỳ + LNST công ty mẹ + phát hành + cổ tức (âm)",
+          [
+            "cash_dividend_payout",
+            "share_issue_proceeds"
+          ]
+        ]
+      }
+    },
+    {
+      "method_id": "tax_equity.L2.distribution_schedule",
+      "block": "tax_equity",
+      "level": "L2",
+      "kind": "distribution_schedule",
+      "label_vn": "Lịch cổ tức tiền, trích và chi quỹ khen thưởng phúc lợi",
+      "version": "1",
+      "implemented": true,
+      "required_items": [
+        "ISA16",
+        "ISA19",
+        "ISA20",
+        "ISA21",
+        "BSA66",
+        "BSA90"
+      ],
+      "outputs": [
+        "income_tax",
+        "npat",
+        "npat_parent",
+        "dividends",
+        "bonus_welfare_fund"
+      ],
+      "notes_vn": "Cổ tức tiền theo số tuyệt đối từng kỳ; trích quỹ khen thưởng phúc lợi từ LNST công ty mẹ (chuyển từ vốn chủ sang nợ phải trả), chi quỹ bằng tiền.",
+      "line_formulas": {
+        "dividends_paid": [
+          "−Cổ tức khai báo",
+          [
+            "cash_dividend_amount"
+          ]
+        ],
+        "welfare_appropriation": [
+          "Tỷ lệ × LNST công ty mẹ (nếu > 0)",
+          [
+            "welfare_fund_rate"
+          ]
+        ],
+        "bonus_welfare_fund": [
+          "Đầu kỳ + trích − chi",
+          [
+            "welfare_fund_rate",
+            "welfare_fund_usage"
+          ]
+        ],
+        "equity_parent": [
+          "Đầu kỳ + LNST công ty mẹ + phát hành − cổ tức − trích quỹ",
+          [
+            "cash_dividend_amount",
+            "share_issue_proceeds",
+            "welfare_fund_rate"
+          ]
+        ]
+      }
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption_id": "revenue_yoy_growth",
+      "method_id": "revenue.L1.yoy_growth",
+      "label_vn": "Tăng trưởng doanh thu YoY",
+      "description_vn": "So với doanh thu kỳ tương ứng năm trước (thực tế hoặc dự phóng).",
+      "unit": "ratio",
+      "valid_range": [
+        -1.0,
+        null
+      ],
+      "default_policy": "Kỳ đầu = YoY thực tế gần nhất (quý: YoY cùng quý trong 4 quý gần nhất), sau đó hội tụ tuyến tính về tăng trưởng dài hạn = min(EMA 5 năm YoY, 8%), đạt ở năm thứ 5 tính từ kỳ đầu (không phụ thuộc số năm dự phóng) và giữ từ đó.",
+      "default": {
+        "type": "history",
+        "metric": "revenue_yoy",
+        "stat": "converge",
+        "start": "same_period_latest",
+        "favourable": "high",
+        "anchor": {
+          "assumption": "long_run_growth"
+        },
+        "fade_years": 5
+      }
+    },
+    {
+      "assumption_id": "long_run_growth",
+      "method_id": "revenue.L1.yoy_growth",
+      "label_vn": "Tăng trưởng doanh thu dài hạn (mức neo)",
+      "description_vn": "Mức tăng trưởng YoY mà default tăng trưởng đạt ở năm thứ 5 và giữ từ đó (không tính trực tiếp vào doanh thu). Mặc định tự động từ lịch sử để chạy được mã chưa cover; analyst vẫn có thể ghi đè, khi đó default tăng trưởng từng kỳ được tính lại.",
+      "unit": "ratio",
+      "valid_range": [
+        -1.0,
+        null
+      ],
+      "per_period": false,
+      "default_policy": "min(EMA 5 năm của YoY doanh thu, 8%) — trần 8% (owner duyệt 2026-11-17).",
+      "default": {
+        "type": "history",
+        "metric": "revenue_yoy",
+        "stat": "ema",
+        "cap": 0.08
+      },
+      "anchor_for": [
+        "revenue_yoy_growth"
+      ],
+      "optional": true
+    },
+    {
+      "assumption_id": "gross_margin",
+      "method_id": "cogs.L1.gross_margin",
+      "label_vn": "Biên lợi nhuận gộp",
+      "description_vn": "Lợi nhuận gộp / doanh thu thuần. Giá vốn = −(1 − biên) × doanh thu.",
+      "unit": "ratio",
+      "valid_range": [
+        null,
+        1.0
+      ],
+      "default_policy": "Năm đầu = mức thực tế gần nhất, hội tụ tuyến tính về EMA 5 năm (quý: EMA theo cùng quý trong năm) trong 4 năm. Quý: TTM + 0,25 × quán tính quý gần nhất theo trọng số doanh thu (L1 v2.6.3).",
+      "default": {
+        "type": "history",
+        "metric": "gross_margin",
+        "stat": "converge",
+        "start": "latest",
+        "favourable": "high"
+      }
+    },
+    {
+      "assumption_id": "selling_expense_ratio",
+      "method_id": "sga.L1.cost_structure",
+      "label_vn": "CPBH biến đổi / doanh thu",
+      "description_vn": "Chi phí biên: phần CPBH tăng thêm khi doanh thu tăng thêm 1 đồng (Δchi phí / Δdoanh thu). Độ lớn; engine ghi chi phí âm.",
+      "unit": "ratio",
+      "valid_range": [
+        0.0,
+        null
+      ],
+      "default_policy": "Hồi quy qua gốc ΔCPBH theo Δdoanh thu (năm: 8 năm; quý: 12 quý, so cùng quý năm trước). Không hợp lệ (thiếu mẫu, hệ số âm) thì cố định = 0 và tỷ lệ = trung vị CPBH/doanh thu.",
+      "default": {
+        "type": "cost_structure",
+        "expense_metric": "selling_expense_amount",
+        "ratio_metric": "selling_expense_ratio",
+        "part": "variable"
+      }
+    },
+    {
+      "assumption_id": "selling_fixed_cost",
+      "method_id": "sga.L1.cost_structure",
+      "label_vn": "CPBH cố định mỗi kỳ",
+      "description_vn": "Phần CPBH không đổi theo doanh thu = CPBH kỳ gốc − chi phí biên × doanh thu kỳ gốc; tính theo kỳ (năm hoặc quý), giữ nguyên danh nghĩa; analyst chỉnh nếu muốn tính trượt giá.",
+      "unit": "VND",
+      "valid_range": [
+        0.0,
+        null
+      ],
+      "default_policy": "CPBH kỳ gốc − chi phí biên × doanh thu kỳ gốc. Không hợp lệ thì 0.",
+      "default": {
+        "type": "cost_structure",
+        "expense_metric": "selling_expense_amount",
+        "ratio_metric": "selling_expense_ratio",
+        "part": "fixed"
+      }
+    },
+    {
+      "assumption_id": "admin_expense_ratio",
+      "method_id": "sga.L1.cost_structure",
+      "label_vn": "CPQL biến đổi / doanh thu",
+      "description_vn": "Chi phí biên: phần CPQL tăng thêm khi doanh thu tăng thêm 1 đồng (Δchi phí / Δdoanh thu). Độ lớn; engine ghi chi phí âm.",
+      "unit": "ratio",
+      "valid_range": [
+        0.0,
+        null
+      ],
+      "default_policy": "Hồi quy qua gốc ΔCPQL theo Δdoanh thu (năm: 8 năm; quý: 12 quý, so cùng quý năm trước). Không hợp lệ (thiếu mẫu, hệ số âm) thì cố định = 0 và tỷ lệ = trung vị CPQL/doanh thu.",
+      "default": {
+        "type": "cost_structure",
+        "expense_metric": "admin_expense_amount",
+        "ratio_metric": "admin_expense_ratio",
+        "part": "variable"
+      }
+    },
+    {
+      "assumption_id": "admin_fixed_cost",
+      "method_id": "sga.L1.cost_structure",
+      "label_vn": "CPQL cố định mỗi kỳ",
+      "description_vn": "Phần CPQL không đổi theo doanh thu = CPQL kỳ gốc − chi phí biên × doanh thu kỳ gốc; tính theo kỳ (năm hoặc quý), giữ nguyên danh nghĩa; analyst chỉnh nếu muốn tính trượt giá.",
+      "unit": "VND",
+      "valid_range": [
+        0.0,
+        null
+      ],
+      "default_policy": "CPQL kỳ gốc − chi phí biên × doanh thu kỳ gốc. Không hợp lệ thì 0.",
+      "default": {
+        "type": "cost_structure",
+        "expense_metric": "admin_expense_amount",
+        "ratio_metric": "admin_expense_ratio",
+        "part": "fixed"
+      }
+    },
+    {
+      "assumption_id": "dso_days",
+      "method_id": "working_capital.*",
+      "label_vn": "Số ngày phải thu khách hàng",
+      "description_vn": "Phải thu KH cuối kỳ = doanh thu kỳ × ngày / số ngày của kỳ. Dùng chung L1 và L2.",
+      "unit": "days",
+      "valid_range": [
+        0.0,
+        null
+      ],
+      "default_policy": "Năm đầu = mức thực tế gần nhất, hội tụ tuyến tính về EMA 5 năm (quý: EMA theo cùng quý trong năm) trong 4 năm.",
+      "shared": true,
+      "default": {
+        "type": "history",
+        "metric": "dso_days",
+        "stat": "converge",
+        "start": "latest",
+        "favourable": "low"
+      },
+      "auto_balance": {
+        "direction": "decrease",
+        "bound": "min"
+      }
+    },
+    {
+      "assumption_id": "dio_days",
+      "method_id": "working_capital.*",
+      "label_vn": "Số ngày tồn kho",
+      "description_vn": "Tồn kho ròng cuối kỳ = giá vốn kỳ × ngày / số ngày của kỳ. Dùng chung L1 và L2.",
+      "unit": "days",
+      "valid_range": [
+        0.0,
+        null
+      ],
+      "default_policy": "Năm đầu = mức thực tế gần nhất, hội tụ tuyến tính về EMA 5 năm (quý: EMA theo cùng quý trong năm) trong 4 năm.",
+      "shared": true,
+      "default": {
+        "type": "history",
+        "metric": "dio_days",
+        "stat": "converge",
+        "start": "latest",
+        "favourable": "low"
+      },
+      "auto_balance": {
+        "direction": "decrease",
+        "bound": "min"
+      }
+    },
+    {
+      "assumption_id": "dpo_days",
+      "method_id": "working_capital.L1.days",
+      "label_vn": "Số ngày phải trả người bán (theo giá vốn)",
+      "description_vn": "Xấp xỉ: dùng giá vốn thay cho giá trị mua hàng.",
+      "unit": "days",
+      "valid_range": [
+        0.0,
+        null
+      ],
+      "default_policy": "Năm đầu = mức thực tế gần nhất, hội tụ tuyến tính về EMA 5 năm (quý: EMA theo cùng quý trong năm) trong 4 năm.",
+      "default": {
+        "type": "history",
+        "metric": "dpo_days",
+        "stat": "converge",
+        "start": "latest",
+        "favourable": "high"
+      },
+      "auto_balance": {
+        "direction": "increase",
+        "bound": "max"
+      }
+    },
+    {
+      "assumption_id": "capex_to_revenue",
+      "method_id": "ppe.L1.capex_intensity",
+      "label_vn": "Capex / doanh thu",
+      "description_vn": "Tiền mua sắm TSCĐ và tài sản dài hạn (độ lớn) / doanh thu kỳ.",
+      "unit": "ratio",
+      "valid_range": [
+        0.0,
+        null
+      ],
+      "default_policy": "Năm đầu = mức thực tế gần nhất, hội tụ tuyến tính về EMA 5 năm (quý: EMA theo cùng quý trong năm) trong 4 năm.",
+      "default": {
+        "type": "history",
+        "metric": "capex_to_revenue",
+        "stat": "converge",
+        "start": "latest",
+        "favourable": "low"
+      },
+      "auto_balance": {
+        "direction": "decrease",
+        "bound": "min"
+      }
+    },
+    {
+      "assumption_id": "depreciation_rate",
+      "method_id": "ppe.L1.capex_intensity",
+      "label_vn": "Tỷ lệ khấu hao năm",
+      "description_vn": "Khấu hao kỳ = tỷ lệ × (TSCĐ + dở dang dài hạn) đầu kỳ × số ngày / 365.",
+      "unit": "ratio_annual",
+      "valid_range": [
+        0.0,
+        1.0
+      ],
+      "default_policy": "Trung vị cửa sổ gần nhất (mặc định 8 quý / 3 năm): khấu hao LCTT quy năm / tài sản đầu kỳ.",
+      "default": {
+        "type": "history",
+        "metric": "depreciation_rate",
+        "stat": "median"
+      }
+    },
+    {
+      "assumption_id": "interest_rate",
+      "method_id": "debt.L1.auto_balance",
+      "label_vn": "Lãi suất vay bình quân năm",
+      "description_vn": "Lãi vay = lãi suất × dư nợ đầu kỳ × số ngày / 365.",
+      "unit": "ratio_annual",
+      "valid_range": [
+        0.0,
+        1.0
+      ],
+      "default_policy": "Lãi suất thực tế của kỳ liền trước: chi phí lãi vay / tổng vay bình quân (đầu kỳ + cuối kỳ) / 2, quy năm (L1 v2.6.2, owner 2026-11-20: dư nợ đầu kỳ gần 0 làm lãi suất vô lý).",
+      "default": {
+        "type": "history",
+        "metric": "interest_rate_avg",
+        "stat": "latest",
+        "if_no_history": {
+          "value": 0.0,
+          "note": "Không có dư nợ vay trong lịch sử nên không có lãi suất kỳ trước: lãi suất 0 (owner 2026-11-18); nếu phát sinh nợ vay thì cảnh báo INT-01, cần analyst nhập."
+        }
+      }
+    },
+    {
+      "assumption_id": "min_cash_ratio",
+      "method_id": "debt.L1.auto_balance",
+      "label_vn": "Tiền tối thiểu / doanh thu kỳ",
+      "description_vn": "Tiền tối thiểu mỗi kỳ = tỷ lệ × doanh thu của kỳ. Dưới mức này thì vay tự động.",
+      "unit": "ratio",
+      "valid_range": [
+        0.0,
+        null
+      ],
+      "default_policy": "Thấp nhất lịch sử trong cửa sổ: tiền cuối kỳ / doanh thu kỳ.",
+      "default": {
+        "type": "history",
+        "metric": "cash_to_revenue",
+        "stat": "min"
+      }
+    },
+    {
+      "assumption_id": "auto_st_share",
+      "method_id": "debt.L1.auto_balance",
+      "label_vn": "Tỷ trọng vay ngắn hạn trong vay tự động",
+      "description_vn": "Phần vay tự động ghi vào vay ngắn hạn; phần còn lại vào vay dài hạn.",
+      "unit": "ratio",
+      "valid_range": [
+        0.0,
+        1.0
+      ],
+      "default_policy": "Cơ cấu nợ thực tế kỳ gốc: vay ngắn hạn / tổng vay.",
+      "default": {
+        "type": "history",
+        "metric": "st_debt_share",
+        "stat": "latest",
+        "if_no_history": {
+          "value": 1.0,
+          "note": "Không có dư nợ vay trong lịch sử: vay tự động coi là vay ngắn hạn (owner 2026-11-18, không chặn mô hình)."
+        }
+      }
+    },
+    {
+      "assumption_id": "max_debt_to_assets",
+      "method_id": "debt.L1.auto_balance",
+      "label_vn": "Trần tổng nợ vay / tổng tài sản",
+      "description_vn": "Vay tự động không làm tổng nợ vay vượt tỷ lệ này trên tổng tài sản; phần thiếu còn lại là funding gap.",
+      "unit": "ratio",
+      "valid_range": [
+        0.0,
+        0.95
+      ],
+      "default_policy": "Cao nhất lịch sử trong cửa sổ: tổng vay / tổng tài sản.",
+      "default": {
+        "type": "history",
+        "metric": "debt_to_assets",
+        "stat": "max"
+      }
+    },
+    {
+      "assumption_id": "min_cash",
+      "method_id": "debt.L2.facility_schedule",
+      "label_vn": "Tiền tối thiểu",
+      "description_vn": "Tiền cuối kỳ thấp hơn mức này tạo funding gap; analyst cân nguồn bằng lịch vay (L2).",
+      "unit": "VND",
+      "valid_range": [
+        0.0,
+        null
+      ],
+      "default_policy": "Chính sách: 0 VND.",
+      "default": {
+        "type": "explicit",
+        "value": 0.0,
+        "note": "Tiền tối thiểu 0 VND."
+      }
+    },
+    {
+      "assumption_id": "financial_income_run_rate",
+      "method_id": "non_operating.L1.policies",
+      "label_vn": "Mức doanh thu tài chính theo năm",
+      "description_vn": "Doanh thu tài chính kỳ = mức theo năm × số ngày / 365 (L1 v2.5; quý: bình quân 4 quý từ v2.5.1, owner 2026-11-19: thay suất sinh lời × (tiền + ĐTNH) đầu kỳ; dòng gồm cả lãi tiền gửi, cổ tức, lãi tỷ giá, lãi thanh lý không tỷ lệ với số dư tiền).",
+      "unit": "VND_per_year",
+      "valid_range": [
+        null,
+        null
+      ],
+      "default_policy": "Năm: doanh thu tài chính năm gần nhất (đã loại khoản bất thường). Quý: trung vị 4 quý gần nhất của doanh thu tài chính quy năm, cuốn chiếu; các năm sau phần quý giữ mức quý cuối.",
+      "default": {
+        "type": "history",
+        "metric": "financial_income_run_rate",
+        "stat": "latest"
+      }
+    },
+    {
+      "assumption_id": "other_financial_expense_ratio",
+      "method_id": "non_operating.L1.policies",
+      "label_vn": "Chi phí tài chính ngoài lãi vay / doanh thu",
+      "description_vn": "Độ lớn; gồm lỗ tỷ giá, phí… (ISA7 − ISA8). Có thể âm khi chi phí tài chính ngoài lãi vay là thu nhập ròng (lãi tỷ giá…) (owner 2026-11-18).",
+      "unit": "ratio",
+      "valid_range": [
+        null,
+        null
+      ],
+      "default_policy": "Năm đầu = mức thực tế gần nhất, hội tụ tuyến tính về EMA 5 năm (quý: EMA theo cùng quý trong năm) trong 4 năm.",
+      "default": {
+        "type": "history",
+        "metric": "other_financial_expense_ratio",
+        "stat": "converge",
+        "start": "latest",
+        "favourable": "low"
+      }
+    },
+    {
+      "assumption_id": "jv_associates_run_rate",
+      "method_id": "non_operating.L1.policies",
+      "label_vn": "Mức lãi/lỗ liên doanh liên kết theo năm",
+      "description_vn": "Lãi/lỗ LDLK kỳ = mức theo năm × số ngày / 365 (L1 v2.6, owner 2026-11-19: thay chính sách 0; dự phóng theo mức năm trước giảm đóng góp sai số LNST 8,8 → 4,0 điểm %).",
+      "unit": "VND_per_year",
+      "valid_range": [
+        null,
+        null
+      ],
+      "default_policy": "Lịch sử: mức LDLK năm gần nhất (đã loại khoản bất thường); quý: bình quân 4 quý, neo năm trước.",
+      "default": {
+        "type": "history",
+        "metric": "jv_associates_run_rate",
+        "stat": "latest"
+      }
+    },
+    {
+      "assumption_id": "other_profit",
+      "method_id": "non_operating.L1.policies",
+      "label_vn": "Lợi nhuận khác",
+      "description_vn": "Số tuyệt đối mỗi kỳ.",
+      "unit": "VND",
+      "valid_range": [
+        null,
+        null
+      ],
+      "default_policy": "Chính sách: 0.",
+      "default": {
+        "type": "explicit",
+        "value": 0.0,
+        "note": "Không dự phóng thu nhập/chi phí khác."
+      }
+    },
+    {
+      "assumption_id": "effective_tax_rate",
+      "method_id": "tax_equity.*",
+      "label_vn": "Thuế suất hiệu dụng",
+      "description_vn": "Áp khi lợi nhuận trước thuế > 0; khi lỗ, thuế = 0 (không ghi nhận tài sản thuế). Dùng chung L1 và L2.",
+      "unit": "ratio",
+      "valid_range": [
+        0.0,
+        1.0
+      ],
+      "default_policy": "Trung vị cửa sổ gần nhất (mặc định 8 quý / 3 năm) có lợi nhuận trước thuế > 0.",
+      "shared": true,
+      "default": {
+        "type": "history",
+        "metric": "effective_tax_rate",
+        "stat": "median"
+      }
+    },
+    {
+      "assumption_id": "minority_share",
+      "method_id": "tax_equity.*",
+      "label_vn": "Tỷ lệ LNST của cổ đông không kiểm soát",
+      "description_vn": "LNST cổ đông thiểu số / LNST.",
+      "unit": "ratio",
+      "valid_range": [
+        -1.0,
+        1.0
+      ],
+      "default_policy": "Trung vị cửa sổ gần nhất (mặc định 8 quý / 3 năm) có LNST > 0. Quý (L1 v2.6.3): tổng CĐKKS 4 quý / tổng LNST 4 quý (không EMA tỷ lệ từng quý, tránh phóng đại khi LNST gần 0).",
+      "shared": true,
+      "default": {
+        "type": "history",
+        "metric": "minority_share",
+        "stat": "median"
+      }
+    },
+    {
+      "assumption_id": "cash_dividend_payout",
+      "method_id": "tax_equity.L1.policies",
+      "label_vn": "Tỷ lệ cổ tức tiền / LNST công ty mẹ",
+      "description_vn": "Chi trả trong cùng kỳ (giản lược). Không áp khi LNST công ty mẹ ≤ 0.",
+      "unit": "ratio",
+      "valid_range": [
+        0.0,
+        null
+      ],
+      "default_policy": "Chính sách: 0; analyst khai báo theo kế hoạch cổ tức.",
+      "default": {
+        "type": "explicit",
+        "value": 0.0,
+        "note": "Không giả định cổ tức tiền; analyst khai báo theo kế hoạch."
+      }
+    },
+    {
+      "assumption_id": "share_issue_proceeds",
+      "method_id": "tax_equity.*",
+      "label_vn": "Tiền thu phát hành cổ phiếu",
+      "description_vn": "Số tuyệt đối mỗi kỳ.",
+      "unit": "VND",
+      "valid_range": [
+        0.0,
+        null
+      ],
+      "default_policy": "Chính sách: 0.",
+      "shared": true,
+      "default": {
+        "type": "explicit",
+        "value": 0.0,
+        "note": "Không giả định phát hành thêm."
+      }
+    },
+    {
+      "assumption_id": "selling_variable_ratio",
+      "method_id": "sga.L2.fixed_variable",
+      "label_vn": "CPBH biến đổi / doanh thu",
+      "description_vn": "Phần CPBH tỷ lệ với doanh thu.",
+      "unit": "ratio",
+      "valid_range": [
+        0.0,
+        null
+      ],
+      "default_policy": "Mặc định bằng tỷ lệ CPBH L1 (chưa tách phần cố định).",
+      "default": {
+        "type": "copy",
+        "from": "selling_expense_ratio",
+        "note": "Bằng tỷ lệ biến đổi L1 (hồi quy lịch sử)."
+      }
+    },
+    {
+      "assumption_id": "selling_fixed",
+      "method_id": "sga.L2.fixed_variable",
+      "label_vn": "CPBH cố định",
+      "description_vn": "Số tuyệt đối mỗi kỳ.",
+      "unit": "VND",
+      "valid_range": [
+        0.0,
+        null
+      ],
+      "default_policy": "Chính sách: 0 (chưa tách phần cố định).",
+      "default": {
+        "type": "copy",
+        "from": "selling_fixed_cost",
+        "note": "Bằng phần cố định L1 (hồi quy lịch sử)."
+      }
+    },
+    {
+      "assumption_id": "admin_variable_ratio",
+      "method_id": "sga.L2.fixed_variable",
+      "label_vn": "CPQL biến đổi / doanh thu",
+      "description_vn": "Phần CPQL tỷ lệ với doanh thu.",
+      "unit": "ratio",
+      "valid_range": [
+        0.0,
+        null
+      ],
+      "default_policy": "Mặc định bằng tỷ lệ CPQL L1.",
+      "default": {
+        "type": "copy",
+        "from": "admin_expense_ratio",
+        "note": "Bằng tỷ lệ biến đổi L1 (hồi quy lịch sử)."
+      }
+    },
+    {
+      "assumption_id": "admin_fixed",
+      "method_id": "sga.L2.fixed_variable",
+      "label_vn": "CPQL cố định",
+      "description_vn": "Số tuyệt đối mỗi kỳ.",
+      "unit": "VND",
+      "valid_range": [
+        0.0,
+        null
+      ],
+      "default_policy": "Chính sách: 0 (chưa tách phần cố định).",
+      "default": {
+        "type": "copy",
+        "from": "admin_fixed_cost",
+        "note": "Bằng phần cố định L1 (hồi quy lịch sử)."
+      }
+    },
+    {
+      "assumption_id": "dpo_purchases_days",
+      "method_id": "working_capital.L2.purchases",
+      "label_vn": "Số ngày phải trả (theo mua hàng)",
+      "description_vn": "Phải trả người bán = mua hàng kỳ × ngày / số ngày của kỳ.",
+      "unit": "days",
+      "valid_range": [
+        0.0,
+        null
+      ],
+      "default_policy": "Trung vị cửa sổ gần nhất (mặc định 8 quý / 3 năm): BSA57 / mua hàng ước tính × số ngày.",
+      "default": {
+        "type": "history",
+        "metric": "dpo_purchases_days",
+        "stat": "median"
+      }
+    },
+    {
+      "assumption_id": "noncash_cogs_share",
+      "method_id": "working_capital.L2.purchases",
+      "label_vn": "Tỷ lệ khấu hao nằm trong giá vốn",
+      "description_vn": "Phần khấu hao được trừ khỏi giá vốn khi tính mua hàng.",
+      "unit": "ratio",
+      "valid_range": [
+        0.0,
+        1.0
+      ],
+      "default_policy": "Chính sách: 100% (doanh nghiệp sản xuất); sửa nếu thuyết minh cho thấy khác.",
+      "default": {
+        "type": "explicit",
+        "value": 1.0,
+        "note": "Giả định toàn bộ khấu hao nằm trong giá vốn (doanh nghiệp sản xuất); sửa nếu thuyết minh cho thấy khác."
+      }
+    },
+    {
+      "assumption_id": "prepayment_days",
+      "method_id": "working_capital.L2.purchases",
+      "label_vn": "Số ngày trả trước người bán",
+      "description_vn": "Trả trước người bán (BSA10) = mua hàng kỳ × ngày / số ngày của kỳ.",
+      "unit": "days",
+      "valid_range": [
+        0.0,
+        null
+      ],
+      "default_policy": "Trung vị cửa sổ gần nhất (mặc định 8 quý / 3 năm).",
+      "default": {
+        "type": "history",
+        "metric": "prepayment_days",
+        "stat": "median"
+      }
+    },
+    {
+      "assumption_id": "customer_advance_days",
+      "method_id": "working_capital.L2.purchases",
+      "label_vn": "Số ngày người mua trả trước",
+      "description_vn": "Người mua trả tiền trước (BSA58) = doanh thu kỳ × ngày / số ngày của kỳ.",
+      "unit": "days",
+      "valid_range": [
+        0.0,
+        null
+      ],
+      "default_policy": "Trung vị cửa sổ gần nhất (mặc định 8 quý / 3 năm).",
+      "default": {
+        "type": "history",
+        "metric": "customer_advance_days",
+        "stat": "median"
+      }
+    },
+    {
+      "assumption_id": "capex_amount",
+      "method_id": "ppe.L2.asset_rollforward",
+      "label_vn": "Capex (tiền chi đầu tư)",
+      "description_vn": "Tiền chi mua sắm, xây dựng TSCĐ trong kỳ; ghi vào dở dang dài hạn.",
+      "unit": "VND",
+      "valid_range": [
+        0.0,
+        null
+      ],
+      "default_policy": "Trung vị cửa sổ gần nhất (mặc định 8 quý / 3 năm) của CFA19 (độ lớn).",
+      "default": {
+        "type": "history",
+        "metric": "capex_amount",
+        "stat": "median"
+      }
+    },
+    {
+      "assumption_id": "cip_transfer_rate",
+      "method_id": "ppe.L2.asset_rollforward",
+      "label_vn": "Tỷ lệ chuyển dở dang sang TSCĐ",
+      "description_vn": "Phần (dở dang đầu kỳ + capex trong kỳ) hoàn thành và đưa vào sử dụng trong kỳ.",
+      "unit": "ratio",
+      "valid_range": [
+        0.0,
+        1.0
+      ],
+      "default_policy": "Trung vị cửa sổ gần nhất (mặc định 8 quý / 3 năm): tăng nguyên giá / (dở dang đầu kỳ + capex).",
+      "default": {
+        "type": "history",
+        "metric": "cip_transfer_rate",
+        "stat": "median"
+      }
+    },
+    {
+      "assumption_id": "useful_life_years",
+      "method_id": "ppe.L2.asset_rollforward",
+      "label_vn": "Thời gian sử dụng bình quân",
+      "description_vn": "Khấu hao kỳ = nguyên giá đầu kỳ / số năm × số ngày / 365.",
+      "unit": "years",
+      "valid_range": [
+        0.0,
+        null
+      ],
+      "default_policy": "Trung vị cửa sổ gần nhất (mặc định 8 quý / 3 năm): nguyên giá đầu kỳ / khấu hao quy năm.",
+      "default": {
+        "type": "history",
+        "metric": "useful_life_years",
+        "stat": "median"
+      }
+    },
+    {
+      "assumption_id": "st_net_change",
+      "method_id": "debt.L2.facility_schedule",
+      "label_vn": "Thay đổi ròng vay ngắn hạn",
+      "description_vn": "Vay (+) / trả (−) ròng vay ngắn hạn trong kỳ.",
+      "unit": "VND",
+      "valid_range": [
+        null,
+        null
+      ],
+      "default_policy": "Chính sách: 0.",
+      "default": {
+        "type": "explicit",
+        "value": 0.0,
+        "note": "Không thay đổi vay ngắn hạn."
+      }
+    },
+    {
+      "assumption_id": "lt_drawdown",
+      "method_id": "debt.L2.facility_schedule",
+      "label_vn": "Giải ngân vay dài hạn",
+      "description_vn": "Khoản vay dài hạn mới trong kỳ.",
+      "unit": "VND",
+      "valid_range": [
+        0.0,
+        null
+      ],
+      "default_policy": "Chính sách: 0.",
+      "default": {
+        "type": "explicit",
+        "value": 0.0,
+        "note": "Không giải ngân vay dài hạn mới."
+      }
+    },
+    {
+      "assumption_id": "lt_repayment",
+      "method_id": "debt.L2.facility_schedule",
+      "label_vn": "Trả gốc vay dài hạn",
+      "description_vn": "Độ lớn khoản trả gốc trong kỳ.",
+      "unit": "VND",
+      "valid_range": [
+        0.0,
+        null
+      ],
+      "default_policy": "Chính sách: 0.",
+      "default": {
+        "type": "explicit",
+        "value": 0.0,
+        "note": "Không khai báo trả gốc dài hạn."
+      }
+    },
+    {
+      "assumption_id": "st_interest_rate",
+      "method_id": "debt.L2.facility_schedule",
+      "label_vn": "Lãi suất vay ngắn hạn năm",
+      "description_vn": "Áp trên dư nợ ngắn hạn đầu kỳ.",
+      "unit": "ratio_annual",
+      "valid_range": [
+        0.0,
+        1.0
+      ],
+      "default_policy": "Lãi suất bình quân L1 (database không tách lãi theo kỳ hạn).",
+      "default": {
+        "type": "copy",
+        "from": "interest_rate",
+        "note": "Database không tách lãi theo kỳ hạn: dùng lãi suất bình quân."
+      }
+    },
+    {
+      "assumption_id": "lt_interest_rate",
+      "method_id": "debt.L2.facility_schedule",
+      "label_vn": "Lãi suất vay dài hạn năm",
+      "description_vn": "Áp trên dư nợ dài hạn đầu kỳ.",
+      "unit": "ratio_annual",
+      "valid_range": [
+        0.0,
+        1.0
+      ],
+      "default_policy": "Lãi suất bình quân L1 (database không tách lãi theo kỳ hạn).",
+      "default": {
+        "type": "copy",
+        "from": "interest_rate",
+        "note": "Database không tách lãi theo kỳ hạn: dùng lãi suất bình quân."
+      }
+    },
+    {
+      "assumption_id": "cash_dividend_amount",
+      "method_id": "tax_equity.L2.distribution_schedule",
+      "label_vn": "Cổ tức tiền chi trong kỳ",
+      "description_vn": "Số tuyệt đối theo lịch chi trả.",
+      "unit": "VND",
+      "valid_range": [
+        0.0,
+        null
+      ],
+      "default_policy": "Chính sách: 0.",
+      "default": {
+        "type": "explicit",
+        "value": 0.0,
+        "note": "Không giả định cổ tức tiền; analyst khai báo theo lịch chi trả."
+      }
+    },
+    {
+      "assumption_id": "welfare_fund_rate",
+      "method_id": "tax_equity.L2.distribution_schedule",
+      "label_vn": "Tỷ lệ trích quỹ khen thưởng phúc lợi",
+      "description_vn": "% LNST công ty mẹ (khi dương) chuyển từ vốn chủ sang quỹ (nợ phải trả).",
+      "unit": "ratio",
+      "valid_range": [
+        0.0,
+        1.0
+      ],
+      "default_policy": "Chính sách: 0.",
+      "default": {
+        "type": "explicit",
+        "value": 0.0,
+        "note": "Không trích quỹ khen thưởng phúc lợi."
+      }
+    },
+    {
+      "assumption_id": "welfare_fund_usage",
+      "method_id": "tax_equity.L2.distribution_schedule",
+      "label_vn": "Chi quỹ khen thưởng phúc lợi",
+      "description_vn": "Tiền chi từ quỹ trong kỳ.",
+      "unit": "VND",
+      "valid_range": [
+        0.0,
+        null
+      ],
+      "default_policy": "Chính sách: 0.",
+      "default": {
+        "type": "explicit",
+        "value": 0.0,
+        "note": "Không chi quỹ khen thưởng phúc lợi."
+      }
+    }
+  ],
+  "lines": [],
+  "requires_when_filled": {},
+  "quarterly_engine": {
+    "description_vn": "Engine quý + năm (owner 2026-11-18): từ quý sau quý công bố mới nhất đến hết Q4 năm sau chạy theo quý, các năm sau chạy theo năm, cùng một vòng tính nên số năm = tổng các quý. Default quý = λ × EMA span 8 quý liên tiếp (cuốn chiếu, chuỗi quý đã làm sạch khoản bất thường) + (1 − λ) × default năm của năm đó (giữ nguyên cách tính năm). Giả định trong annual_only dùng thẳng giá trị năm. Số tiền/sản lượng dạng luồng chia theo số ngày của quý. Ràng buộc cuối năm chỉ kiểm ở Q4. Analyst ghi đè số năm: coi là mục tiêu năm, phần chênh so với các quý đã công bố dồn vào các quý còn lại (targets). L1 v2.5 (owner 2026-11-19): EMA quý có trọng số (EMA tử số / EMA mẫu số) cho tỷ lệ trên doanh thu hoặc giá vốn (weighted_ema); biên gộp quý = TTM 4 quý + 0,25 × (quý gần nhất − TTM), λ = 1; doanh thu tài chính quý = trung vị 4 quý của số quy năm, λ = 1, các năm sau giữ mức quý cuối. L1 v2.6 (owner 2026-11-19): neo năm trước theo số quý còn lại (anchor); LDLK theo mức, quý = bình quân 4 quý, λ = 1.",
+    "lambda": 0.65,
+    "ema_span_quarters": 8,
+    "annual_only": [
+      "effective_tax_rate",
+      "cash_dividend_payout",
+      "capex_to_revenue",
+      "capex_amount",
+      "depreciation_rate",
+      "cip_transfer_rate",
+      "long_run_growth",
+      "min_cash_ratio",
+      "max_debt_to_assets",
+      "min_cash",
+      "auto_st_share"
+    ],
+    "stock_assumptions": [
+      "min_cash"
+    ],
+    "targets": {
+      "revenue_yoy_growth": {
+        "kind": "flow_growth",
+        "line": "net_revenue"
+      },
+      "gross_margin": {
+        "kind": "rate",
+        "num": "gross_profit",
+        "base": {
+          "flow": [
+            "net_revenue"
+          ]
+        }
+      },
+      "selling_expense_ratio": {
+        "kind": "rate",
+        "num": "-selling_expense",
+        "base": {
+          "flow": [
+            "net_revenue"
+          ]
+        },
+        "fixed": "selling_fixed_cost"
+      },
+      "admin_expense_ratio": {
+        "kind": "rate",
+        "num": "-admin_expense",
+        "base": {
+          "flow": [
+            "net_revenue"
+          ]
+        },
+        "fixed": "admin_fixed_cost"
+      },
+      "dso_days": {
+        "kind": "days",
+        "balance": "trade_receivables",
+        "flow": "net_revenue"
+      },
+      "dio_days": {
+        "kind": "days",
+        "balance": "inventories",
+        "flow": "-cogs"
+      },
+      "dpo_days": {
+        "kind": "days",
+        "balance": "trade_payables",
+        "flow": "-cogs"
+      },
+      "customer_advance_days": {
+        "kind": "days",
+        "balance": "advances_from_customers",
+        "flow": "net_revenue"
+      },
+      "capex_to_revenue": {
+        "kind": "rate",
+        "num": "-capex",
+        "base": {
+          "flow": [
+            "net_revenue"
+          ]
+        }
+      },
+      "depreciation_rate": {
+        "kind": "rate",
+        "num": "depreciation",
+        "base": {
+          "open": [
+            "fixed_assets",
+            "cip"
+          ]
+        }
+      },
+      "interest_rate": {
+        "kind": "rate",
+        "num": "-interest_expense",
+        "base": {
+          "open": [
+            "st_borrowings",
+            "lt_borrowings"
+          ]
+        }
+      },
+      "other_financial_expense_ratio": {
+        "kind": "rate",
+        "num": "-other_financial_expense",
+        "base": {
+          "flow": [
+            "net_revenue"
+          ]
+        }
+      },
+      "effective_tax_rate": {
+        "kind": "rate",
+        "num": "-income_tax",
+        "base": {
+          "flow": [
+            "pbt"
+          ]
+        }
+      },
+      "minority_share": {
+        "kind": "rate",
+        "num": "npat_minority",
+        "base": {
+          "flow": [
+            "npat"
+          ]
+        }
+      },
+      "other_profit": {
+        "kind": "amount",
+        "line": "other_profit"
+      },
+      "capex_amount": {
+        "kind": "amount",
+        "line": "-capex"
+      },
+      "financial_income_run_rate": {
+        "kind": "run_rate",
+        "line": "financial_income"
+      },
+      "jv_associates_run_rate": {
+        "kind": "run_rate",
+        "line": "jv_associates"
+      }
+    },
+    "revenue_components": {
+      "description_vn": "Owner 2026-11-18 (phương án E): doanh thu quý = 0,50 × QoQ mùa vụ + 0,15 × YoY (EMA 8 quý) + 0,35 × tăng trưởng năm; YoY và năm đo trên nền đã điều chỉnh mức (bình quân 2 quý khử mùa vụ gần nhất, lùi về cùng kỳ năm trước theo tăng trưởng năm) để bắt mức mới khi mở rộng công suất mà không nhân bước nhảy sang năm sau. Tỷ trọng mùa vụ: EMA 5 năm trên tối đa 10 năm đủ 4 quý. Owner 2026-11-18: doanh thu quý dự phóng không vượt 1,5 × bình quân 4 quý gần nhất × (4 × tỷ trọng mùa vụ của quý) — giới hạn theo mức gần đây cho doanh thu dồn cục (vd bất động sản), không phải trần tăng trưởng. Owner 2026-11-19 (L1 v2.4, sau backtest): co biên độ mùa vụ S' = 0,25 + 0,6 × (S − 0,25) cho cả bước QoQ và quy mức năm — biên độ mùa vụ 10 năm lớn hơn hiện tại làm Q4 bị dự phóng cao có hệ thống (+10,5% doanh thu).",
+      "assumption": "revenue_yoy_growth",
+      "code": "ISA3",
+      "weights": {
+        "qoq": 0.5,
+        "yoy": 0.15,
+        "year": 0.35
+      },
+      "level_quarters": 2,
+      "ema_span_quarters": 8,
+      "seasonal_span_years": 5,
+      "seasonal_window_years": 10,
+      "max_to_avg4": 1.5,
+      "seasonal_shrink": 0.6,
+      "seasonal_shrink_scope": "all"
+    },
+    "weighted_ema": true,
+    "quarter_only": [
+      "financial_income_run_rate",
+      "jv_associates_run_rate",
+      "minority_share"
+    ],
+    "quarter_stats": {
+      "gross_margin": {
+        "stat": "ttm_momentum",
+        "window": 4,
+        "phi": 0.25,
+        "lambda": 1.0,
+        "momentum_by_den": true
+      },
+      "financial_income_run_rate": {
+        "stat": "mean",
+        "window": 4
+      },
+      "jv_associates_run_rate": {
+        "stat": "mean",
+        "window": 4
+      },
+      "minority_share": {
+        "stat": "ttm_momentum",
+        "window": 4,
+        "phi": 0.0,
+        "lambda": 1.0,
+        "pair": "minority_profit"
+      }
+    },
+    "anchor": {
+      "description_vn": "L1 v2.6 (owner 2026-11-19): default quý = (1 − w) × default + w × giá trị cùng quý năm trước (thực tế nếu đã công bố, ngược lại giá trị đã neo); tăng trưởng doanh thu so cùng kỳ neo về 0. w = weight × số quý còn phải dự phóng của năm đang chạy / 4; năm +1, +2 trở đi: weight × year_decay. Phần chạy theo năm neo về bình quân 4 quý cuối. Chỉ áp cho default. L1 v2.6.1 (owner 2026-11-20): weight_by = horizon — năm đang chạy w = weight × min(số quý tới, 4) / 4 (quý gần neo ít). L1 v2.6.3 (owner 2026-11-20): den_weighted — với tỷ lệ trên doanh thu, w × min(1, doanh thu quý năm trước / doanh thu bình quân 4 quý gần nhất).",
+      "weight": 0.75,
+      "year_decay": [
+        1.0,
+        0.5,
+        0.25
+      ],
+      "assumptions": {
+        "revenue_yoy_growth": "zero",
+        "gross_margin": "same_quarter",
+        "selling_expense_ratio": "same_quarter",
+        "admin_expense_ratio": "same_quarter",
+        "other_financial_expense_ratio": "same_quarter",
+        "financial_income_run_rate": "same_quarter",
+        "jv_associates_run_rate": "same_quarter"
+      },
+      "weight_by": "horizon",
+      "den_weighted": true
+    }
+  }
+}

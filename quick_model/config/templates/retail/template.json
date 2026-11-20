@@ -1,0 +1,168 @@
+{
+  "schema_version": "1.1",
+  "template_id": "retail",
+  "version": "1.0.0",
+  "extends": "nonfinancial",
+  "label_vn": "Bán lẻ (chuỗi cửa hàng)",
+  "description_vn": "Kế thừa template phi tài chính; thêm doanh thu theo số cửa hàng × doanh thu/cửa hàng (L2). Các block khác dùng L1/L2 chung.",
+  "files": {
+    "survey": "survey.json"
+  },
+  "methods": [
+    {
+      "method_id": "revenue.L2.store_network",
+      "block": "revenue",
+      "level": "L2",
+      "kind": "units_x_productivity",
+      "label_vn": "Số cửa hàng × doanh thu/cửa hàng + doanh thu khác",
+      "version": "1",
+      "implemented": true,
+      "outputs": [
+        "net_revenue",
+        "store_count"
+      ],
+      "provides": [
+        "store_count"
+      ],
+      "notes_vn": "Cửa hàng cuối kỳ = đầu kỳ + mở mới − đóng; doanh thu = số cửa hàng bình quân × doanh thu/cửa hàng/năm × số ngày / 365 + doanh thu khác. Database không có số cửa hàng: analyst nhập.",
+      "line_formulas": {
+        "net_revenue": [
+          "Số cửa hàng BQ × doanh thu/cửa hàng/năm × ngày / 365 + doanh thu khác",
+          [
+            "stores_opening",
+            "stores_new",
+            "stores_closed",
+            "revenue_per_store",
+            "retail_other_revenue"
+          ]
+        ]
+      }
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption_id": "stores_opening",
+      "method_id": "revenue.L2.store_network",
+      "label_vn": "Số cửa hàng đầu kỳ dự phóng",
+      "description_vn": "Số cửa hàng tại kỳ gốc; chỉ dùng giá trị kỳ đầu.",
+      "unit": "stores",
+      "valid_range": [
+        0.0,
+        null
+      ],
+      "default_policy": "Không có trong database: analyst nhập.",
+      "per_period": false,
+      "default": {
+        "type": "needs_input",
+        "note": "Database không có số cửa hàng; nhập theo công bố của doanh nghiệp."
+      }
+    },
+    {
+      "assumption_id": "stores_new",
+      "method_id": "revenue.L2.store_network",
+      "label_vn": "Cửa hàng mở mới trong kỳ",
+      "description_vn": "Số cửa hàng mở mới.",
+      "unit": "stores",
+      "valid_range": [
+        0.0,
+        null
+      ],
+      "default_policy": "Không có trong database: analyst nhập.",
+      "default": {
+        "type": "needs_input",
+        "note": "Nhập kế hoạch mở mới (0 nếu không mở)."
+      }
+    },
+    {
+      "assumption_id": "stores_closed",
+      "method_id": "revenue.L2.store_network",
+      "label_vn": "Cửa hàng đóng trong kỳ",
+      "description_vn": "Số cửa hàng đóng.",
+      "unit": "stores",
+      "valid_range": [
+        0.0,
+        null
+      ],
+      "default_policy": "Chính sách: 0.",
+      "default": {
+        "type": "explicit",
+        "value": 0.0,
+        "note": "Không giả định đóng cửa hàng."
+      }
+    },
+    {
+      "assumption_id": "revenue_per_store",
+      "method_id": "revenue.L2.store_network",
+      "label_vn": "Doanh thu / cửa hàng / năm",
+      "description_vn": "Doanh thu bình quân một cửa hàng trong một năm (quy theo số ngày của kỳ).",
+      "unit": "VND_per_store_year",
+      "valid_range": [
+        0.0,
+        null
+      ],
+      "default_policy": "Không có trong database: analyst nhập.",
+      "default": {
+        "type": "needs_input",
+        "note": "Nhập doanh thu bình quân/cửa hàng/năm."
+      }
+    },
+    {
+      "assumption_id": "retail_other_revenue",
+      "method_id": "revenue.L2.store_network",
+      "label_vn": "Doanh thu ngoài chuỗi cửa hàng",
+      "description_vn": "Online, bán buôn, dịch vụ… không gắn với số cửa hàng. Nhập 0 nếu không có.",
+      "unit": "VND",
+      "valid_range": [
+        0.0,
+        null
+      ],
+      "default_policy": "Không có trong database: analyst nhập.",
+      "default": {
+        "type": "needs_input",
+        "note": "Nhập doanh thu không gắn với cửa hàng (0 nếu không có)."
+      }
+    }
+  ],
+  "lines": [
+    {
+      "line_id": "store_count",
+      "statement": "OPS",
+      "label_vn": "Số cửa hàng cuối kỳ",
+      "block": "revenue",
+      "unit": "stores"
+    },
+    {
+      "line_id": "avg_store_count",
+      "statement": "OPS",
+      "label_vn": "Số cửa hàng bình quân",
+      "block": "revenue",
+      "unit": "stores"
+    },
+    {
+      "line_id": "revenue_per_store",
+      "statement": "OPS",
+      "label_vn": "Doanh thu / cửa hàng / năm",
+      "block": "revenue",
+      "unit": "VND_per_store_year"
+    },
+    {
+      "line_id": "store_revenue",
+      "statement": "OPS",
+      "label_vn": "Doanh thu chuỗi cửa hàng",
+      "block": "revenue",
+      "unit": "VND"
+    },
+    {
+      "line_id": "other_revenue",
+      "statement": "OPS",
+      "label_vn": "Doanh thu ngoài chuỗi",
+      "block": "revenue",
+      "unit": "VND"
+    }
+  ],
+  "quarterly_engine": {
+    "extra_stock_assumptions": [
+      "stores_opening"
+    ]
+  }
+}

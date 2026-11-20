@@ -1,0 +1,940 @@
+{
+  "schema_version": "1.1",
+  "template_id": "bank",
+  "version": "0.1.0",
+  "family": "bank",
+  "label_vn": "Ngân hàng (chung)",
+  "description_vn": "L1 chung cho ngân hàng (owner duyệt thiết kế 2026-11-17): cân BS bằng IS, không có LCTT. Default giả định = EMA 5 năm của tỷ lệ lịch sử, giữ một mức cho mọi kỳ; dự trữ NHNN 3%; LDR chỉ là trần; tiền gửi/vay liên ngân hàng tự động là dòng cân thanh khoản khai báo.",
+  "frequencies": {
+    "implemented": [
+      "annual"
+    ],
+    "default": "annual",
+    "engine": "Như phi tài chính: engine quý đến hết Q4 năm sau quý công bố mới nhất, rồi theo năm (quick_model/hybrid.py); số năm = tổng các quý (owner 2026-11-18)."
+  },
+  "files": {
+    "survey": "survey.json"
+  },
+  "blocks": [
+    {
+      "block_id": "loans",
+      "label_vn": "Cho vay khách hàng",
+      "segmentable": false
+    },
+    {
+      "block_id": "funding",
+      "label_vn": "Huy động (tiền gửi KH, GTCG)",
+      "segmentable": false
+    },
+    {
+      "block_id": "liquidity",
+      "label_vn": "Dự trữ NHNN & tiền mặt",
+      "segmentable": false
+    },
+    {
+      "block_id": "securities",
+      "label_vn": "Chứng khoán đầu tư",
+      "segmentable": false
+    },
+    {
+      "block_id": "asset_quality",
+      "label_vn": "Chi phí tín dụng",
+      "segmentable": false
+    },
+    {
+      "block_id": "nii",
+      "label_vn": "Thu nhập lãi thuần",
+      "segmentable": false
+    },
+    {
+      "block_id": "non_interest",
+      "label_vn": "Thu nhập ngoài lãi",
+      "segmentable": false
+    },
+    {
+      "block_id": "opex",
+      "label_vn": "Chi phí hoạt động",
+      "segmentable": false
+    },
+    {
+      "block_id": "other_bs",
+      "label_vn": "TS Có khác / nợ khác",
+      "segmentable": false
+    },
+    {
+      "block_id": "tax_equity",
+      "label_vn": "Thuế / vốn chủ / cổ tức",
+      "segmentable": false
+    },
+    {
+      "block_id": "balancing",
+      "label_vn": "Cân thanh khoản (liên ngân hàng)",
+      "segmentable": false
+    }
+  ],
+  "one_off": {
+    "description_vn": "Ngân hàng (owner 2026-11-18): quét quý tuần tự ở 9 năm lịch sử rồi các quý đã công bố của năm hiện tại, chỉ dòng thu nhập ngoài lãi khác; cờ khi |thực tế − trend OLS 12 quý trước| > 3σ và ≥ 2% TOI quý. Quý bất thường được thay bằng trung bình 12 quý trong cửa sổ (k = thực tế − trung bình), cộng lại thành năm để tính tăng trưởng điều chỉnh và EMA5; quý đã công bố của năm hiện tại giữ số thực tế (gồm k) trong tổng năm; chuỗi quý làm default EMA 8 quý cũng đã làm sạch. Tự áp cả lịch sử lẫn năm hiện tại (analyst bỏ qua được từng khoản). Owner 2026-11-19: không tự làm sạch nữa (auto_history, auto_current = false): quy tắc cắt chủ yếu khoản dương lặp lại (thu hồi nợ đã xử lý, lãi chứng khoán) làm dự phóng thấp có hệ thống; vẫn phát hiện và công bố, analyst xác nhận từng khoản.",
+    "window": 12,
+    "min_obs": 8,
+    "threshold": 3.0,
+    "materiality_to_revenue": 0.02,
+    "materiality_base": "ISB38",
+    "history_years": 9,
+    "block": "non_interest",
+    "forecast_line": "other_non_interest_income",
+    "lines": {
+      "fx_income": {
+        "codes": [
+          "+ISB31"
+        ],
+        "metrics": [
+          "other_income_run_rate"
+        ]
+      },
+      "trading_sec_income": {
+        "codes": [
+          "+ISB32"
+        ],
+        "metrics": [
+          "other_income_run_rate"
+        ]
+      },
+      "inv_sec_income": {
+        "codes": [
+          "+ISB33"
+        ],
+        "metrics": [
+          "other_income_run_rate"
+        ]
+      },
+      "other_income_net": {
+        "codes": [
+          "+ISB36"
+        ],
+        "metrics": [
+          "other_income_run_rate"
+        ]
+      },
+      "dividend_income": {
+        "codes": [
+          "+ISB37"
+        ],
+        "metrics": [
+          "other_income_run_rate"
+        ]
+      }
+    },
+    "auto_history": false,
+    "auto_current": false,
+    "replace_with": "mean"
+  },
+  "default_paths": {
+    "description_vn": "Ngân hàng: tỷ lệ default = EMA span 5 năm trên tối đa 10 năm lịch sử; tốc độ tăng trưởng so với năm trước. Chỉ engine năm; xem theo quý = phân bổ số năm theo mùa vụ tổng thu nhập hoạt động (owner 2026-11-18). Owner 2026-11-18: chuỗi chưa đủ độ dài cho EMA (năm: < 5 năm; quý: < 8 quý) thì dùng số kỳ liền trước (short_history = latest), cả cho mức neo; đường hội tụ/giảm dần vẫn áp như cũ từ mức đó.",
+    "anchor_window_years": 10,
+    "ema_span_years": 5,
+    "anchor_stat": "ema",
+    "fade_years": 4,
+    "seasonal_years": 3,
+    "cost_structure_window_years": 8,
+    "cost_structure_window_quarters": 12,
+    "cost_structure_min_obs": 4,
+    "short_history": "latest"
+  },
+  "methods": [
+    {
+      "method_id": "loans.L1.growth",
+      "block": "loans",
+      "level": "L1",
+      "kind": "bank_loan_growth",
+      "label_vn": "Tăng trưởng dư nợ cho vay KH",
+      "version": "1",
+      "implemented": true,
+      "required_items": [
+        "BSB104"
+      ],
+      "outputs": [
+        "gross_loans",
+        "avg_loans"
+      ],
+      "notes_vn": "Dư nợ gộp = cùng kỳ năm trước × (1 + g); g default = EMA 5 năm (quý: EMA 20 quý) tăng trưởng dư nợ, giảm dần về 15%/năm ở năm thứ 3.",
+      "line_formulas": {
+        "gross_loans": [
+          "Dư nợ cùng kỳ năm trước × (1 + tăng trưởng)",
+          [
+            "loan_growth"
+          ]
+        ]
+      }
+    },
+    {
+      "method_id": "funding.L1.growth_ldr_cap",
+      "block": "funding",
+      "level": "L1",
+      "kind": "bank_deposit_growth_ldr_cap",
+      "label_vn": "Tăng trưởng tiền gửi KH, trần LDR; GTCG theo tỷ lệ",
+      "version": "1",
+      "implemented": true,
+      "required_items": [
+        "BSB113",
+        "BSB116",
+        "BSB104"
+      ],
+      "outputs": [
+        "customer_deposits",
+        "valuable_papers"
+      ],
+      "notes_vn": "Tiền gửi KH = cùng kỳ năm trước × (1 + g), g giảm dần về 13%/năm ở năm thứ 3. LDR (dư nợ gộp / tổng huy động = tiền gửi KH + vốn ủy thác + GTCG) chỉ là trần: vượt trần thì tiền gửi KH được nâng lên (công bố). GTCG = tỷ lệ × tiền gửi KH.",
+      "line_formulas": {
+        "customer_deposits": [
+          "max(năm trước × (1 + tăng trưởng); dư nợ / trần LDR)",
+          [
+            "deposit_growth",
+            "max_ldr"
+          ]
+        ],
+        "valuable_papers": [
+          "Tỷ lệ GTCG × tiền gửi KH",
+          [
+            "valuable_papers_ratio"
+          ]
+        ]
+      }
+    },
+    {
+      "method_id": "liquidity.L1.ratios",
+      "block": "liquidity",
+      "level": "L1",
+      "kind": "bank_liquidity_ratios",
+      "label_vn": "Dự trữ NHNN theo huy động; tiền mặt theo tiền gửi",
+      "version": "1",
+      "implemented": true,
+      "required_items": [
+        "BSB97",
+        "BSA2",
+        "BSB113",
+        "BSB116"
+      ],
+      "outputs": [
+        "sbv_deposits",
+        "cash"
+      ],
+      "notes_vn": "TG NHNN = tỷ lệ dự trữ × (tiền gửi KH + GTCG), default 3% (thay hệ số gõ trong công thức của card). Tiền mặt = tỷ lệ × tiền gửi KH.",
+      "line_formulas": {
+        "sbv_deposits": [
+          "Tỷ lệ dự trữ × (tiền gửi KH + GTCG)",
+          [
+            "sbv_reserve_ratio"
+          ]
+        ],
+        "cash": [
+          "Tỷ lệ × tiền gửi KH",
+          [
+            "cash_to_deposits"
+          ]
+        ]
+      }
+    },
+    {
+      "method_id": "securities.L1.to_loans",
+      "block": "securities",
+      "level": "L1",
+      "kind": "bank_securities_to_loans",
+      "label_vn": "Chứng khoán đầu tư theo tốc độ tăng trưởng",
+      "version": "1",
+      "implemented": true,
+      "required_items": [
+        "BSB106"
+      ],
+      "outputs": [
+        "investment_securities"
+      ],
+      "notes_vn": "CK đầu tư (ròng) = cùng kỳ năm trước × (1 + tăng trưởng); tăng trưởng = EMA5 (quý: EMA20) YoY BSB106 (owner 2026-11-18).",
+      "line_formulas": {
+        "investment_securities": [
+          "CK đầu tư cùng kỳ năm trước × (1 + tăng trưởng)",
+          [
+            "inv_securities_growth"
+          ]
+        ]
+      }
+    },
+    {
+      "method_id": "asset_quality.L1.credit_cost",
+      "block": "asset_quality",
+      "level": "L1",
+      "kind": "bank_credit_cost_coverage",
+      "label_vn": "Chi phí tín dụng",
+      "version": "1",
+      "implemented": true,
+      "required_items": [
+        "ISB41",
+        "BSB104",
+        "BSB105"
+      ],
+      "outputs": [
+        "provision_expense",
+        "loan_loss_reserve",
+        "implied_write_off"
+      ],
+      "notes_vn": "Chi phí dự phòng = −chi phí tín dụng × dư nợ gộp cuối kỳ. Dự phòng cho vay (BS) giữ nguyên số kỳ gốc (giản lược, owner 2026-11-18: bỏ tỷ lệ bao phủ); xoá nợ ngụ ý = trích lập (công bố).",
+      "line_formulas": {
+        "provision_expense": [
+          "−Chi phí tín dụng × dư nợ cuối kỳ × ngày / 365",
+          [
+            "credit_cost"
+          ]
+        ],
+        "loan_loss_reserve": [
+          "Giữ nguyên số dư kỳ gốc",
+          []
+        ]
+      }
+    },
+    {
+      "method_id": "nii.L1.yield_cof",
+      "block": "nii",
+      "level": "L1",
+      "kind": "bank_yield_cof",
+      "label_vn": "Lợi suất TS sinh lãi và chi phí vốn",
+      "version": "1",
+      "implemented": true,
+      "required_items": [
+        "ISB25",
+        "ISB26"
+      ],
+      "outputs": [
+        "interest_income",
+        "interest_expense",
+        "nii"
+      ],
+      "notes_vn": "Thu nhập lãi = lợi suất × TS sinh lãi BQ; chi phí lãi = −chi phí vốn × nợ chịu lãi BQ. Liên NH (dòng cân) tính trên số dư đầu kỳ để không vòng lặp. NIM tính ngược để so lịch sử.",
+      "line_formulas": {
+        "interest_income": [
+          "Lợi suất × TS sinh lãi bình quân × ngày / 365",
+          [
+            "yield_iea"
+          ]
+        ],
+        "interest_expense": [
+          "−Chi phí vốn × nợ chịu lãi bình quân × ngày / 365",
+          [
+            "cost_of_funds"
+          ]
+        ]
+      }
+    },
+    {
+      "method_id": "non_interest.L1.fee_growth",
+      "block": "non_interest",
+      "level": "L1",
+      "kind": "bank_non_interest",
+      "label_vn": "Phí theo dư nợ; ngoài lãi khác theo mức bình quân 2 năm",
+      "version": "1",
+      "implemented": true,
+      "required_items": [
+        "ISB30",
+        "ISB31",
+        "ISB32",
+        "ISB33",
+        "ISB36",
+        "ISB37"
+      ],
+      "outputs": [
+        "net_fee_income",
+        "other_non_interest_income"
+      ],
+      "notes_vn": "Lãi thuần dịch vụ = tỷ lệ × dư nợ BQ; thu nhập ngoài lãi khác = mức theo năm × ngày / 365 (owner 2026-11-19: bình quân 2 năm, không tự làm sạch); cộng khoản bất thường analyst đã xác nhận của năm dự phóng.",
+      "line_formulas": {
+        "net_fee_income": [
+          "Tỷ lệ phí × dư nợ bình quân × ngày / 365",
+          [
+            "fee_to_loans"
+          ]
+        ],
+        "other_non_interest_income": [
+          "Mức theo năm (bình quân 2 năm) × ngày / 365",
+          [
+            "other_income_run_rate"
+          ]
+        ]
+      }
+    },
+    {
+      "method_id": "opex.L1.cir",
+      "block": "opex",
+      "level": "L1",
+      "kind": "bank_cir",
+      "label_vn": "Chi phí hoạt động theo CIR",
+      "version": "1",
+      "implemented": true,
+      "required_items": [
+        "ISB38",
+        "ISB39"
+      ],
+      "outputs": [
+        "opex"
+      ],
+      "notes_vn": "Chi phí hoạt động = −CIR × tổng thu nhập hoạt động.",
+      "line_formulas": {
+        "opex": [
+          "−CIR × TOI",
+          [
+            "cir"
+          ]
+        ]
+      }
+    },
+    {
+      "method_id": "other_bs.L1.ratios",
+      "block": "other_bs",
+      "level": "L1",
+      "kind": "bank_other_bs_ratios",
+      "label_vn": "TS Có khác theo dư nợ; nợ khác theo tiền gửi",
+      "version": "1",
+      "implemented": true,
+      "required_items": [
+        "BSB110",
+        "BSB117"
+      ],
+      "outputs": [
+        "other_assets",
+        "other_liabilities"
+      ],
+      "notes_vn": "TS Có khác = tỷ lệ × dư nợ gộp; nợ khác = tỷ lệ × tiền gửi KH (card: tăng theo tín dụng / tiền gửi).",
+      "line_formulas": {
+        "other_assets": [
+          "Tỷ lệ × dư nợ gộp",
+          [
+            "other_assets_to_loans"
+          ]
+        ],
+        "other_liabilities": [
+          "Tỷ lệ × tiền gửi KH",
+          [
+            "other_liab_to_deposits"
+          ]
+        ]
+      }
+    },
+    {
+      "method_id": "tax_equity.L1.policies",
+      "block": "tax_equity",
+      "level": "L1",
+      "kind": "bank_tax_payout_policies",
+      "label_vn": "Thuế suất hiệu dụng, cổ đông không kiểm soát, cổ tức tiền, phát hành",
+      "version": "1",
+      "implemented": true,
+      "required_items": [
+        "ISA16",
+        "ISA19",
+        "ISA20",
+        "ISA21"
+      ],
+      "outputs": [
+        "income_tax",
+        "npat",
+        "npat_parent",
+        "dividends_paid"
+      ],
+      "notes_vn": "Dùng lại công thức thuế/thiểu số của nhóm phi tài chính; quỹ khen thưởng phúc lợi của ngân hàng nằm trong nợ khác (theo tỷ lệ), không trích riêng.",
+      "line_formulas": {
+        "dividends_paid": [
+          "−Tỷ lệ chi trả × LNST công ty mẹ (nếu > 0)",
+          [
+            "cash_dividend_payout"
+          ]
+        ],
+        "equity_parent": [
+          "Đầu kỳ + LNST công ty mẹ + phát hành + cổ tức (âm)",
+          [
+            "cash_dividend_payout",
+            "share_issue_proceeds"
+          ]
+        ]
+      }
+    },
+    {
+      "method_id": "balancing.L1.interbank",
+      "block": "balancing",
+      "level": "L1",
+      "kind": "bank_interbank_balancing",
+      "label_vn": "Cân thanh khoản tự động qua liên ngân hàng",
+      "version": "1",
+      "implemented": true,
+      "required_items": [
+        "BSB98",
+        "BSB112"
+      ],
+      "outputs": [
+        "interbank_assets",
+        "interbank_liabilities",
+        "funding_gap"
+      ],
+      "notes_vn": "Thặng dư nguồn vốn vào tiền gửi & cho vay liên NH (không thấp hơn sàn); thiếu thì vay liên NH tự động trong trần nợ liên NH/tổng TS; vượt trần là funding gap (không khả thi). Thay biến cân tiền mặt của model card.",
+      "line_formulas": {
+        "interbank_assets": [
+          "max(thặng dư thanh khoản; sàn = tỷ lệ × tiền gửi KH)",
+          [
+            "min_interbank_assets_ratio"
+          ]
+        ],
+        "interbank_liabilities": [
+          "Đầu kỳ + vay tự động − trả, trong trần",
+          [
+            "max_interbank_liab_to_assets"
+          ]
+        ]
+      }
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption_id": "loan_growth",
+      "method_id": "loans.L1.growth",
+      "label_vn": "Tăng trưởng dư nợ cho vay KH",
+      "unit": "ratio",
+      "valid_range": [
+        -1.0,
+        null
+      ],
+      "default_policy": "Năm dự phóng thứ 1 = EMA 5 năm của YoY; giảm tuyến tính về 15%/năm ở năm thứ 3 và giữ từ đó (owner 2026-11-18).",
+      "default": {
+        "type": "history",
+        "metric": "loan_yoy",
+        "stat": "ema_decay",
+        "target": 0.15,
+        "target_year": 3
+      }
+    },
+    {
+      "assumption_id": "deposit_growth",
+      "method_id": "funding.L1.growth_ldr_cap",
+      "label_vn": "Tăng trưởng tiền gửi KH",
+      "unit": "ratio",
+      "valid_range": [
+        -1.0,
+        null
+      ],
+      "default_policy": "Năm dự phóng thứ 1 = EMA 5 năm của YoY; giảm tuyến tính về 13%/năm ở năm thứ 3 và giữ từ đó (owner 2026-11-18).",
+      "default": {
+        "type": "history",
+        "metric": "deposit_yoy",
+        "stat": "ema_decay",
+        "target": 0.13,
+        "target_year": 3
+      }
+    },
+    {
+      "assumption_id": "max_ldr",
+      "method_id": "funding.L1.growth_ldr_cap",
+      "label_vn": "Trần LDR (dư nợ gộp / tổng huy động)",
+      "unit": "ratio",
+      "valid_range": [
+        0.0,
+        null
+      ],
+      "default_policy": "Cao nhất lịch sử trong cửa sổ gần nhất (3 năm) của dư nợ gộp / tổng huy động (tiền gửi KH + vốn ủy thác + GTCG). Chỉ là trần: không dùng để tính huy động trừ khi bị vượt.",
+      "default": {
+        "type": "history",
+        "metric": "ldr",
+        "stat": "max",
+        "window_years": 3
+      }
+    },
+    {
+      "assumption_id": "valuable_papers_ratio",
+      "method_id": "funding.L1.growth_ldr_cap",
+      "label_vn": "GTCG / tiền gửi KH",
+      "unit": "ratio",
+      "valid_range": [
+        0.0,
+        null
+      ],
+      "default_policy": "EMA 5 năm (span 5, cửa sổ tối đa 10 năm), giữ cùng một mức cho mọi kỳ dự phóng.",
+      "default": {
+        "type": "history",
+        "metric": "valuable_papers_ratio",
+        "stat": "ema"
+      }
+    },
+    {
+      "assumption_id": "sbv_reserve_ratio",
+      "method_id": "liquidity.L1.ratios",
+      "label_vn": "Tỷ lệ TG NHNN / (tiền gửi KH + GTCG)",
+      "unit": "ratio",
+      "valid_range": [
+        0.0,
+        1.0
+      ],
+      "default_policy": "Chính sách 3% (owner 2026-11-17).",
+      "default": {
+        "type": "explicit",
+        "value": 0.03,
+        "note": "Dự trữ bắt buộc ước tính 3% huy động (thay hệ số gõ tay 2–3% trong model card)."
+      }
+    },
+    {
+      "assumption_id": "cash_to_deposits",
+      "method_id": "liquidity.L1.ratios",
+      "label_vn": "Tiền mặt / tiền gửi KH",
+      "unit": "ratio",
+      "valid_range": [
+        0.0,
+        null
+      ],
+      "default_policy": "EMA 5 năm (span 5, cửa sổ tối đa 10 năm), giữ cùng một mức cho mọi kỳ dự phóng.",
+      "default": {
+        "type": "history",
+        "metric": "cash_to_deposits",
+        "stat": "ema"
+      }
+    },
+    {
+      "assumption_id": "inv_securities_growth",
+      "method_id": "securities.L1.to_loans",
+      "label_vn": "Tăng trưởng CK đầu tư",
+      "unit": "ratio",
+      "valid_range": [
+        -1.0,
+        null
+      ],
+      "default_policy": "EMA 5 năm (span 5, cửa sổ tối đa 10 năm) của YoY CK đầu tư BSB106, giữ cùng một mức (owner 2026-11-18).",
+      "default": {
+        "type": "history",
+        "metric": "inv_securities_yoy",
+        "stat": "ema"
+      }
+    },
+    {
+      "assumption_id": "credit_cost",
+      "method_id": "asset_quality.L1.credit_cost",
+      "label_vn": "Chi phí tín dụng / dư nợ cuối kỳ",
+      "unit": "ratio_annual",
+      "valid_range": [
+        null,
+        null
+      ],
+      "default_policy": "EMA 5 năm (span 5, cửa sổ tối đa 10 năm) của chi phí dự phòng / dư nợ gộp cuối kỳ, giữ cùng một mức (owner 2026-11-17).",
+      "default": {
+        "type": "history",
+        "metric": "credit_cost",
+        "stat": "ema"
+      }
+    },
+    {
+      "assumption_id": "yield_iea",
+      "method_id": "nii.L1.yield_cof",
+      "label_vn": "Lợi suất TS sinh lãi",
+      "unit": "ratio_annual",
+      "valid_range": [
+        0.0,
+        1.0
+      ],
+      "default_policy": "Giá trị kỳ liền trước (kỳ gốc), giữ cho mọi kỳ dự phóng (owner 2026-11-17, thay EMA5).",
+      "default": {
+        "type": "history",
+        "metric": "yield_iea",
+        "stat": "latest"
+      }
+    },
+    {
+      "assumption_id": "cost_of_funds",
+      "method_id": "nii.L1.yield_cof",
+      "label_vn": "Chi phí vốn (trên nợ chịu lãi)",
+      "unit": "ratio_annual",
+      "valid_range": [
+        0.0,
+        1.0
+      ],
+      "default_policy": "Giá trị kỳ liền trước (kỳ gốc), giữ cho mọi kỳ dự phóng (owner 2026-11-17, thay EMA5).",
+      "default": {
+        "type": "history",
+        "metric": "cost_of_funds",
+        "stat": "latest"
+      }
+    },
+    {
+      "assumption_id": "fee_to_loans",
+      "method_id": "non_interest.L1.fee_growth",
+      "label_vn": "Lãi thuần dịch vụ / dư nợ bình quân",
+      "unit": "ratio_annual",
+      "valid_range": [
+        null,
+        null
+      ],
+      "default_policy": "EMA 5 năm cuốn chiếu (owner 2026-11-18): mỗi kỳ dự phóng = EMA span 5 của cửa sổ 10 năm gồm cả giá trị đã dự phóng các kỳ trước.",
+      "default": {
+        "type": "history",
+        "metric": "fee_to_loans",
+        "stat": "ema_rolling"
+      }
+    },
+    {
+      "assumption_id": "other_income_run_rate",
+      "method_id": "non_interest.L1.fee_growth",
+      "label_vn": "Mức thu nhập ngoài lãi khác theo năm",
+      "unit": "VND_per_year",
+      "valid_range": [
+        null,
+        null
+      ],
+      "default_policy": "Bình quân 2 năm gần nhất của thu nhập ngoài lãi khác (ngoại hối + CK kinh doanh + CK đầu tư + hoạt động khác + góp vốn), không tự làm sạch (owner 2026-11-19). Quý: bình quân 8 quý gần nhất của số quy năm, cuốn chiếu; các năm sau phần quý giữ mức quý cuối.",
+      "default": {
+        "type": "history",
+        "metric": "other_income_run_rate",
+        "stat": "mean",
+        "window_years": 2
+      }
+    },
+    {
+      "assumption_id": "cir",
+      "method_id": "opex.L1.cir",
+      "label_vn": "CIR (chi phí hoạt động / TOI)",
+      "unit": "ratio",
+      "valid_range": [
+        0.0,
+        null
+      ],
+      "default_policy": "EMA 5 năm (span 5, cửa sổ tối đa 10 năm), giữ cùng một mức cho mọi kỳ dự phóng.",
+      "default": {
+        "type": "history",
+        "metric": "cir",
+        "stat": "ema"
+      }
+    },
+    {
+      "assumption_id": "other_assets_to_loans",
+      "method_id": "other_bs.L1.ratios",
+      "label_vn": "TS Có khác / dư nợ gộp",
+      "unit": "ratio",
+      "valid_range": [
+        0.0,
+        null
+      ],
+      "default_policy": "EMA 5 năm (span 5, cửa sổ tối đa 10 năm), giữ cùng một mức cho mọi kỳ dự phóng.",
+      "default": {
+        "type": "history",
+        "metric": "other_assets_to_loans",
+        "stat": "ema"
+      }
+    },
+    {
+      "assumption_id": "other_liab_to_deposits",
+      "method_id": "other_bs.L1.ratios",
+      "label_vn": "Nợ khác / tiền gửi KH",
+      "unit": "ratio",
+      "valid_range": [
+        0.0,
+        null
+      ],
+      "default_policy": "EMA 5 năm (span 5, cửa sổ tối đa 10 năm), giữ cùng một mức cho mọi kỳ dự phóng.",
+      "default": {
+        "type": "history",
+        "metric": "other_liab_to_deposits",
+        "stat": "ema"
+      }
+    },
+    {
+      "assumption_id": "effective_tax_rate",
+      "method_id": "tax_equity.L1.policies",
+      "label_vn": "Thuế suất hiệu dụng",
+      "unit": "ratio",
+      "valid_range": [
+        0.0,
+        1.0
+      ],
+      "default_policy": "Trung vị cửa sổ gần nhất (3 năm) có LNTT > 0 (như phi tài chính).",
+      "default": {
+        "type": "history",
+        "metric": "effective_tax_rate",
+        "stat": "median"
+      }
+    },
+    {
+      "assumption_id": "minority_share",
+      "method_id": "tax_equity.L1.policies",
+      "label_vn": "Tỷ lệ LNST của cổ đông không kiểm soát",
+      "unit": "ratio",
+      "valid_range": [
+        -1.0,
+        1.0
+      ],
+      "default_policy": "Trung vị cửa sổ gần nhất (3 năm) có LNST > 0 (như phi tài chính).",
+      "default": {
+        "type": "history",
+        "metric": "minority_share",
+        "stat": "median"
+      }
+    },
+    {
+      "assumption_id": "cash_dividend_payout",
+      "method_id": "tax_equity.L1.policies",
+      "label_vn": "Tỷ lệ cổ tức tiền / LNST công ty mẹ",
+      "unit": "ratio",
+      "valid_range": [
+        0.0,
+        null
+      ],
+      "default_policy": "Chính sách 0; analyst khai báo theo kế hoạch cổ tức.",
+      "default": {
+        "type": "explicit",
+        "value": 0.0,
+        "note": "Không giả định cổ tức tiền; analyst khai báo theo kế hoạch."
+      }
+    },
+    {
+      "assumption_id": "share_issue_proceeds",
+      "method_id": "tax_equity.L1.policies",
+      "label_vn": "Tiền thu phát hành cổ phiếu",
+      "unit": "VND",
+      "valid_range": [
+        0.0,
+        null
+      ],
+      "default_policy": "Chính sách 0.",
+      "default": {
+        "type": "explicit",
+        "value": 0.0,
+        "note": "Không giả định phát hành thêm."
+      }
+    },
+    {
+      "assumption_id": "min_interbank_assets_ratio",
+      "method_id": "balancing.L1.interbank",
+      "label_vn": "Sàn tiền gửi & cho vay liên NH / tiền gửi KH",
+      "unit": "ratio",
+      "valid_range": [
+        0.0,
+        null
+      ],
+      "default_policy": "Thấp nhất lịch sử trong cửa sổ gần nhất (3 năm).",
+      "default": {
+        "type": "history",
+        "metric": "interbank_assets_to_deposits",
+        "stat": "min"
+      }
+    },
+    {
+      "assumption_id": "max_interbank_liab_to_assets",
+      "method_id": "balancing.L1.interbank",
+      "label_vn": "Trần nợ liên NH / tổng tài sản",
+      "unit": "ratio",
+      "valid_range": [
+        0.0,
+        0.95
+      ],
+      "default_policy": "Cao nhất lịch sử trong cửa sổ gần nhất (3 năm).",
+      "default": {
+        "type": "history",
+        "metric": "interbank_liab_to_assets",
+        "stat": "max"
+      }
+    }
+  ],
+  "lines": [],
+  "requires_when_filled": {},
+  "quarterly_engine": {
+    "description_vn": "Engine quý + năm (owner 2026-11-18): từ quý sau quý công bố mới nhất đến hết Q4 năm sau chạy theo quý, các năm sau chạy theo năm, cùng một vòng tính nên số năm = tổng các quý. Default quý = λ × EMA span 8 quý liên tiếp (cuốn chiếu, chuỗi quý đã làm sạch khoản bất thường) + (1 − λ) × default năm của năm đó (giữ nguyên cách tính năm). Giả định trong annual_only dùng thẳng giá trị năm. Số tiền/sản lượng dạng luồng chia theo số ngày của quý. Ràng buộc cuối năm chỉ kiểm ở Q4. Analyst ghi đè số năm: coi là mục tiêu năm, phần chênh so với các quý đã công bố dồn vào các quý còn lại (targets). Ngân hàng (owner 2026-11-18): lợi suất TS sinh lãi và chi phí vốn chỉ đi từ quý lên năm (λ = 1: EMA 8 quý cuốn chiếu, không gộp giá trị năm); các năm sau phần quý giữ mức quý cuối. Owner 2026-11-19: thu nhập ngoài lãi khác theo mức (bình quân 8 quý của số quy năm, λ = 1, năm sau giữ mức quý cuối; default năm = bình quân 2 năm).",
+    "lambda": 0.65,
+    "ema_span_quarters": 8,
+    "annual_only": [
+      "credit_cost",
+      "effective_tax_rate",
+      "cash_dividend_payout",
+      "max_ldr",
+      "min_interbank_assets_ratio",
+      "max_interbank_liab_to_assets",
+      "sbv_reserve_ratio"
+    ],
+    "stock_assumptions": [],
+    "targets": {
+      "yield_iea": {
+        "kind": "rate",
+        "num": "interest_income",
+        "base": {
+          "avg": [
+            "sbv_deposits",
+            "interbank_assets",
+            "trading_securities",
+            "gross_loans",
+            "purchased_debt",
+            "investment_securities"
+          ]
+        }
+      },
+      "cost_of_funds": {
+        "kind": "rate",
+        "num": "-interest_expense",
+        "base": {
+          "avg": [
+            "gov_sbv_debt",
+            "interbank_liabilities",
+            "customer_deposits",
+            "entrusted_funds",
+            "valuable_papers"
+          ]
+        }
+      },
+      "fee_to_loans": {
+        "kind": "rate",
+        "num": "net_fee_income",
+        "base": {
+          "avg": [
+            "gross_loans"
+          ]
+        }
+      },
+      "credit_cost": {
+        "kind": "rate",
+        "num": "-provision_expense",
+        "base": {
+          "close": [
+            "gross_loans"
+          ]
+        }
+      },
+      "other_income_run_rate": {
+        "kind": "run_rate",
+        "line": "other_non_interest_income"
+      },
+      "cir": {
+        "kind": "rate",
+        "num": "-opex",
+        "base": {
+          "flow": [
+            "toi"
+          ]
+        }
+      },
+      "effective_tax_rate": {
+        "kind": "rate",
+        "num": "-income_tax",
+        "base": {
+          "flow": [
+            "pbt"
+          ]
+        }
+      },
+      "minority_share": {
+        "kind": "rate",
+        "num": "npat_minority",
+        "base": {
+          "flow": [
+            "npat"
+          ]
+        }
+      }
+    },
+    "quarter_only": [
+      "yield_iea",
+      "cost_of_funds",
+      "other_income_run_rate"
+    ],
+    "quarter_stats": {
+      "other_income_run_rate": {
+        "stat": "mean",
+        "window": 8
+      }
+    }
+  }
+}

@@ -1,0 +1,311 @@
+{
+  "template": "bank",
+  "version": "0.1.0",
+  "note": "Bộ câu hỏi ngân hàng L1. Mỗi câu gắn với assumption ID của template bank; mặc định là EMA 5 năm lịch sử.",
+  "sections": [
+    {
+      "id": "growth",
+      "title": "1. Tăng trưởng bảng cân đối",
+      "intro": "Cho vay và huy động tăng bao nhiêu?"
+    },
+    {
+      "id": "margin",
+      "title": "2. Biên lãi",
+      "intro": "Ngân hàng cho vay và huy động ở mức lãi nào?"
+    },
+    {
+      "id": "income",
+      "title": "3. Thu nhập ngoài lãi và chi phí",
+      "intro": "Phí, thu nhập khác và chi phí hoạt động."
+    },
+    {
+      "id": "risk",
+      "title": "4. Rủi ro tín dụng",
+      "intro": "Trích lập dự phòng bao nhiêu?"
+    },
+    {
+      "id": "liquidity",
+      "title": "5. Thanh khoản",
+      "intro": "Tiền nằm ở đâu, thiếu thì vay ở đâu?"
+    },
+    {
+      "id": "distributions",
+      "title": "6. Thuế và cổ tức",
+      "intro": "Lợi nhuận được chia thế nào?"
+    }
+  ],
+  "questions": [
+    {
+      "id": "loan_growth_q",
+      "section": "growth",
+      "kind": "values",
+      "quick": true,
+      "text": "Dư nợ cho vay tăng bao nhiêu mỗi năm?",
+      "assumptions": [
+        "loan_growth"
+      ],
+      "chart": "loans"
+    },
+    {
+      "id": "deposit_q",
+      "section": "growth",
+      "kind": "values",
+      "quick": true,
+      "text": "Tiền gửi khách hàng tăng bao nhiêu, LDR tối đa bao nhiêu?",
+      "assumptions": [
+        "deposit_growth",
+        "max_ldr"
+      ],
+      "chart": "funding"
+    },
+    {
+      "id": "papers_q",
+      "section": "growth",
+      "kind": "values",
+      "quick": false,
+      "text": "Giấy tờ có giá bằng bao nhiêu phần tiền gửi?",
+      "assumptions": [
+        "valuable_papers_ratio"
+      ],
+      "chart": "funding"
+    },
+    {
+      "id": "securities_q",
+      "section": "growth",
+      "kind": "values",
+      "quick": false,
+      "text": "Chứng khoán đầu tư bằng bao nhiêu phần dư nợ?",
+      "assumptions": [
+        "inv_securities_growth"
+      ],
+      "chart": "securities"
+    },
+    {
+      "id": "yield_q",
+      "section": "margin",
+      "kind": "values",
+      "quick": true,
+      "text": "Lợi suất tài sản sinh lãi và chi phí vốn là bao nhiêu?",
+      "assumptions": [
+        "yield_iea",
+        "cost_of_funds"
+      ],
+      "chart": "nii"
+    },
+    {
+      "id": "fee_q",
+      "section": "income",
+      "kind": "values",
+      "quick": true,
+      "text": "Thu phí dịch vụ bằng bao nhiêu % dư nợ bình quân?",
+      "assumptions": [
+        "fee_to_loans"
+      ],
+      "chart": "non_interest"
+    },
+    {
+      "id": "other_income_q",
+      "section": "income",
+      "kind": "values",
+      "quick": false,
+      "text": "Thu nhập ngoài lãi khác tăng bao nhiêu?",
+      "assumptions": [
+        "other_income_run_rate"
+      ],
+      "chart": "non_interest"
+    },
+    {
+      "id": "cir_q",
+      "section": "income",
+      "kind": "values",
+      "quick": true,
+      "text": "Chi phí hoạt động bằng bao nhiêu % tổng thu nhập (CIR)?",
+      "assumptions": [
+        "cir"
+      ],
+      "chart": "opex"
+    },
+    {
+      "id": "credit_q",
+      "section": "risk",
+      "kind": "values",
+      "quick": true,
+      "text": "Chi phí tín dụng là bao nhiêu?",
+      "assumptions": [
+        "credit_cost"
+      ],
+      "chart": "asset_quality"
+    },
+    {
+      "id": "reserve_q",
+      "section": "liquidity",
+      "kind": "values",
+      "quick": false,
+      "text": "Dự trữ NHNN và tiền mặt bằng bao nhiêu phần huy động?",
+      "assumptions": [
+        "sbv_reserve_ratio",
+        "cash_to_deposits"
+      ],
+      "chart": "liquidity"
+    },
+    {
+      "id": "interbank_q",
+      "section": "liquidity",
+      "kind": "values",
+      "quick": false,
+      "text": "Sàn tiền gửi liên ngân hàng và trần vay liên ngân hàng?",
+      "assumptions": [
+        "min_interbank_assets_ratio",
+        "max_interbank_liab_to_assets"
+      ],
+      "chart": "balancing"
+    },
+    {
+      "id": "other_bs_q",
+      "section": "liquidity",
+      "kind": "values",
+      "quick": false,
+      "text": "Tài sản Có khác và nợ khác theo tỷ lệ nào?",
+      "assumptions": [
+        "other_assets_to_loans",
+        "other_liab_to_deposits"
+      ],
+      "chart": "other_bs"
+    },
+    {
+      "id": "tax_q",
+      "section": "distributions",
+      "kind": "values",
+      "quick": false,
+      "text": "Thuế suất, phần lợi nhuận của cổ đông không kiểm soát?",
+      "assumptions": [
+        "effective_tax_rate",
+        "minority_share"
+      ],
+      "chart": "tax_equity"
+    },
+    {
+      "id": "dividend_q",
+      "section": "distributions",
+      "kind": "values",
+      "quick": true,
+      "text": "Cổ tức tiền và phát hành thêm?",
+      "assumptions": [
+        "cash_dividend_payout",
+        "share_issue_proceeds"
+      ],
+      "chart": "tax_equity"
+    }
+  ],
+  "messages": {
+    "needs_input": "Chưa có số cho {label}{when}.",
+    "out_of_range": "{label}{when} có giá trị không hợp lệ.",
+    "wrong_length": "{label} thiếu số cho một số kỳ.",
+    "override_reason_missing": "Cần ghi lý do khi sửa {label}.",
+    "outside_history": "{label}{when} khác xa mức trong lịch sử.",
+    "high_growth": "Tăng trưởng doanh thu{when} rất cao.",
+    "weak_sample": "Số mặc định của {label} dựa trên ít dữ liệu lịch sử.",
+    "volatile_history": "Lịch sử của {label} dao động mạnh; số mặc định có thể không đại diện.",
+    "method_unavailable": "Cách tính này chưa dùng được.",
+    "BANK-BS-01": "Một khoản tài sản của ngân hàng bị âm{when}.",
+    "BANK-FUND-01": "Ngân hàng thiếu vốn{when}: vay liên ngân hàng tự động đã chạm trần.",
+    "BANK-LIQ-01": "LDR{when} chạm trần, tiền gửi khách hàng được nâng lên để giữ LDR trong trần.",
+    "BANK-LIQ-02": "Vay liên ngân hàng tự động tăng mạnh{when}.",
+    "BANK-AQ-01": "Dự phòng cuối kỳ cao hơn dự phòng đầu kỳ cộng trích lập{when} (xoá nợ ngụ ý âm).",
+    "BANK-CAP-01": "Vốn chủ / tổng tài sản{when} thấp hơn mức thấp nhất lịch sử.",
+    "ONE-01": "Có khoản thu nhập bất thường chưa xử lý{when}.",
+    "ONE-02": "Đã loại khoản thu nhập bất thường{when}.",
+    "ONE-03": "Đã tự loại các quý thu nhập bất thường ở năm lịch sử khỏi số liệu dùng để tính mặc định{when}.",
+    "REV-10": "Dự phóng cả năm{when} thấp hơn lũy kế các quý đã công bố.",
+    "INT-01": "Doanh nghiệp không có nợ vay trong lịch sử nên lãi suất default = 0, nhưng mô hình phát sinh nợ vay{when}: cần nhập lãi suất."
+  },
+  "fixes": {
+    "needs_input": [
+      {
+        "label": "Dùng lại số mặc định",
+        "action": "reset_assumption"
+      }
+    ],
+    "out_of_range": [
+      {
+        "label": "Dùng lại số mặc định",
+        "action": "reset_assumption"
+      }
+    ],
+    "outside_history": [
+      {
+        "label": "Dùng lại số mặc định",
+        "action": "reset_assumption"
+      }
+    ],
+    "high_growth": [
+      {
+        "label": "Dùng lại số mặc định",
+        "action": "reset_assumption"
+      }
+    ]
+  },
+  "hints": {},
+  "starters": [
+    {
+      "id": "history",
+      "label": "Theo lịch sử",
+      "action": "reset",
+      "description": "Mọi câu trả lời dùng số mặc định lấy từ lịch sử; cách tính nhanh nhất cho mọi phần."
+    }
+  ],
+  "sensitivity": {
+    "note": "Mỗi giả định đang dùng được tăng/giảm một bước; đo thay đổi tổng LNST cổ đông công ty mẹ trong 12 tháng dự phóng đầu tiên (4 quý hoặc 1 năm).",
+    "steps": {
+      "ratio": {
+        "type": "absolute",
+        "delta": 0.01,
+        "label": "±1 điểm %"
+      },
+      "ratio_annual": {
+        "type": "absolute",
+        "delta": 0.01,
+        "label": "±1 điểm %/năm"
+      },
+      "days": {
+        "type": "absolute",
+        "delta": 10,
+        "label": "±10 ngày"
+      },
+      "years": {
+        "type": "relative",
+        "delta": 0.1,
+        "label": "±10%"
+      },
+      "tonnes": {
+        "type": "relative",
+        "delta": 0.1,
+        "label": "±10%"
+      },
+      "VND_per_tonne": {
+        "type": "relative",
+        "delta": 0.1,
+        "label": "±10%"
+      },
+      "VND": {
+        "type": "relative",
+        "delta": 0.1,
+        "label": "±10%"
+      }
+    },
+    "overrides": {
+      "loan_growth": {
+        "type": "absolute",
+        "delta": 0.05,
+        "label": "±5 điểm %"
+      }
+    },
+    "exclude": [
+      "share_issue_proceeds",
+      "cash_dividend_payout",
+      "max_ldr",
+      "min_interbank_assets_ratio",
+      "max_interbank_liab_to_assets"
+    ]
+  }
+}

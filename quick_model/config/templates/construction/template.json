@@ -1,0 +1,167 @@
+{
+  "schema_version": "1.1",
+  "template_id": "construction",
+  "version": "1.0.0",
+  "extends": "nonfinancial",
+  "label_vn": "Xây dựng (theo backlog)",
+  "description_vn": "Kế thừa template phi tài chính; thêm doanh thu theo backlog và hợp đồng ký mới (L2).",
+  "files": {
+    "survey": "survey.json"
+  },
+  "methods": [
+    {
+      "method_id": "revenue.L2.backlog",
+      "block": "revenue",
+      "level": "L2",
+      "kind": "backlog_rollforward",
+      "label_vn": "Backlog đầu kỳ × tỷ lệ ghi nhận + HĐ ký mới × tỷ lệ ghi nhận kỳ đầu",
+      "version": "1",
+      "implemented": true,
+      "outputs": [
+        "net_revenue",
+        "backlog"
+      ],
+      "provides": [
+        "backlog"
+      ],
+      "notes_vn": "Doanh thu xây lắp = backlog đầu kỳ × tỷ lệ ghi nhận/năm × số ngày / 365 + HĐ ký mới × tỷ lệ ghi nhận ngay trong kỳ; backlog cuối = đầu + ký mới − doanh thu xây lắp. Database không có backlog: analyst nhập.",
+      "line_formulas": {
+        "net_revenue": [
+          "Backlog đầu kỳ × tỷ lệ ghi nhận × ngày/365 + HĐ mới × tỷ lệ kỳ đầu + doanh thu khác",
+          [
+            "backlog_opening",
+            "new_contracts",
+            "backlog_burn_rate",
+            "new_contract_burn",
+            "construction_other_revenue"
+          ]
+        ]
+      }
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption_id": "backlog_opening",
+      "method_id": "revenue.L2.backlog",
+      "label_vn": "Backlog đầu kỳ dự phóng",
+      "description_vn": "Giá trị hợp đồng chưa thực hiện tại kỳ gốc; chỉ dùng giá trị kỳ đầu.",
+      "unit": "VND",
+      "valid_range": [
+        0.0,
+        null
+      ],
+      "default_policy": "Không có trong database: analyst nhập.",
+      "per_period": false,
+      "default": {
+        "type": "needs_input",
+        "note": "Nhập backlog công bố hoặc ước tính."
+      }
+    },
+    {
+      "assumption_id": "new_contracts",
+      "method_id": "revenue.L2.backlog",
+      "label_vn": "Giá trị hợp đồng ký mới trong kỳ",
+      "description_vn": "Tổng giá trị hợp đồng ký mới.",
+      "unit": "VND",
+      "valid_range": [
+        0.0,
+        null
+      ],
+      "default_policy": "Không có trong database: analyst nhập.",
+      "default": {
+        "type": "needs_input",
+        "note": "Nhập giá trị hợp đồng ký mới."
+      }
+    },
+    {
+      "assumption_id": "backlog_burn_rate",
+      "method_id": "revenue.L2.backlog",
+      "label_vn": "Tỷ lệ ghi nhận backlog / năm",
+      "description_vn": "Phần backlog đầu kỳ ghi nhận doanh thu trong một năm (quy theo số ngày của kỳ).",
+      "unit": "ratio_annual",
+      "valid_range": [
+        0.0,
+        1.0
+      ],
+      "default_policy": "Không có trong database: analyst nhập.",
+      "default": {
+        "type": "needs_input",
+        "note": "Nhập tỷ lệ ghi nhận backlog mỗi năm."
+      }
+    },
+    {
+      "assumption_id": "new_contract_burn",
+      "method_id": "revenue.L2.backlog",
+      "label_vn": "Tỷ lệ ghi nhận HĐ mới ngay trong kỳ",
+      "description_vn": "Phần giá trị hợp đồng ký mới ghi nhận doanh thu ngay trong kỳ ký.",
+      "unit": "ratio",
+      "valid_range": [
+        0.0,
+        1.0
+      ],
+      "default_policy": "Không có trong database: analyst nhập.",
+      "default": {
+        "type": "needs_input",
+        "note": "Nhập tỷ lệ ghi nhận hợp đồng mới trong kỳ đầu."
+      }
+    },
+    {
+      "assumption_id": "construction_other_revenue",
+      "method_id": "revenue.L2.backlog",
+      "label_vn": "Doanh thu ngoài xây lắp",
+      "description_vn": "VLXD, cho thuê, BĐS… không đi qua backlog. Nhập 0 nếu không có.",
+      "unit": "VND",
+      "valid_range": [
+        0.0,
+        null
+      ],
+      "default_policy": "Không có trong database: analyst nhập.",
+      "default": {
+        "type": "needs_input",
+        "note": "Nhập doanh thu không qua backlog (0 nếu không có)."
+      }
+    }
+  ],
+  "lines": [
+    {
+      "line_id": "backlog_open",
+      "statement": "OPS",
+      "label_vn": "Backlog đầu kỳ",
+      "block": "revenue",
+      "unit": "VND"
+    },
+    {
+      "line_id": "new_contracts",
+      "statement": "OPS",
+      "label_vn": "Hợp đồng ký mới",
+      "block": "revenue",
+      "unit": "VND"
+    },
+    {
+      "line_id": "backlog_revenue",
+      "statement": "OPS",
+      "label_vn": "Doanh thu ghi nhận từ backlog và HĐ mới",
+      "block": "revenue",
+      "unit": "VND"
+    },
+    {
+      "line_id": "backlog_close",
+      "statement": "OPS",
+      "label_vn": "Backlog cuối kỳ",
+      "block": "revenue",
+      "unit": "VND"
+    },
+    {
+      "line_id": "other_revenue",
+      "statement": "OPS",
+      "label_vn": "Doanh thu ngoài xây lắp",
+      "block": "revenue",
+      "unit": "VND"
+    }
+  ],
+  "quarterly_engine": {
+    "extra_stock_assumptions": [
+      "backlog_opening"
+    ]
+  }
+}

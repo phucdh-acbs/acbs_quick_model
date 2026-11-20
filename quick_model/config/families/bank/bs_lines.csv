@@ -1,0 +1,24 @@
+line_id,side,label_vn,codes,owner,formula_vn,assumptions
+cash,asset,Tiền mặt vàng bạc đá quý,+BSA2,liquidity,Tỷ lệ × tiền gửi KH,cash_to_deposits
+sbv_deposits,asset,Tiền gửi tại NHNN,+BSB97,liquidity,Tỷ lệ dự trữ × (tiền gửi KH + GTCG),sbv_reserve_ratio
+interbank_assets,asset,Tiền gửi và cho vay các TCTD khác (ròng),+BSB98,balancing,Nhận thặng dư thanh khoản; không thấp hơn sàn,min_interbank_assets_ratio
+trading_securities,asset,Chứng khoán kinh doanh (ròng),+BSB99,carry,Giữ nguyên số dư kỳ gốc (giản lược),
+derivative_assets,asset,Công cụ phái sinh và TS tài chính khác,+BSB102,carry,Giữ nguyên số dư kỳ gốc (giản lược),
+gross_loans,asset,Cho vay khách hàng (gộp),+BSB104,loans,Năm trước × (1 + tăng trưởng),loan_growth
+loan_loss_reserve,asset,Dự phòng rủi ro cho vay khách hàng,+BSB105,asset_quality,Giữ nguyên số dư kỳ gốc,
+purchased_debt,asset,Hoạt động mua nợ (ròng),+BSB261,carry,Giữ nguyên số dư kỳ gốc (giản lược),
+investment_securities,asset,Chứng khoán đầu tư (ròng),+BSB106,securities,Tỷ lệ × dư nợ gộp,inv_securities_to_loans
+lt_investments,asset,Góp vốn đầu tư dài hạn,+BSA43,carry,Giữ nguyên số dư kỳ gốc (giản lược),
+fixed_assets,asset,Tài sản cố định,+BSA29,carry,Giữ nguyên số dư kỳ gốc (giản lược),
+investment_property,asset,Bất động sản đầu tư,+BSA40,carry,Giữ nguyên số dư kỳ gốc (giản lược),
+other_assets,asset,Tài sản Có khác,+BSB110,other_bs,Tỷ lệ × dư nợ gộp,other_assets_to_loans
+gov_sbv_debt,liability,Các khoản nợ Chính phủ và NHNN,+BSB111,carry,Giữ nguyên số dư kỳ gốc (giản lược),
+interbank_liabilities,liability,Tiền gửi và vay các TCTD khác,+BSB112,balancing,Đầu kỳ + vay liên NH tự động − trả,max_interbank_liab_to_assets
+customer_deposits,liability,Tiền gửi của khách hàng,+BSB113,funding,Năm trước × (1 + tăng trưởng); nâng lên nếu vượt trần LDR,"deposit_growth max_ldr"
+derivative_liabilities,liability,Công cụ phái sinh và nợ tài chính khác,+BSB114,carry,Giữ nguyên số dư kỳ gốc (giản lược),
+entrusted_funds,liability,Vốn tài trợ uỷ thác đầu tư,+BSB115,carry,Giữ nguyên số dư kỳ gốc (giản lược),
+valuable_papers,liability,Phát hành giấy tờ có giá,+BSB116,funding,Tỷ lệ × tiền gửi KH,valuable_papers_ratio
+other_liabilities,liability,Các khoản nợ khác,+BSB117,other_bs,Tỷ lệ × tiền gửi KH,other_liab_to_deposits
+equity_parent,equity,Vốn chủ sở hữu của cổ đông công ty mẹ,+BSA78 -BSA210,tax_equity,Đầu kỳ + LNST mẹ + phát hành + cổ tức (âm),"cash_dividend_payout share_issue_proceeds"
+minority_interest,equity,Lợi ích cổ đông không kiểm soát,+BSA210,tax_equity,Đầu kỳ + LNST cổ đông không kiểm soát,minority_share
+minority_interest_pre2015,equity,Lợi ích cổ đông thiểu số (trước 2015),+BSA95,carry,Giữ nguyên số dư kỳ gốc (giản lược),

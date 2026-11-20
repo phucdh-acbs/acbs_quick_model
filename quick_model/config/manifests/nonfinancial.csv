@@ -1,0 +1,275 @@
+﻿bq_table,code,desc_vn,mapping_source,mapping_row
+INCOME_STATEMENT,ISA1,1. Doanh thu bán hàng và cung cấp dịch vụ,bao-cao-ket-qua-kinh-doanh-hop-nhat-nhom-doanh-nghiep-san-xuat,2051
+INCOME_STATEMENT,ISA2,2. Các khoản giảm trừ doanh thu,bao-cao-ket-qua-kinh-doanh-hop-nhat-nhom-doanh-nghiep-san-xuat,2052
+INCOME_STATEMENT,ISA3,3. Doanh thu thuần về bán hàng và cung cấp dịch vụ,bao-cao-ket-qua-kinh-doanh-hop-nhat-nhom-doanh-nghiep-san-xuat,2053
+INCOME_STATEMENT,ISA4,4. Giá vốn hàng bán,bao-cao-ket-qua-kinh-doanh-hop-nhat-nhom-doanh-nghiep-san-xuat,2054
+INCOME_STATEMENT,ISA5,5. Lợi nhuận gộp về bán hàng và cung cấp dịch vụ,bao-cao-ket-qua-kinh-doanh-hop-nhat-nhom-doanh-nghiep-san-xuat,2055
+INCOME_STATEMENT,ISA6,6. Doanh thu hoạt động tài chính,bao-cao-ket-qua-kinh-doanh-hop-nhat-nhom-doanh-nghiep-san-xuat,2056
+INCOME_STATEMENT,ISA7,7. Chi phí tài chính,bao-cao-ket-qua-kinh-doanh-hop-nhat-nhom-doanh-nghiep-san-xuat,2057
+INCOME_STATEMENT,ISA8,7.1. Trong đó: Chi phí lãi vay,bao-cao-ket-qua-kinh-doanh-hop-nhat-nhom-doanh-nghiep-san-xuat,2058
+INCOME_STATEMENT,ISA102,8. Lãi/lỗ từ công ty liên doanh,bao-cao-ket-qua-kinh-doanh-hop-nhat-nhom-doanh-nghiep-san-xuat,2059
+INCOME_STATEMENT,ISA9,9. Chi phí bán hàng,bao-cao-ket-qua-kinh-doanh-hop-nhat-nhom-doanh-nghiep-san-xuat,2060
+INCOME_STATEMENT,ISA10,10. Chi phí quản lý doanh nghiệp,bao-cao-ket-qua-kinh-doanh-hop-nhat-nhom-doanh-nghiep-san-xuat,2061
+INCOME_STATEMENT,ISA11,11. Lợi nhuận thuần từ hoạt động kinh doanh,bao-cao-ket-qua-kinh-doanh-hop-nhat-nhom-doanh-nghiep-san-xuat,2062
+INCOME_STATEMENT,ISA12,12. Thu nhập khác,bao-cao-ket-qua-kinh-doanh-hop-nhat-nhom-doanh-nghiep-san-xuat,2063
+INCOME_STATEMENT,ISA13,13. Chi phí khác,bao-cao-ket-qua-kinh-doanh-hop-nhat-nhom-doanh-nghiep-san-xuat,2064
+INCOME_STATEMENT,ISA14,14. Lợi nhuận khác,bao-cao-ket-qua-kinh-doanh-hop-nhat-nhom-doanh-nghiep-san-xuat,2065
+INCOME_STATEMENT,ISA15,15. Lãi/lỗ từ công ty liên doanh (trước 2015),bao-cao-ket-qua-kinh-doanh-hop-nhat-nhom-doanh-nghiep-san-xuat,2066
+INCOME_STATEMENT,ISA16,16. Tổng lợi nhuận kế toán trước thuế,bao-cao-ket-qua-kinh-doanh-hop-nhat-nhom-doanh-nghiep-san-xuat,2067
+INCOME_STATEMENT,ISA19,17. Chi phí thuế thu nhập doanh nghiệp,bao-cao-ket-qua-kinh-doanh-hop-nhat-nhom-doanh-nghiep-san-xuat,2068
+INCOME_STATEMENT,ISA17,17.1. Thuế thu nhập doanh nghiệp - hiện thời,bao-cao-ket-qua-kinh-doanh-hop-nhat-nhom-doanh-nghiep-san-xuat,2069
+INCOME_STATEMENT,ISA18,17.2. Thuế thu nhập doanh nghiệp - hoãn lại,bao-cao-ket-qua-kinh-doanh-hop-nhat-nhom-doanh-nghiep-san-xuat,2070
+INCOME_STATEMENT,ISA20,18. Lợi nhuận sau thuế thu nhập doanh nghiệp,bao-cao-ket-qua-kinh-doanh-hop-nhat-nhom-doanh-nghiep-san-xuat,2071
+INCOME_STATEMENT,ISA21,19. Lợi ích của cổ đông thiểu số,bao-cao-ket-qua-kinh-doanh-hop-nhat-nhom-doanh-nghiep-san-xuat,2072
+INCOME_STATEMENT,ISA22,20. Cổ đông của Công ty mẹ,bao-cao-ket-qua-kinh-doanh-hop-nhat-nhom-doanh-nghiep-san-xuat,2073
+INCOME_STATEMENT,ISA23,21. Lãi cơ bản trên cổ phiếu,bao-cao-ket-qua-kinh-doanh-hop-nhat-nhom-doanh-nghiep-san-xuat,2074
+INCOME_STATEMENT,ISA24,22. Lãi suy giảm trên cổ phiếu,bao-cao-ket-qua-kinh-doanh-hop-nhat-nhom-doanh-nghiep-san-xuat,2075
+BALANCE_SHEET,BSA1,I. TÀI SẢN NGẮN HẠN,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1911
+BALANCE_SHEET,BSA2,1. Tiền và tương đương tiền,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1912
+BALANCE_SHEET,BSA3,1.1. Tiền,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1913
+BALANCE_SHEET,BSA4,1.2. Các khoản tương đương tiền,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1914
+BALANCE_SHEET,BSA5,2. Đầu tư tài chính ngắn hạn,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1915
+BALANCE_SHEET,BSA6,2.1. Chứng khoán kinh doanh,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1916
+BALANCE_SHEET,BSA7,2.2. Dự phòng giảm giá chứng khoán kinh doanh,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1917
+BALANCE_SHEET,BSB108,2.3. Đầu tư nắm giữ đến ngày đáo hạn,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1918
+BALANCE_SHEET,BSA8,3. Các khoản phải thu ngắn hạn,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1919
+BALANCE_SHEET,BSA9,3.1. Phải thu ngắn hạn của khách hàng,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1920
+BALANCE_SHEET,BSA10,3.2. Trả trước cho người bán ngắn hạn,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1921
+BALANCE_SHEET,BSA11,3.3. Phải thu nội bộ ngắn hạn,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1922
+BALANCE_SHEET,BSA12,3.4. Phải thu theo tiến độ kế hoạch hợp đồng xây dựng,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1923
+BALANCE_SHEET,BSA159,3.5. Phải thu về cho vay ngắn hạn,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1924
+BALANCE_SHEET,BSA13,3.6. Phải thu ngắn hạn khác,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1925
+BALANCE_SHEET,BSA14,3.7. Dự phòng phải thu ngắn hạn khó đòi,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1926
+BALANCE_SHEET,BSI141,3.8. Tài sản thiếu chờ xử lý,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1927
+BALANCE_SHEET,BSA15,"4. Hàng tồn kho, ròng",bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1928
+BALANCE_SHEET,BSA16,4.1. Hàng tồn kho,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1929
+BALANCE_SHEET,BSA17,4.2. Dự phòng giảm giá HTK,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1930
+BALANCE_SHEET,BSA18,5. Tài sản ngắn hạn khác,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1931
+BALANCE_SHEET,BSA19,5.1. Chi phí trả trước ngắn hạn,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1932
+BALANCE_SHEET,BSA20,5.2. Thuế GTGT được khấu trừ,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1933
+BALANCE_SHEET,BSA21,5.3. Thuế và các khoản khác phải thu Nhà nước,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1934
+BALANCE_SHEET,BSA160,5.4. Giao dịch mua bán lại trái phiếu chính phủ,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1935
+BALANCE_SHEET,BSA22,5.5. Tài sản ngắn hạn khác,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1936
+BALANCE_SHEET,BSA23,II. TÀI SẢN DÀI HẠN,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1937
+BALANCE_SHEET,BSA24,1. Phải thu dài hạn,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1938
+BALANCE_SHEET,BSA25,1.1. Phải thu khách hàng dài hạn,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1939
+BALANCE_SHEET,BSA161,1.2. Trả trước người bán dài hạn,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1940
+BALANCE_SHEET,BSS134,1.3. Vốn kinh doanh ở các đơn vị trực thuộc,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1941
+BALANCE_SHEET,BSA26,1.4. Phải thu nội bộ dài hạn,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1942
+BALANCE_SHEET,BSA162,1.5. Phải thu về cho vay dài hạn,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1943
+BALANCE_SHEET,BSA27,1.6. Phải thu dài hạn khác,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1944
+BALANCE_SHEET,BSA28,1.7. Dự phòng phải thu dài hạn,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1945
+BALANCE_SHEET,BSA29,2. Tài sản cố định,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1946
+BALANCE_SHEET,BSA30,2.1. GTCL TSCĐ hữu hình,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1947
+BALANCE_SHEET,BSA31,2.1.1. Nguyên giá TSCĐ hữu hình,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1948
+BALANCE_SHEET,BSA32,2.1.2. Khấu hao lũy kế TSCĐ hữu hình,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1949
+BALANCE_SHEET,BSA33,2.2. GTCL Tài sản thuê tài chính,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1950
+BALANCE_SHEET,BSA34,2.2.1. Nguyên giá tài sản thuê tài chính,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1951
+BALANCE_SHEET,BSA35,2.2.2. Khấu hao lũy kế tài sản thuê tài chính,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1952
+BALANCE_SHEET,BSA36,2.3. GTCL tài sản cố định vô hình,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1953
+BALANCE_SHEET,BSA37,2.3.1. Nguyên giá TSCĐ vô hình,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1954
+BALANCE_SHEET,BSA38,2.3.2. Khấu khao lũy kế TSCĐ vô hình,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1955
+BALANCE_SHEET,BSA39,2.4. Xây dựng cơ bản dở dang (trước 2015),bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1956
+BALANCE_SHEET,BSA40,3. Giá trị ròng tài sản đầu tư,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1957
+BALANCE_SHEET,BSA41,3.1. Nguyên giá tài sản đầu tư,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1958
+BALANCE_SHEET,BSA42,3.2. Khấu hao lũy kế tài sản đầu tư,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1959
+BALANCE_SHEET,BSA163,4. Tài sản dở dang dài hạn,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1960
+BALANCE_SHEET,BSA164,"4.1. Chi phí sản xuất, kinh doanh dở dang dài hạn",bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1961
+BALANCE_SHEET,BSA188,4.2. Xây dựng cơ bản dở dang,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1962
+BALANCE_SHEET,BSA43,5. Đầu tư dài hạn,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1963
+BALANCE_SHEET,BSA44,5.1. Đầu tư vào các công ty con,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1964
+BALANCE_SHEET,BSA45,5.2. Đầu tư vào các công ty liên kết,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1965
+BALANCE_SHEET,BSA46,5.3. Đầu tư dài hạn khác,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1966
+BALANCE_SHEET,BSA47,5.4. Dự phòng giảm giá đầu tư dài hạn,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1967
+BALANCE_SHEET,BSA165,5.5. Đầu tư nắm giữ đến ngày đáo hạn,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1968
+BALANCE_SHEET,BSA48,6. Lợi thế thương mại (trước 2015),bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1969
+BALANCE_SHEET,BSA49,7. Tài sản dài hạn khác,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1970
+BALANCE_SHEET,BSA50,7.1. Trả trước dài hạn,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1971
+BALANCE_SHEET,BSA51,7.2. Tài sản thuế thu nhập hoãn lại,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1972
+BALANCE_SHEET,BSA166,"7.3. Thiết bị, vật tư, phụ tùng thay thế dài hạn",bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1973
+BALANCE_SHEET,BSA52,7.4. Các tài sản dài hạn khác,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1974
+BALANCE_SHEET,BSA209,7.5. Lợi thế thương mại,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1975
+BALANCE_SHEET,BSA53,A. TỔNG CỘNG TÀI SẢN,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1976
+BALANCE_SHEET,BSA54,I. NỢ PHẢI TRẢ,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1977
+BALANCE_SHEET,BSA55,1. Nợ ngắn hạn,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1978
+BALANCE_SHEET,BSA57,1.1. Phải trả người bán ngắn hạn,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1979
+BALANCE_SHEET,BSA58,1.2. Người mua trả tiền trước ngắn hạn,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1980
+BALANCE_SHEET,BSA59,1.3. Thuế và các khoản phải trả Nhà nước,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1981
+BALANCE_SHEET,BSA60,1.4. Phải trả người lao động,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1982
+BALANCE_SHEET,BSA61,1.5. Chi phí phải trả ngắn hạn,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1983
+BALANCE_SHEET,BSA62,1.6. Phải trả nội bộ ngắn hạn,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1984
+BALANCE_SHEET,BSA63,1.7. Phải trả theo tiến độ kế hoạch hợp đồng xây dựng,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1985
+BALANCE_SHEET,BSA167,1.8. Doanh thu chưa thực hiện ngắn hạn,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1986
+BALANCE_SHEET,BSA64,1.9. Phải trả khác,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1987
+BALANCE_SHEET,BSA56,1.10. Vay và nợ thuê tài chính ngắn hạn,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1988
+BALANCE_SHEET,BSA65,1.11. Dự phòng các khoản phải trả ngắn hạn,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1989
+BALANCE_SHEET,BSA66,"1.12. Quỹ khen thưởng, phúc lợi",bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1990
+BALANCE_SHEET,BSA168,1.13. Quỹ bình ổn giá,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1991
+BALANCE_SHEET,BSA169,1.14. Giao dịch mua bán lại trái phiếu chính phủ,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1992
+BALANCE_SHEET,BSA67,2. Nợ dài hạn,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1993
+BALANCE_SHEET,BSA68,2.1. Phải trả nhà cung cấp dài hạn,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1994
+BALANCE_SHEET,BSA170,2.2. Người mua trả tiền trước dài hạn,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1995
+BALANCE_SHEET,BSA171,2.3. Chi phí phải trả dài hạn,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1996
+BALANCE_SHEET,BSA172,2.4. Phải trả nội bộ về vốn kinh doanh,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1997
+BALANCE_SHEET,BSA69,2.5. Phải trả nội bộ dài hạn,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1998
+BALANCE_SHEET,BSA76,2.6. Doanh thu chưa thực hiên dài hạn,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,1999
+BALANCE_SHEET,BSA70,2.7. Phải trả dài hạn khác,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,2000
+BALANCE_SHEET,BSA71,2.8. Vay và nợ thuê tài chính dài hạn,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,2001
+BALANCE_SHEET,BSA173,2.9. Trái phiếu chuyển đổi,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,2002
+BALANCE_SHEET,BSA174,2.10. Cổ phiếu ưu đãi,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,2003
+BALANCE_SHEET,BSA72,2.11. Thuế thu nhập hoãn lại phải trả,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,2004
+BALANCE_SHEET,BSA73,2.12. Dự phòng trợ cấp thôi việc,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,2005
+BALANCE_SHEET,BSA74,2.13. Dự phòng phải trả dài hạn,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,2006
+BALANCE_SHEET,BSA77,2.14. Quỹ phát triển khoa học công nghệ,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,2007
+BALANCE_SHEET,BSA78,II. VỐN CHỦ SỞ HỮU,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,2008
+BALANCE_SHEET,BSA79,1. Vốn và các quỹ,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,2009
+BALANCE_SHEET,BSA80,1.1. Vốn góp của chủ sở hữu,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,2010
+BALANCE_SHEET,BSA175,1.1.1 Cổ phiếu phổ thông có quyền biểu quyết,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,2011
+BALANCE_SHEET,BSB120,1.1.2. Cổ phiếu ưu đãi,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,2012
+BALANCE_SHEET,BSA81,1.2. Thặng dư vốn cổ phần,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,2013
+BALANCE_SHEET,BSA176,1.3. Quyền chọn chuyển đổi trái phiếu,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,2014
+BALANCE_SHEET,BSA82,1.4. Vốn khác,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,2015
+BALANCE_SHEET,BSA83,1.5. Cổ phiếu quỹ,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,2016
+BALANCE_SHEET,BSA84,1.6. Chênh lệch đánh giá lại tài sản,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,2017
+BALANCE_SHEET,BSA85,1.7. Chênh lệch tỷ giá,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,2018
+BALANCE_SHEET,BSA86,1.8. Quỹ đầu tư và phát triển,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,2019
+BALANCE_SHEET,BSA91,1.9. Quỹ hỗ trợ sắp xếp doanh nghiệp,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,2020
+BALANCE_SHEET,BSA87,1.10. Quỹ dự phòng tài chính,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,2021
+BALANCE_SHEET,BSA89,1.11. Quỹ khác,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,2022
+BALANCE_SHEET,BSA90,1.12. Lãi chưa phân phối,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,2023
+BALANCE_SHEET,BSA177,1.12.1. LNST chưa phân phối lũy kế đến cuối kỳ trước,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,2024
+BALANCE_SHEET,BSA178,1.12.2. LNST chưa phân phối kỳ này,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,2025
+BALANCE_SHEET,BSA278,1.13. Nguồn vốn đầu tư XDCB,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,2026
+BALANCE_SHEET,BSA210,1.14. Lợi ích cổ đông không kiểm soát,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,2027
+BALANCE_SHEET,BSA92,2. Nguồn kinh phí và quỹ khác,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,2028
+BALANCE_SHEET,BSA93,"2.1. Quỹ khen thưởng, phúc lợi (trước 2010)",bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,2029
+BALANCE_SHEET,BSA94,2.2. Nguồn kinh phí,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,2030
+BALANCE_SHEET,BSA211,2.3. Nguồn kinh phí đã hình thành TSCĐ,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,2031
+BALANCE_SHEET,BSA95,III. LỢI ÍCH CỦA CỔ ĐÔNG KHÔNG KIỂM SOÁT (trước 2015),bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,2032
+BALANCE_SHEET,BSA96,B. TỔNG CỘNG NGUỒN VỐN,bang-can-doi-ke-toan-hop-nhat-nhom-doanh-nghiep-san-xuat,2033
+BALANCE_SHEET,BSA288,5. Đầu tư ngắn hạn khác,bang-can-doi-ke-toan-hop-nhat-tt99,2631
+BALANCE_SHEET,BSA289,6. Dự phòng tổn thất các khoản đầu tư ngắn hạn khác,bang-can-doi-ke-toan-hop-nhat-tt99,2632
+BALANCE_SHEET,BSA290,V. Tài sản sinh học ngắn hạn,bang-can-doi-ke-toan-hop-nhat-tt99,2633
+BALANCE_SHEET,BSA291,1. Súc vật nuôi lấy sản phẩm một lần ngắn hạn,bang-can-doi-ke-toan-hop-nhat-tt99,2634
+BALANCE_SHEET,BSA292,2. Cây trồng theo mùa vụ hoặc lấy sản phẩm một lần ngắn hạn,bang-can-doi-ke-toan-hop-nhat-tt99,2635
+BALANCE_SHEET,BSA293,3. Dự phòng tổn thất tài sản sinh học ngắn hạn,bang-can-doi-ke-toan-hop-nhat-tt99,2636
+BALANCE_SHEET,BSA294,III. Tài sản sinh học dài hạn,bang-can-doi-ke-toan-hop-nhat-tt99,2637
+BALANCE_SHEET,BSA295,1. Súc vật nuôi cho sản phẩm định kỳ,bang-can-doi-ke-toan-hop-nhat-tt99,2638
+BALANCE_SHEET,BSA296,1.1. Súc vật nuôi cho sản phẩm định kỳ chưa đến giai đoạn trưởng thành,bang-can-doi-ke-toan-hop-nhat-tt99,2639
+BALANCE_SHEET,BSA297,1.2. Súc vật nuôi cho sản phẩm định kỳ đến giai đoạn trưởng thành,bang-can-doi-ke-toan-hop-nhat-tt99,2640
+BALANCE_SHEET,BSA298,1.2.1. Nguyên giá,bang-can-doi-ke-toan-hop-nhat-tt99,2641
+BALANCE_SHEET,BSA299,1.2.2. Giá trị khấu hao luỹ kế,bang-can-doi-ke-toan-hop-nhat-tt99,2642
+BALANCE_SHEET,BSA300,2. Súc vật nuôi lấy sản phẩm một lần dài hạn,bang-can-doi-ke-toan-hop-nhat-tt99,2643
+BALANCE_SHEET,BSA301,3. Cây trồng theo mùa vụ hoặc lấy sản phẩm một lần dài hạn,bang-can-doi-ke-toan-hop-nhat-tt99,2644
+BALANCE_SHEET,BSA302,4. Dự phòng tổn thất tài sản sinh học dài hạn,bang-can-doi-ke-toan-hop-nhat-tt99,2645
+BALANCE_SHEET,BSA303,6. Dự phòng đầu tư nắm giữ đến ngày đáo hạn dài hạn,bang-can-doi-ke-toan-hop-nhat-tt99,2646
+BALANCE_SHEET,BSA304,3. Thuế và các khoản phải nộp Nhà nước dài hạn,bang-can-doi-ke-toan-hop-nhat-tt99,2647
+BALANCE_SHEET,BSA305,2.4. Dự phòng đầu tư nắm giữ đến ngày đáo hạn ngắn hạn,bang-can-doi-ke-toan-hop-nhat-tt99,2648
+CASH_FLOW,CFA39,"1.Tiền thu từ bán hàng, Cung cấp dịch vụ và DT khác (Trực tiếp)",bao-cao-luu-chuyen-tien-te-hop-nhat-nhom-doanh-nghiep-san-xuat,2093
+CASH_FLOW,CFA40,2.Tiền chi trả cho người cung cấp HH và dịch vụ (Trực tiếp),bao-cao-luu-chuyen-tien-te-hop-nhat-nhom-doanh-nghiep-san-xuat,2094
+CASH_FLOW,CFA103,3.Phân bổ lợi thế thương mại,bao-cao-luu-chuyen-tien-te-hop-nhat-nhom-doanh-nghiep-san-xuat,2095
+CASH_FLOW,CFA41,4.Tiền chi trả cho người lao động (Trực tiếp),bao-cao-luu-chuyen-tien-te-hop-nhat-nhom-doanh-nghiep-san-xuat,2096
+CASH_FLOW,CFA42,5.Tiền chi trả lãi vay (Trực tiếp),bao-cao-luu-chuyen-tien-te-hop-nhat-nhom-doanh-nghiep-san-xuat,2097
+CASH_FLOW,CFA43,6.Tiền chi nộp thuế thu nhập doanh nghiệp (Trực tiếp),bao-cao-luu-chuyen-tien-te-hop-nhat-nhom-doanh-nghiep-san-xuat,2098
+CASH_FLOW,CFA44,7.Tiền thu từ hoạt động kinh doanh (Trực tiếp),bao-cao-luu-chuyen-tien-te-hop-nhat-nhom-doanh-nghiep-san-xuat,2099
+CASH_FLOW,CFA45,8.Tiền chi khác cho hoạt động kinh doanh (Trực tiếp),bao-cao-luu-chuyen-tien-te-hop-nhat-nhom-doanh-nghiep-san-xuat,2100
+CASH_FLOW,CFA1,9.Lãi trước thuế,bao-cao-luu-chuyen-tien-te-hop-nhat-nhom-doanh-nghiep-san-xuat,2101
+CASH_FLOW,CFA2,10.Khấu hao TSCĐ,bao-cao-luu-chuyen-tien-te-hop-nhat-nhom-doanh-nghiep-san-xuat,2102
+CASH_FLOW,CFA3,11.Chi phí dự phòng,bao-cao-luu-chuyen-tien-te-hop-nhat-nhom-doanh-nghiep-san-xuat,2103
+CASH_FLOW,CFA104,12.Các khoản điều chỉnh khác,bao-cao-luu-chuyen-tien-te-hop-nhat-nhom-doanh-nghiep-san-xuat,2104
+CASH_FLOW,CFA4,13.Lãi/lỗ chênh lệch tỷ giá chưa thực hiện,bao-cao-luu-chuyen-tien-te-hop-nhat-nhom-doanh-nghiep-san-xuat,2105
+CASH_FLOW,CFA5,14.Lãi/lỗ từ thanh lý tài sản cố định,bao-cao-luu-chuyen-tien-te-hop-nhat-nhom-doanh-nghiep-san-xuat,2106
+CASH_FLOW,CFA6,15.Lãi/lỗ từ hoạt động đầu tư,bao-cao-luu-chuyen-tien-te-hop-nhat-nhom-doanh-nghiep-san-xuat,2107
+CASH_FLOW,CFA7,16.Chi phí lãi vay,bao-cao-luu-chuyen-tien-te-hop-nhat-nhom-doanh-nghiep-san-xuat,2108
+CASH_FLOW,CFA8,17.Thu lãi và cổ tức,bao-cao-luu-chuyen-tien-te-hop-nhat-nhom-doanh-nghiep-san-xuat,2109
+CASH_FLOW,CFA9,18.Lãi/lỗ trước những thay đổi vốn lưu động,bao-cao-luu-chuyen-tien-te-hop-nhat-nhom-doanh-nghiep-san-xuat,2110
+CASH_FLOW,CFA105,19.(Tăng)/giảm chứng khoán kinh doanh,bao-cao-luu-chuyen-tien-te-hop-nhat-nhom-doanh-nghiep-san-xuat,2111
+CASH_FLOW,CFA10,20.Tăng/giảm các khoản phải thu,bao-cao-luu-chuyen-tien-te-hop-nhat-nhom-doanh-nghiep-san-xuat,2112
+CASH_FLOW,CFA11,21.Tăng/giảm hàng tồn kho,bao-cao-luu-chuyen-tien-te-hop-nhat-nhom-doanh-nghiep-san-xuat,2113
+CASH_FLOW,CFA12,22.Tăng/giảm các khoản phải trả,bao-cao-luu-chuyen-tien-te-hop-nhat-nhom-doanh-nghiep-san-xuat,2114
+CASH_FLOW,CFA13,23.Tăng/giảm chi phí trả trước,bao-cao-luu-chuyen-tien-te-hop-nhat-nhom-doanh-nghiep-san-xuat,2115
+CASH_FLOW,CFA14,24.Chi phí lãi vay đã trả,bao-cao-luu-chuyen-tien-te-hop-nhat-nhom-doanh-nghiep-san-xuat,2116
+CASH_FLOW,CFA15,25.Thuế thu nhập doanh nghiệp đã trả,bao-cao-luu-chuyen-tien-te-hop-nhat-nhom-doanh-nghiep-san-xuat,2117
+CASH_FLOW,CFA16,26.Tiền thu khác từ các hoạt động kinh doanh,bao-cao-luu-chuyen-tien-te-hop-nhat-nhom-doanh-nghiep-san-xuat,2118
+CASH_FLOW,CFA17,27.Tiền chi khác từ các hoạt động kinh doanh,bao-cao-luu-chuyen-tien-te-hop-nhat-nhom-doanh-nghiep-san-xuat,2119
+CASH_FLOW,CFA18,28.Lưu chuyển tiền tệ ròng từ các hoạt động sản xuất kinh doanh,bao-cao-luu-chuyen-tien-te-hop-nhat-nhom-doanh-nghiep-san-xuat,2120
+CASH_FLOW,CFA19,30.Tiền mua tài sản cố định và các tài sản dài hạn khác,bao-cao-luu-chuyen-tien-te-hop-nhat-nhom-doanh-nghiep-san-xuat,2121
+CASH_FLOW,CFA20,31.Tiền thu được từ thanh lý tài sản cố định,bao-cao-luu-chuyen-tien-te-hop-nhat-nhom-doanh-nghiep-san-xuat,2122
+CASH_FLOW,CFA21,32.Tiền cho vay hoặc mua công cụ nợ,bao-cao-luu-chuyen-tien-te-hop-nhat-nhom-doanh-nghiep-san-xuat,2123
+CASH_FLOW,CFA22,33.Tiền thu từ cho vay hoặc thu từ phát hành công cụ nợ,bao-cao-luu-chuyen-tien-te-hop-nhat-nhom-doanh-nghiep-san-xuat,2124
+CASH_FLOW,CFA23,34.Đầu tư vào các doanh nghiệp khác,bao-cao-luu-chuyen-tien-te-hop-nhat-nhom-doanh-nghiep-san-xuat,2125
+CASH_FLOW,CFA24,35.Tiền thu từ việc bán các khoản đầu tư vào các doanh nghiệp khác,bao-cao-luu-chuyen-tien-te-hop-nhat-nhom-doanh-nghiep-san-xuat,2126
+CASH_FLOW,CFA25,36.Cổ tức và tiền lãi nhận được,bao-cao-luu-chuyen-tien-te-hop-nhat-nhom-doanh-nghiep-san-xuat,2127
+CASH_FLOW,CFA26,37.Lưu chuyển tiền tệ ròng từ hoạt động đầu tư,bao-cao-luu-chuyen-tien-te-hop-nhat-nhom-doanh-nghiep-san-xuat,2128
+CASH_FLOW,CFA27,38.Tiền thu từ phát hành cổ phiếu và vốn góp,bao-cao-luu-chuyen-tien-te-hop-nhat-nhom-doanh-nghiep-san-xuat,2129
+CASH_FLOW,CFA28,"39.Chi trả cho việc mua lại, trả lại cổ phiếu",bao-cao-luu-chuyen-tien-te-hop-nhat-nhom-doanh-nghiep-san-xuat,2130
+CASH_FLOW,CFA29,40.Tiền thu được các khoản đi vay,bao-cao-luu-chuyen-tien-te-hop-nhat-nhom-doanh-nghiep-san-xuat,2131
+CASH_FLOW,CFA30,41.Tiển trả các khoản đi vay,bao-cao-luu-chuyen-tien-te-hop-nhat-nhom-doanh-nghiep-san-xuat,2132
+CASH_FLOW,CFA31,42.Tiền thanh toán vốn gốc đi thuê tài chính,bao-cao-luu-chuyen-tien-te-hop-nhat-nhom-doanh-nghiep-san-xuat,2133
+CASH_FLOW,CFA32,43.Cổ tức đã trả,bao-cao-luu-chuyen-tien-te-hop-nhat-nhom-doanh-nghiep-san-xuat,2134
+CASH_FLOW,CFA33,44.Tiền lãi đã nhận,bao-cao-luu-chuyen-tien-te-hop-nhat-nhom-doanh-nghiep-san-xuat,2135
+CASH_FLOW,CFA34,45.Lưu chuyển tiền tệ từ hoạt động tài chính,bao-cao-luu-chuyen-tien-te-hop-nhat-nhom-doanh-nghiep-san-xuat,2136
+CASH_FLOW,CFA35,46.Lưu chuyển tiền thuần trong kỳ,bao-cao-luu-chuyen-tien-te-hop-nhat-nhom-doanh-nghiep-san-xuat,2137
+CASH_FLOW,CFA36,47.Tiền và tương đương tiền đầu kỳ,bao-cao-luu-chuyen-tien-te-hop-nhat-nhom-doanh-nghiep-san-xuat,2138
+CASH_FLOW,CFA37,48.Ảnh hưởng của chênh lệch tỷ giá,bao-cao-luu-chuyen-tien-te-hop-nhat-nhom-doanh-nghiep-san-xuat,2139
+CASH_FLOW,CFA38,49.Tiền và tương đương tiền cuối kỳ,bao-cao-luu-chuyen-tien-te-hop-nhat-nhom-doanh-nghiep-san-xuat,2140
+STX_FSC_NOTECOMPANY,NOC15,Hàng tồn kho,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2172
+STX_FSC_NOTECOMPANY,NOC16,Hàng mua đang đi đường,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2173
+STX_FSC_NOTECOMPANY,NOC17,"Nguyên liệu, vật liệu",thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2174
+STX_FSC_NOTECOMPANY,NOC18,"Công cụ, dụng cụ",thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2175
+STX_FSC_NOTECOMPANY,NOC19,"Chi phí SX, KD dở dang",thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2176
+STX_FSC_NOTECOMPANY,NOC20,Thành phẩm,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2177
+STX_FSC_NOTECOMPANY,NOC21,Hàng hóa,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2178
+STX_FSC_NOTECOMPANY,NOC22,Hàng gửi đi bán,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2179
+STX_FSC_NOTECOMPANY,NOC35,Nguyên giá TSCĐHH,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2192
+STX_FSC_NOTECOMPANY,NOC36,Nguyên giá đầu kỳ,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2193
+STX_FSC_NOTECOMPANY,NOC37,Tăng trong kỳ,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2194
+STX_FSC_NOTECOMPANY,NOC38,Giảm trong kỳ,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2195
+STX_FSC_NOTECOMPANY,NOC39,Hao mòn TSCĐHH,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2196
+STX_FSC_NOTECOMPANY,NOC40,Đầu kỳ,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2197
+STX_FSC_NOTECOMPANY,NOC41,Tăng trong kỳ,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2198
+STX_FSC_NOTECOMPANY,NOC42,Giảm trong kỳ,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2199
+STX_FSC_NOTECOMPANY,NOC43,Nguyên giá TSCĐ TTC,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2200
+STX_FSC_NOTECOMPANY,NOC44,Nguyên giá đầu kỳ,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2201
+STX_FSC_NOTECOMPANY,NOC45,Tăng trong kỳ,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2202
+STX_FSC_NOTECOMPANY,NOC46,Giảm trong kỳ,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2203
+STX_FSC_NOTECOMPANY,NOC47,Hao mòn TSCĐ TTC,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2204
+STX_FSC_NOTECOMPANY,NOC48,Đầu kỳ,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2205
+STX_FSC_NOTECOMPANY,NOC49,Tăng trong kỳ,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2206
+STX_FSC_NOTECOMPANY,NOC50,Giảm trong kỳ,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2207
+STX_FSC_NOTECOMPANY,NOC51,Nguyên giá TSCĐVH,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2208
+STX_FSC_NOTECOMPANY,NOC52,Nguyên giá đầu kỳ,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2209
+STX_FSC_NOTECOMPANY,NOC53,Tăng trong kỳ,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2210
+STX_FSC_NOTECOMPANY,NOC54,Giảm trong kỳ,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2211
+STX_FSC_NOTECOMPANY,NOC55,Hao mòn TSCĐVH,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2212
+STX_FSC_NOTECOMPANY,NOC56,Đầu kỳ,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2213
+STX_FSC_NOTECOMPANY,NOC57,Tăng trong kỳ,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2214
+STX_FSC_NOTECOMPANY,NOC58,Giảm trong kỳ,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2215
+STX_FSC_NOTECOMPANY,NOC65,Vay và nợ NH,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2222
+STX_FSC_NOTECOMPANY,NOC66,Vay ngắn hạn,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2223
+STX_FSC_NOTECOMPANY,NOC67,Vay dài hạn đến hạn trả,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2224
+STX_FSC_NOTECOMPANY,NOC93,Vay Dài hạn,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2250
+STX_FSC_NOTECOMPANY,NOC94,Vay ngân hàng,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2251
+STX_FSC_NOTECOMPANY,NOC95,Vay đối tượng khác,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2252
+STX_FSC_NOTECOMPANY,NOC102,Doanh thu,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2259
+STX_FSC_NOTECOMPANY,NOC103,Doanh thu bán hàng,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2260
+STX_FSC_NOTECOMPANY,NOC104,Doanh thu cung cấp dịch vụ,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2261
+STX_FSC_NOTECOMPANY,NOC105,Doanh thu hợp đồng xây dựng,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2262
+STX_FSC_NOTECOMPANY,NOC106,Giảm trừ doanh thu,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2263
+STX_FSC_NOTECOMPANY,NOC107,Chiết khấu thương mại,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2264
+STX_FSC_NOTECOMPANY,NOC108,Giảm giá hàng bán,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2265
+STX_FSC_NOTECOMPANY,NOC109,Hàng bán bị trả lại,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2266
+STX_FSC_NOTECOMPANY,NOC110,Thuế GTGT phải nộp,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2267
+STX_FSC_NOTECOMPANY,NOC111,Thuế tiêu thụ đặc biệt,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2268
+STX_FSC_NOTECOMPANY,NOC112,Thuế xuất khẩu,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2269
+STX_FSC_NOTECOMPANY,NOC113,Giá vốn,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2270
+STX_FSC_NOTECOMPANY,NOC114,Giá vốn hàng hóa đã bán,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2271
+STX_FSC_NOTECOMPANY,NOC115,Giá vốn thành phẩm đã bán,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2272
+STX_FSC_NOTECOMPANY,NOC116,Giá vốn của dịch vụ cung cấp,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2273
+STX_FSC_NOTECOMPANY,NOC132,Lãi tiền vay,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2289
+STX_FSC_NOTECOMPANY,NOC140,Chi phí sản xuất theo yếu tố,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2297
+STX_FSC_NOTECOMPANY,NOC141,"Chi phí nguyên liệu, vật liệu",thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2298
+STX_FSC_NOTECOMPANY,NOC142,Chi phí nhân công,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2299
+STX_FSC_NOTECOMPANY,NOC143,Chi phí khấu hao tài sản cố định,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2300
+STX_FSC_NOTECOMPANY,NOC144,Chi phí dịch vụ mua ngoài,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2301
+STX_FSC_NOTECOMPANY,NOC145,Chi phí khác bằng tiền,thuyet-minh-bctc-hop-nhat-nhom-doanh-nghiep-san-xuat,2302

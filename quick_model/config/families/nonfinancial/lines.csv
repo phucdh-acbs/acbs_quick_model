@@ -1,0 +1,56 @@
+line_id,statement,label_vn,block,source_code,unit,formula_vn,assumptions
+net_revenue,IS,Doanh thu thuần,revenue,ISA3,VND,,
+cogs,IS,Giá vốn hàng bán,cogs,ISA4,VND,,
+gross_profit,IS,Lợi nhuận gộp,cogs,ISA5,VND,Doanh thu + giá vốn,
+financial_income,IS,Doanh thu hoạt động tài chính,non_operating,ISA6,VND,"Mức doanh thu tài chính theo năm × ngày / 365",financial_income_run_rate
+financial_expense,IS,Chi phí tài chính,non_operating,ISA7,VND,Lãi vay + chi phí tài chính khác,
+interest_expense,IS,Trong đó: chi phí lãi vay,debt,ISA8,VND,,
+other_financial_expense,IS,Chi phí tài chính khác,non_operating,,VND,−Tỷ lệ × doanh thu,other_financial_expense_ratio
+jv_associates,IS,Lãi/lỗ liên doanh liên kết,non_operating,ISA102,VND,Mức LDLK theo năm × ngày/365 (v2.6),jv_associates_run_rate
+selling_expense,IS,Chi phí bán hàng,sga,ISA9,VND,,
+admin_expense,IS,Chi phí quản lý doanh nghiệp,sga,ISA10,VND,,
+operating_profit,IS,Lợi nhuận thuần từ HĐKD,,ISA11,VND,Lãi gộp + DT tài chính + CP tài chính + liên doanh + CPBH + CPQL,
+other_profit,IS,Lợi nhuận khác,non_operating,ISA14,VND,Số khai báo,other_profit
+pbt,IS,Lợi nhuận trước thuế,,ISA16,VND,LN thuần HĐKD + LN khác,
+income_tax,IS,Chi phí thuế TNDN,tax_equity,ISA19,VND,"−Thuế suất × LNTT nếu LNTT > 0, ngược lại 0",effective_tax_rate
+npat,IS,Lợi nhuận sau thuế,,ISA20,VND,LNTT + thuế,
+npat_minority,IS,LNST cổ đông không kiểm soát,tax_equity,ISA21,VND,Tỷ lệ × LNST,minority_share
+npat_parent,IS,LNST cổ đông công ty mẹ,,ISA22,VND,LNST − cổ đông thiểu số,
+cf_pbt,CF,Lợi nhuận trước thuế,,CFA1,VND,= LNTT,
+cf_depreciation,CF,Khấu hao,ppe,CFA2,VND,= khấu hao block TSCĐ,
+cf_chg_receivables,CF,(Tăng)/giảm phải thu,working_capital,CFA10,VND,−Δ (phải thu KH + trả trước người bán),
+cf_chg_inventories,CF,(Tăng)/giảm hàng tồn kho,working_capital,CFA11,VND,−Δ tồn kho,
+cf_chg_payables,CF,Tăng/(giảm) phải trả,working_capital,CFA12,VND,+Δ (phải trả người bán + người mua trả trước),
+cf_tax_paid,CF,Thuế TNDN đã nộp,tax_equity,CFA15,VND,= chi phí thuế (nộp trong kỳ),
+cf_other_operating,CF,Tiền chi khác cho HĐKD,tax_equity,CFA17,VND,−Chi quỹ khen thưởng phúc lợi,welfare_fund_usage
+cfo,CF,Lưu chuyển tiền từ HĐKD,,CFA18,VND,Tổng các dòng trên,
+capex,CF,Tiền mua sắm TSCĐ,ppe,CFA19,VND,,
+cfi,CF,Lưu chuyển tiền từ HĐ đầu tư,,CFA26,VND,= capex,
+share_issue,CF,Tiền thu phát hành cổ phiếu,tax_equity,CFA27,VND,Số khai báo,share_issue_proceeds
+borrowings_drawn,CF,Tiền thu từ đi vay,debt,CFA29,VND,,
+borrowings_repaid,CF,Tiền trả nợ gốc vay,debt,CFA30,VND,,
+dividends_paid,CF,Cổ tức đã trả,tax_equity,CFA32,VND,,
+cff,CF,Lưu chuyển tiền từ HĐ tài chính,,CFA34,VND,Phát hành + vay − trả nợ + cổ tức,
+net_cash_flow,CF,Lưu chuyển tiền thuần,,CFA35,VND,CFO + CFI + CFF,
+cash_open,CF,Tiền đầu kỳ,,CFA36,VND,= tiền cuối kỳ trước,
+fx_effect,CF,Ảnh hưởng tỷ giá,,CFA37,VND,Không dự phóng (0),
+cash_close,CF,Tiền cuối kỳ,,CFA38,VND,Tiền đầu kỳ + lưu chuyển thuần,
+depreciation,SCH,Khấu hao trong kỳ,ppe,,VND,,
+ppe_and_cip,SCH,TSCĐ + dở dang dài hạn,ppe,,VND,TSCĐ + dở dang dài hạn,
+cip_transfer,SCH,Chuyển dở dang sang TSCĐ,ppe,,VND,,
+gross_cost,SCH,Nguyên giá TSCĐ (theo dõi L2),ppe,,VND,,
+purchases,SCH,Mua hàng ước tính,working_capital,,VND,,
+welfare_appropriation,SCH,Trích quỹ khen thưởng phúc lợi,tax_equity,,VND,,
+retained_earnings_available,SCH,LNST chưa phân phối khả dụng (ghi nhớ),tax_equity,,VND,LNST chưa phân phối đầu kỳ (BSA90) + LNST công ty mẹ − trích quỹ,
+pre_financing_cash,SCH,Tiền trước tài trợ,,,VND,Tiền đầu kỳ + CFO + CFI,
+funding_gap,SCH,Thiếu hụt vốn (funding gap),debt,,VND,"max(0, tiền tối thiểu − tiền cuối kỳ)",min_cash
+min_cash_level,SCH,Tiền tối thiểu,debt,,VND,Tiền tối thiểu của kỳ,
+auto_draw,SCH,Vay tự động trong kỳ (cân nguồn L1),debt,,VND,Không dùng (0),
+auto_repay,SCH,Trả vay tự động trong kỳ (cân nguồn L1),debt,,VND,Không dùng (0),
+auto_outstanding,SCH,Dư nợ vay tự động lũy kế,debt,,VND,Không dùng (0),
+debt_cap,SCH,Trần tổng nợ vay,debt,,VND,Không áp trần,
+total_debt,SCH,Tổng nợ vay,debt,,VND,Vay ngắn hạn + dài hạn,
+lt_borrowing_draw,SCH,Giải ngân vay dài hạn,debt,,VND,,
+total_assets,BS,Tổng cộng tài sản,,BSA53,VND,Tổng các dòng tài sản,
+total_resources,BS,Tổng cộng nguồn vốn,,BSA96,VND,Tổng nợ + vốn chủ,
+balance_residual,CHK,Chênh lệch cân đối,,,VND,Tài sản − nguồn vốn (phải bằng 0),

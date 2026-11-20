@@ -1,0 +1,345 @@
+﻿bq_table,code,desc_vn,mapping_source,mapping_row
+INCOME_STATEMENT,ISB25,1.1. Thu nhập lãi và các khoản thu nhập tương tự,bao-cao-ket-qua-kinh-doanh-hop-nhat-nhom-ngan-hang,3727
+INCOME_STATEMENT,ISB26,1.2. Chi phí lãi và các chi phí tương tự,bao-cao-ket-qua-kinh-doanh-hop-nhat-nhom-ngan-hang,3728
+INCOME_STATEMENT,ISB27,1. Thu nhập lãi thuần,bao-cao-ket-qua-kinh-doanh-hop-nhat-nhom-ngan-hang,3729
+INCOME_STATEMENT,ISB28,2.1. Thu nhập từ hoạt động dịch vụ,bao-cao-ket-qua-kinh-doanh-hop-nhat-nhom-ngan-hang,3730
+INCOME_STATEMENT,ISB29,2.2. Chi phí hoạt động dịch vụ,bao-cao-ket-qua-kinh-doanh-hop-nhat-nhom-ngan-hang,3731
+INCOME_STATEMENT,ISB30,2. Lãi thuần từ hoạt động dịch vụ,bao-cao-ket-qua-kinh-doanh-hop-nhat-nhom-ngan-hang,3732
+INCOME_STATEMENT,ISB31,3. Lãi/lỗ thuần từ hoạt động kinh doanh ngoại hối và vàng,bao-cao-ket-qua-kinh-doanh-hop-nhat-nhom-ngan-hang,3733
+INCOME_STATEMENT,ISB32,4. Lãi/lỗ thuần từ mua bán chứng khoán kinh doanh,bao-cao-ket-qua-kinh-doanh-hop-nhat-nhom-ngan-hang,3734
+INCOME_STATEMENT,ISB33,5. Lãi/lỗ thuần từ mua bán chứng khoán đầu tư,bao-cao-ket-qua-kinh-doanh-hop-nhat-nhom-ngan-hang,3735
+INCOME_STATEMENT,ISB34,6.1. Thu nhập từ hoạt động khác,bao-cao-ket-qua-kinh-doanh-hop-nhat-nhom-ngan-hang,3736
+INCOME_STATEMENT,ISB35,6.2. Chi phí hoạt động khác,bao-cao-ket-qua-kinh-doanh-hop-nhat-nhom-ngan-hang,3737
+INCOME_STATEMENT,ISB36,6. Lãi/lỗ thuần từ hoạt động khác,bao-cao-ket-qua-kinh-doanh-hop-nhat-nhom-ngan-hang,3738
+INCOME_STATEMENT,ISB37,"7. Thu nhập từ góp vốn, mua cổ phần",bao-cao-ket-qua-kinh-doanh-hop-nhat-nhom-ngan-hang,3739
+INCOME_STATEMENT,ISB38,8. Tổng thu nhập hoạt động,bao-cao-ket-qua-kinh-doanh-hop-nhat-nhom-ngan-hang,3740
+INCOME_STATEMENT,ISB39,9. Chi phí hoạt động,bao-cao-ket-qua-kinh-doanh-hop-nhat-nhom-ngan-hang,3741
+INCOME_STATEMENT,ISB40,10. LN thuần từ hoạt động kinh doanh trước CP dự phòng rủi ro tín dụng,bao-cao-ket-qua-kinh-doanh-hop-nhat-nhom-ngan-hang,3742
+INCOME_STATEMENT,ISB41,11. Chi phí dự phòng rủi ro tín dụng,bao-cao-ket-qua-kinh-doanh-hop-nhat-nhom-ngan-hang,3743
+INCOME_STATEMENT,ISA16,12. Tổng lợi nhuận trước thuế,bao-cao-ket-qua-kinh-doanh-hop-nhat-nhom-ngan-hang,3744
+INCOME_STATEMENT,ISA19,13. Chi phí thuế thu nhập doanh nghiệp,bao-cao-ket-qua-kinh-doanh-hop-nhat-nhom-ngan-hang,3745
+INCOME_STATEMENT,ISA17,13.1. Chi phí thuế TNDN hiện hành,bao-cao-ket-qua-kinh-doanh-hop-nhat-nhom-ngan-hang,3746
+INCOME_STATEMENT,ISA18,13.2. Chi phí thuế TNDN hoãn lại,bao-cao-ket-qua-kinh-doanh-hop-nhat-nhom-ngan-hang,3747
+INCOME_STATEMENT,ISA20,14. Lợi nhuận sau thuế,bao-cao-ket-qua-kinh-doanh-hop-nhat-nhom-ngan-hang,3748
+INCOME_STATEMENT,ISA21,15. Lợi ích của cổ đông thiểu số,bao-cao-ket-qua-kinh-doanh-hop-nhat-nhom-ngan-hang,3749
+INCOME_STATEMENT,ISA22,16. Cổ đông của Công ty mẹ,bao-cao-ket-qua-kinh-doanh-hop-nhat-nhom-ngan-hang,3750
+INCOME_STATEMENT,ISA23,17. Lãi cơ bản trên cổ phiếu,bao-cao-ket-qua-kinh-doanh-hop-nhat-nhom-ngan-hang,3751
+BALANCE_SHEET,BSA53,A. TỔNG CỘNG TÀI SẢN,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3610
+BALANCE_SHEET,BSA2,"1. Tiền mặt, vàng bạc, đá quý",bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3611
+BALANCE_SHEET,BSB97,2. Tiền gửi tại ngân hàng nhà nước Việt Nam,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3612
+BALANCE_SHEET,BSB98,3. Tiền gửi tại các TCTD khác và cho vay các TCTD khác,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3613
+BALANCE_SHEET,BSB258,3.1. Tiền gửi tại các TCTD khác,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3614
+BALANCE_SHEET,BSB259,3.2. Cho vay các TCTD khác,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3615
+BALANCE_SHEET,BSB260,3.3. Dự phòng rủi ro,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3616
+BALANCE_SHEET,BSB99,4. Chứng khoán kinh doanh,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3617
+BALANCE_SHEET,BSB100,4.1. Chứng khoán kinh doanh,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3618
+BALANCE_SHEET,BSB101,4.2. Dự phòng giảm giá chứng khoán kinh doanh,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3619
+BALANCE_SHEET,BSB102,5. Các công cụ tài chính phái sinh và các tài sản tài chính khác,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3620
+BALANCE_SHEET,BSB103,6. Cho vay khách hàng,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3621
+BALANCE_SHEET,BSB104,6.1. Cho vay khách hàng,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3622
+BALANCE_SHEET,BSB105,6.2. Dự phòng rủi ro cho vay khách hàng,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3623
+BALANCE_SHEET,BSB261,7. Hoạt động mua nợ,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3624
+BALANCE_SHEET,BSB262,7.1. Mua nợ,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3625
+BALANCE_SHEET,BSB263,7.2. Dự phòng rủi ro hoạt động mua nợ,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3626
+BALANCE_SHEET,BSB106,8. Chứng khoán đầu tư,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3627
+BALANCE_SHEET,BSB107,8.1. Chứng khoán đầu tư sẵn sàng để bán,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3628
+BALANCE_SHEET,BSB108,8.2. Chứng khoán đầu tư giữ đến ngày đáo hạn,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3629
+BALANCE_SHEET,BSB109,8.3. Dự phòng giảm giá chứng khoán đầu tư,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3630
+BALANCE_SHEET,BSA43,"9. Góp vốn, đầu tư dài hạn",bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3631
+BALANCE_SHEET,BSA44,9.1. Đầu tư vào công ty con,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3632
+BALANCE_SHEET,BSA45,"9.2. Đầu tư vào công ty liên doanh, liên kết",bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3633
+BALANCE_SHEET,BSA276,9.2.1. Vốn Góp liên doanh,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3634
+BALANCE_SHEET,BSA277,9.2.2. Đầu tư vào công ty liên kết,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3635
+BALANCE_SHEET,BSA46,9.3. Đầu tư dài hạn khác,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3636
+BALANCE_SHEET,BSA47,9.4. Dự phòng giảm giá đầu tư dài hạn,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3637
+BALANCE_SHEET,BSA29,10. Tài sản cố định,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3638
+BALANCE_SHEET,BSA30,10.1. Tài sản cố định hữu hình,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3639
+BALANCE_SHEET,BSA31,10.1.1. Nguyên giá TSCĐHH,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3640
+BALANCE_SHEET,BSA32,10.1.2. Hao mòn TSCĐHH,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3641
+BALANCE_SHEET,BSA33,10.2. Tài sản cố định thuê tài chính,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3642
+BALANCE_SHEET,BSA34,10.2.1. Nguyên giá TSCĐTTC,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3643
+BALANCE_SHEET,BSA35,10.2.2. Hao mòn TSCĐTTC,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3644
+BALANCE_SHEET,BSA36,10.3. Tài sản cố định vô hình,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3645
+BALANCE_SHEET,BSA37,10.3.1. Nguyên giá TSCĐVH,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3646
+BALANCE_SHEET,BSA38,10.3.2. Hao mòn TSCĐVH,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3647
+BALANCE_SHEET,BSA40,11. Bất động sản đầu tư,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3648
+BALANCE_SHEET,BSA41,11.1. Nguyên giá bất động sản đầu tư,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3649
+BALANCE_SHEET,BSA42,11.2. Hao mòn bất động sản đầu tư,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3650
+BALANCE_SHEET,BSB110,12. Tài sản Có khác,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3651
+BALANCE_SHEET,BSB264,12.1. Các khoản phải thu,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3652
+BALANCE_SHEET,BSB265,12.2. Các khoản lãi và phí phải thu,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3653
+BALANCE_SHEET,BSB266,12.3. Tài sản thuế TNDN hoãn lại,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3654
+BALANCE_SHEET,BSB267,12.4. Tài sản Có khác,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3655
+BALANCE_SHEET,BSB268,12.4.1. Trong đó: Lợi thế thương mại,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3656
+BALANCE_SHEET,BSB269,12.5. Dự phòng rủi ro cho các tài sản Có nội bảng khác,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3657
+BALANCE_SHEET,BSA96,B. NỢ PHẢI TRẢ VÀ VỐN CHỦ SỞ HỮU,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3658
+BALANCE_SHEET,BSA54,I. TỔNG NỢ PHẢI TRẢ,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3659
+BALANCE_SHEET,BSB111,1. Các khoản nợ chính phủ và NHNN Việt Nam,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3660
+BALANCE_SHEET,BSB112,2. Tiền gửi và vay các Tổ chức tín dụng khác,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3661
+BALANCE_SHEET,BSB270,2.1. Tiền gửi của các tổ chức tín dụng khác,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3662
+BALANCE_SHEET,BSB271,2.2. Vay các tổ chức tín dụng khác,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3663
+BALANCE_SHEET,BSB113,3. Tiền gửi của khách hàng,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3664
+BALANCE_SHEET,BSB114,4. Các công cụ tài chính phái sinh và các khoản nợ tài chính khác,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3665
+BALANCE_SHEET,BSB115,"5. Vốn tài trợ, uỷ thác đầu tư của Chính phủ và các tổ chức tín dụng khác",bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3666
+BALANCE_SHEET,BSB116,6. Phát hành giấy tờ có giá,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3667
+BALANCE_SHEET,BSB117,7. Các khoản nợ khác,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3668
+BALANCE_SHEET,BSB272,"7.1. Các khoản lãi, phí phải trả",bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3669
+BALANCE_SHEET,BSB273,7.2. Thuế TNDN hoãn lại phải trả,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3670
+BALANCE_SHEET,BSB274,7.3. Các khoản phải trả và công nợ khác,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3671
+BALANCE_SHEET,BSB275,7.4. Dự phòng rủi ro khác,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3672
+BALANCE_SHEET,BSA78,II. VỐN CHỦ SỞ HỮU,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3673
+BALANCE_SHEET,BSB118,1. Vốn của tổ chức tín dụng,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3674
+BALANCE_SHEET,BSA80,1.1. Vốn điều lệ,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3675
+BALANCE_SHEET,BSB119,1.2. Vốn đầu tư XDCB,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3676
+BALANCE_SHEET,BSA81,1.3. Thặng dư vốn cổ phần,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3677
+BALANCE_SHEET,BSA83,1.4. Cổ phiếu Quỹ,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3678
+BALANCE_SHEET,BSB120,1.5. Cổ phiếu ưu đãi,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3679
+BALANCE_SHEET,BSA82,1.6. Vốn khác,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3680
+BALANCE_SHEET,BSB121,2. Quỹ của tổ chức tín dụng,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3681
+BALANCE_SHEET,BSA85,3. Chênh lệch tỷ giá hối đoái,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3682
+BALANCE_SHEET,BSA84,4. Chênh lệch đánh giá lại tài sản,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3683
+BALANCE_SHEET,BSA90,5. Lợi nhuận chưa phân phối/Lỗ lũy kế,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3684
+BALANCE_SHEET,BSA177,5.1. LN để lại năm trước,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3685
+BALANCE_SHEET,BSA178,5.2. LN năm nay,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3686
+BALANCE_SHEET,BSA210,6. Lợi ích của cổ đông không kiểm soát,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3687
+BALANCE_SHEET,BSA95,III. LỢI ÍCH CỦA CỔ ĐÔNG KHÔNG KIỂM SOÁT (trước 2015),bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3688
+BALANCE_SHEET,BSB157,C. NỢ TIỀM TÀNG,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3689
+BALANCE_SHEET,BSB122,I. Thư tín dụng,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3690
+BALANCE_SHEET,BSB123,1. Thư tín dụng trả ngay,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3691
+BALANCE_SHEET,BSB124,2. Thư tín dụng trả chậm,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3692
+BALANCE_SHEET,BSB125,3. Khác,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3693
+BALANCE_SHEET,BSB126,II. Bảo lãnh tín dụng,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3694
+BALANCE_SHEET,BSB158,1. Bảo lãnh vay vốn,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3695
+BALANCE_SHEET,BSB127,2. Bảo lãnh thanh toán,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3696
+BALANCE_SHEET,BSB128,3. Bảo lãnh thực hiện hợp đồng,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3697
+BALANCE_SHEET,BSB129,4. Bảo lãnh dự thầu,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3698
+BALANCE_SHEET,BSB130,5. Bảo lãnh xuất khẩu,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3699
+BALANCE_SHEET,BSB131,6. Khác,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3700
+BALANCE_SHEET,BSB132,D. CAM KẾT TÍN DỤNG,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3701
+BALANCE_SHEET,BSB179,1. Cam kết giao dịch hối đoái,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3702
+BALANCE_SHEET,BSB180,1.1. Cam kết mua ngoại tệ,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3703
+BALANCE_SHEET,BSB181,1.2. Cam kết bán ngoại tệ,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3704
+BALANCE_SHEET,BSB182,1.3. Cam kết giao dịch hoán đổi,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3705
+BALANCE_SHEET,BSB183,1.4. Cam kết giao dịch tương lai,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3706
+BALANCE_SHEET,BSB184,2. Cam kết cho vay không hủy ngang,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3707
+BALANCE_SHEET,BSB185,3. Cam kết trong nghiệp vụ L/C,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3708
+BALANCE_SHEET,BSB186,4. Cam kết khác,bang-can-doi-ke-toan-hop-nhat-nhom-ngan-hang,3709
+STX_FSC_NOTEBANK,NOB1,Các khoản cho vay phân theo đối tượng khách hàng,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3848
+STX_FSC_NOTEBANK,NOB2,"Cho vay các tổ chức kinh tế, cá nhân trong nước",thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3849
+STX_FSC_NOTEBANK,NOB3,Chiết khấu thương phiếu và giấy tờ có giá,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3850
+STX_FSC_NOTEBANK,NOB4,Cho thuê tài chính,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3851
+STX_FSC_NOTEBANK,NOB5,Các khoản trả thay khách hàng,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3852
+STX_FSC_NOTEBANK,NOB6,"Cho vay bằng vốn tài trợ, uỷ thác đầu tư",thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3853
+STX_FSC_NOTEBANK,NOB7,"cho vay đối với các tổ chức, cá nhân nước ngoài",thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3854
+STX_FSC_NOTEBANK,NOB8,Cho vay theo chỉ định của Chính phủ,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3855
+STX_FSC_NOTEBANK,NOB9,Nợ cho vay được khoanh và nợ chờ xử lý,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3856
+STX_FSC_NOTEBANK,NOB10,Các khoản cho vay khác,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3857
+STX_FSC_NOTEBANK,NOB11,Các khoản cho vay phân theo ngành,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3858
+STX_FSC_NOTEBANK,NOB12,Thương mại,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3859
+STX_FSC_NOTEBANK,NOB13,Nông nghiệp và lâm nghiệp,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3860
+STX_FSC_NOTEBANK,NOB14,Sản xuất,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3861
+STX_FSC_NOTEBANK,NOB15,"Công nghiệp chế biến, chế tạo",thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3862
+STX_FSC_NOTEBANK,NOB16,"Sản xuất và phân phối điện, khí đốt và nước nóng, hơi nước và điều hòa không khí",thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3863
+STX_FSC_NOTEBANK,NOB17,"Cung cấp nước, quản lý và xử lý rác thải, nước thải",thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3864
+STX_FSC_NOTEBANK,NOB18,Khai khoáng,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3865
+STX_FSC_NOTEBANK,NOB19,Xây dựng,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3866
+STX_FSC_NOTEBANK,NOB20,Dịch vụ cộng đồng và cá nhân,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3867
+STX_FSC_NOTEBANK,NOB21,Hoạt động phục vụ cá nhân và cộng đồng,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3868
+STX_FSC_NOTEBANK,NOB22,Hoạt động các tổ chức và đoàn thể quốc tế,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3869
+STX_FSC_NOTEBANK,NOB23,Y tế và hoạt động cứu trợ xã hội,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3870
+STX_FSC_NOTEBANK,NOB24,"Nghệ thuật, vui chơi, giải trí",thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3871
+STX_FSC_NOTEBANK,NOB25,Hoạt động hành chính và các dịch vụ hỗ trợ,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3872
+STX_FSC_NOTEBANK,NOB26,"Hoạt động của Đảng, tổ chức chính trị xã hội, quản lý nhà nước, an ninh quốc phòng, bảo đảm XH bắt buộc",thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3873
+STX_FSC_NOTEBANK,NOB27,"Hoạt động làm thuê các công việc trong các hộ gia đình, sản xuất vật chất và dịch vụ tự tiêu dùng của hộ gia đình",thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3874
+STX_FSC_NOTEBANK,NOB28,Hoạt động dịch vụ khác,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3875
+STX_FSC_NOTEBANK,NOB29,"Kho bãi,vận tải, viễn thông",thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3876
+STX_FSC_NOTEBANK,NOB30,"Vận tải, kho bãi",thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3877
+STX_FSC_NOTEBANK,NOB31,Thông tin và truyền thông,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3878
+STX_FSC_NOTEBANK,NOB32,Giáo dục và đào tạo,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3879
+STX_FSC_NOTEBANK,NOB33,Giáo dục và đào tạo,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3880
+STX_FSC_NOTEBANK,NOB34,"Hoạt động chuyên môn, khoa học và công nghệ",thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3881
+STX_FSC_NOTEBANK,NOB35,Bất động sản và tư vấn,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3882
+STX_FSC_NOTEBANK,NOB36,Khách sạn và nhà hàng,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3883
+STX_FSC_NOTEBANK,NOB37,Dịch vụ tài chính,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3884
+STX_FSC_NOTEBANK,NOB38,Các ngành khác,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3885
+STX_FSC_NOTEBANK,NOB39,Các khoản cho vay phân loại theo chất lượng nợ cho vay,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3886
+STX_FSC_NOTEBANK,NOB40,Nợ đủ tiêu chuẩn,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3887
+STX_FSC_NOTEBANK,NOB41,Nợ cần chú ý,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3888
+STX_FSC_NOTEBANK,NOB42,Nợ dưới tiêu chuẩn,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3889
+STX_FSC_NOTEBANK,NOB43,Nợ nghi ngờ,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3890
+STX_FSC_NOTEBANK,NOB44,Nợ xấu có khả năng mất vốn,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3891
+STX_FSC_NOTEBANK,NOB45,Các khoản cho vay phân theo thời gian,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3892
+STX_FSC_NOTEBANK,NOB46,Cho vay ngắn hạn,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3893
+STX_FSC_NOTEBANK,NOB47,cho vay trung hạn,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3894
+STX_FSC_NOTEBANK,NOB48,Cho vay dài hạn,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3895
+STX_FSC_NOTEBANK,NOB49,Các khoản cho vay phân theo tiền tệ,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3896
+STX_FSC_NOTEBANK,NOB50,VNĐ,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3897
+STX_FSC_NOTEBANK,NOB51,Ngoại tệ và vàng,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3898
+STX_FSC_NOTEBANK,NOB52,Các khoản cho vay phân theo vị trí địa lý,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3899
+STX_FSC_NOTEBANK,NOB53,TP Hồ Chí Minh,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3900
+STX_FSC_NOTEBANK,NOB54,Hà Nội,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3901
+STX_FSC_NOTEBANK,NOB55,Đồng bằng sông Cửu Long,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3902
+STX_FSC_NOTEBANK,NOB56,Miền trung,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3903
+STX_FSC_NOTEBANK,NOB57,Khác,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3904
+STX_FSC_NOTEBANK,NOB58,Các khoản cho vay phân theo nhóm khách hàng,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3905
+STX_FSC_NOTEBANK,NOB59,Doanh nghiệp nhà nước,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3906
+STX_FSC_NOTEBANK,NOB60,Công ty TNHH và cổ phần,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3907
+STX_FSC_NOTEBANK,NOB61,Doanh nghiệp nước ngoài,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3908
+STX_FSC_NOTEBANK,NOB62,Hợp tác xã và công ty tư nhân,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3909
+STX_FSC_NOTEBANK,NOB63,Cá nhân,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3910
+STX_FSC_NOTEBANK,NOB64,Khác,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3911
+STX_FSC_NOTEBANK,NOB65,Các khoản tiền gửi phân loại theo loại tiền gửi,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3912
+STX_FSC_NOTEBANK,NOB66,Tiền gửi không kỳ hạn,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3913
+STX_FSC_NOTEBANK,NOB67,Tiền gửi có kỳ hạn,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3914
+STX_FSC_NOTEBANK,NOB68,Tiền gửi tiết kiệm,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3915
+STX_FSC_NOTEBANK,NOB69,tiền gửi ký quỹ,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3916
+STX_FSC_NOTEBANK,NOB70,Tiền gửi cho những mục đích riêng biệt,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3917
+STX_FSC_NOTEBANK,NOB71,Các khoản tiền gửi phân theo laọi tiền tệ,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3918
+STX_FSC_NOTEBANK,NOB72,VNĐ,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3919
+STX_FSC_NOTEBANK,NOB73,ngoại tệ,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3920
+STX_FSC_NOTEBANK,NOB74,Các khoản tiền gửi phân theo nhóm khách hàng,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3921
+STX_FSC_NOTEBANK,NOB75,Doanh nghiệp nhà nước,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3922
+STX_FSC_NOTEBANK,NOB76,Doanh nghiệp tư nhân,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3923
+STX_FSC_NOTEBANK,NOB77,Doanh nghiệp nước ngoài,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3924
+STX_FSC_NOTEBANK,NOB78,Cá nhân,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3925
+STX_FSC_NOTEBANK,NOB79,khác,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3926
+STX_FSC_NOTEBANK,NOB80,Tài sản sinh lãi,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3927
+STX_FSC_NOTEBANK,NOB81,Công nợ phải trả lãi,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3928
+STX_FSC_NOTEBANK,NOB82,Quỹ của tổ chức tín dụng,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3929
+STX_FSC_NOTEBANK,NOB83,Quỹ dự trữ bổ sung vốn điều lệ,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3930
+STX_FSC_NOTEBANK,NOB84,Quỹ dự phòng tài chính,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3931
+STX_FSC_NOTEBANK,NOB85,Quỹ đầu tư phát triển,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3932
+STX_FSC_NOTEBANK,NOB86,Khác,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3933
+STX_FSC_NOTEBANK,NOB87,Thu nhập lãi và các khoản thu nhập tương tự,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3934
+STX_FSC_NOTEBANK,NOB88,Thu nhập lãi cho vay khách hàng,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3935
+STX_FSC_NOTEBANK,NOB89,Thu nhập lãi tiền gửi,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3936
+STX_FSC_NOTEBANK,NOB90,"Thu lãi từ kinh doanh, đầu tư chứng khoán nợ:",thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3937
+STX_FSC_NOTEBANK,NOB91,Thu lãi từ chứng khoán kinh doanh,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3938
+STX_FSC_NOTEBANK,NOB92,Thu lãi từ chứng khoán đầu tư,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3939
+STX_FSC_NOTEBANK,NOB93,Thu nhập lãi cho thuê tài chính,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3940
+STX_FSC_NOTEBANK,NOB94,Tu khác từ hoạt động tín dụng,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3941
+STX_FSC_NOTEBANK,NOB95,Chi phí lãi và các chi phí tương tự,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3942
+STX_FSC_NOTEBANK,NOB96,Trả lãi tiền gửi,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3943
+STX_FSC_NOTEBANK,NOB97,Trả lãi tiền vay,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3944
+STX_FSC_NOTEBANK,NOB98,Trả lãi phát hành trái phiếu và giấy tờ có giá,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3945
+STX_FSC_NOTEBANK,NOB99,Chi phí khác cho hoạt động tín dụng,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3946
+STX_FSC_NOTEBANK,NOB100,Lãi thuần từ hoạt động dịch vụ,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3947
+STX_FSC_NOTEBANK,NOB101,Thu từ dịch vụ thanh toán,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3948
+STX_FSC_NOTEBANK,NOB102,Thu từ dịch vụ ngân quỹ,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3949
+STX_FSC_NOTEBANK,NOB103,Thu từ nghiệp vụ bảo lãnh,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3950
+STX_FSC_NOTEBANK,NOB104,Thu từ nghiệp vụ ủy thác và đại lý,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3951
+STX_FSC_NOTEBANK,NOB105,Thu từ hoạt động bảo hiểm,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3952
+STX_FSC_NOTEBANK,NOB106,Thu từ dịch vụ môi giới,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3953
+STX_FSC_NOTEBANK,NOB107,Thu khác,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3954
+STX_FSC_NOTEBANK,NOB108,Chi về dịch vụ thanh toán,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3955
+STX_FSC_NOTEBANK,NOB109,Chi về dịch vụ ngân quỹ,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3956
+STX_FSC_NOTEBANK,NOB110,Chi về dịch vụ viễn thông,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3957
+STX_FSC_NOTEBANK,NOB111,Chi về nghiệp vụ ủy thác và đại lý,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3958
+STX_FSC_NOTEBANK,NOB112,Chi từ hoạt động bảo hiểm,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3959
+STX_FSC_NOTEBANK,NOB113,Chi từ dịch vụ môi giới,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3960
+STX_FSC_NOTEBANK,NOB114,Chi khác,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3961
+STX_FSC_NOTEBANK,NOB115,Lãi thuần từ hoạt động kinh doanh ngoại hối,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3962
+STX_FSC_NOTEBANK,NOB116,Thu từ kinh doanh ngoại tệ giao ngay,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3963
+STX_FSC_NOTEBANK,NOB117,Thu từ các công cụ tài chính phái sinh tiền tệ,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3964
+STX_FSC_NOTEBANK,NOB118,Thu từ giao dịch kinh doanh vàng,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3965
+STX_FSC_NOTEBANK,NOB119,Lãi chênh lệch tỷ giá ngoại tệ kinh doanh,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3966
+STX_FSC_NOTEBANK,NOB120,Chi về kinh doanh ngoại tệ giao ngay,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3967
+STX_FSC_NOTEBANK,NOB121,Chi về các công cụ tài chính phái sinh tiền tệ,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3968
+STX_FSC_NOTEBANK,NOB122,Chi về giao dịch kinh doanh vàng,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3969
+STX_FSC_NOTEBANK,NOB123,Lỗ chênh lệch tỷ giá ngoại tệ kinh doanh,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3970
+STX_FSC_NOTEBANK,NOB124,Lãi thuần từ mua bán chứng khoán kinh doanh,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3971
+STX_FSC_NOTEBANK,NOB125,Thu nhập từ mua bán chứng khoán kinh doanh,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3972
+STX_FSC_NOTEBANK,NOB126,Chi phí về mua bán chứng khoán kinh doanh,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3973
+STX_FSC_NOTEBANK,NOB127,Hoàn nhập dự phòng giảm giá chứng khoán kinh doanh,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3974
+STX_FSC_NOTEBANK,NOB128,Lãi thuần từ mua bán chứng khoán đầu tư,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3975
+STX_FSC_NOTEBANK,NOB129,Thu nhập từ mua bán chứng khoán đầu tư,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3976
+STX_FSC_NOTEBANK,NOB130,Lãi từ thanh lý các khoản đầu tư dài hạn khác,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3977
+STX_FSC_NOTEBANK,NOB131,Chi phí về mua bán chứng khoán đầu tư,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3978
+STX_FSC_NOTEBANK,NOB132,Lỗ do thanh lý các khoản đầu tư dài hạn khác,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3979
+STX_FSC_NOTEBANK,NOB133,Hoàn nhập dự phòng giảm giá chứng khoán đầu tư sẵn sàng để bán,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3980
+STX_FSC_NOTEBANK,NOB134,Hoàn nhập dự phòng giảm giá chứng khoán đầu tư giữ đến ngày đáo hạn,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3981
+STX_FSC_NOTEBANK,NOB135,Chi phí hoạt động,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3982
+STX_FSC_NOTEBANK,NOB136,"Chi nộp thuế và các khoản phí, lệ phí",thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3983
+STX_FSC_NOTEBANK,NOB137,Chi phí cho nhân viên,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3984
+STX_FSC_NOTEBANK,NOB138,Chi lương và phụ cấp,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3985
+STX_FSC_NOTEBANK,NOB139,Các khoản chi đóng góp theo lương,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3986
+STX_FSC_NOTEBANK,NOB140,Chi trợ cấp,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3987
+STX_FSC_NOTEBANK,NOB141,Chi công tác xã hội,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3988
+STX_FSC_NOTEBANK,NOB142,Chi khác,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3989
+STX_FSC_NOTEBANK,NOB143,Chi về tài sản,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3990
+STX_FSC_NOTEBANK,NOB144,Chi Khấu hao TSCĐ,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3991
+STX_FSC_NOTEBANK,NOB145,Chi khác về tài sản,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3992
+STX_FSC_NOTEBANK,NOB146,Chi cho hoạt động quản lý công vụ,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3993
+STX_FSC_NOTEBANK,NOB147,"Chi nộp phí bảo hiểm, bảo toàn tiền gửi của khách hàng",thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3994
+STX_FSC_NOTEBANK,NOB148,Chi phí dự phòng giảm giá các khoản đầu tư dài hạn và dự phòng nợ khó đòi,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3995
+STX_FSC_NOTEBANK,NOB149,Chi dự phòng trợ cấp thôi việc,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3996
+STX_FSC_NOTEBANK,NOB150,Chi phí hoạt động khác,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3997
+STX_FSC_NOTEBANK,NOB151,Chỉ số CAR,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3998
+STX_FSC_NOTEBANK,NOB152,1. Chứng khoán kinh doanh,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,3999
+STX_FSC_NOTEBANK,NOB153,1.1. Chứng khoán nợ,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4000
+STX_FSC_NOTEBANK,NOB154,1.1.1. Trái phiếu chính phủ,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4001
+STX_FSC_NOTEBANK,NOB155,1.1.2. Trái phiếu chính phủ bảo lãnh,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4002
+STX_FSC_NOTEBANK,NOB156,1.1.3. Trái phiếu do các TCTD khác trong nước phát hành,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4003
+STX_FSC_NOTEBANK,NOB157,1.1.4. Trái phiếu do các TCKT trong nước phát hành,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4004
+STX_FSC_NOTEBANK,NOB158,1.1.5. Chứng khoán Nợ nước ngoài,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4005
+STX_FSC_NOTEBANK,NOB159,1.2.Chứng khoán vốn,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4006
+STX_FSC_NOTEBANK,NOB160,1.2.1. Chứng khoán Vốn do các TCTD khác phát hành,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4007
+STX_FSC_NOTEBANK,NOB161,1.2.2. Chứng khoán Vốn do các TCKT trong nước phát hành,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4008
+STX_FSC_NOTEBANK,NOB162,1.2.3. Chứng khoán Vốn nước ngoài,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4009
+STX_FSC_NOTEBANK,NOB163,1.3. Chứng khoán kinh doanh khác,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4010
+STX_FSC_NOTEBANK,NOB164,1.4. Dự phòng rủi ro chứng khoán kinh doanh,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4011
+STX_FSC_NOTEBANK,NOB165,1.4.1. Dự phòng giảm giá,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4012
+STX_FSC_NOTEBANK,NOB166,1.4.2. Dự phòng chung,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4013
+STX_FSC_NOTEBANK,NOB167,1.4.3. Dự phòng cụ thể,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4014
+STX_FSC_NOTEBANK,NOB168,1.5. Tình trạng niêm yết của các chứng khoán kinh doanh,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4015
+STX_FSC_NOTEBANK,NOB169,1.5.1. Chứng khoán nợ,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4016
+STX_FSC_NOTEBANK,NOB170,1.5.1.1. Đã niêm yết,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4017
+STX_FSC_NOTEBANK,NOB171,1.5.1.2.Chưa niêm yết,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4018
+STX_FSC_NOTEBANK,NOB172,1.5.2. Chứng khoán vốn,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4019
+STX_FSC_NOTEBANK,NOB173,1.5.2.1. Đã niêm yết,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4020
+STX_FSC_NOTEBANK,NOB174,1.5.2.2.Chưa niêm yết,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4021
+STX_FSC_NOTEBANK,NOB175,1.5.3. Chứng khoán kinh doanh khác,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4022
+STX_FSC_NOTEBANK,NOB176,1.5.3.1. Đã niêm yết,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4023
+STX_FSC_NOTEBANK,NOB177,1.5.3.2. Chưa niêm yết,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4024
+STX_FSC_NOTEBANK,NOB178,Chứng khoán đầu tư,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4025
+STX_FSC_NOTEBANK,NOB179,1. Chứng khoán đầu tư sẵn sàng để bán,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4026
+STX_FSC_NOTEBANK,NOB180,1.1 Chứng khoán Nợ,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4027
+STX_FSC_NOTEBANK,NOB181,Trái phiếu Chính phủ,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4028
+STX_FSC_NOTEBANK,NOB182,Trái phiếu do chính phủ bảo lãnh,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4029
+STX_FSC_NOTEBANK,NOB183,Trái phiếu do các TCTD khác trong nước phát hành,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4030
+STX_FSC_NOTEBANK,NOB184,Trái phiếu do các TCKT trong nước phát hành,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4031
+STX_FSC_NOTEBANK,NOB185,Chứng khoán Nợ nước ngoài,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4032
+STX_FSC_NOTEBANK,NOB186,1.2 Chứng khoán Vốn,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4033
+STX_FSC_NOTEBANK,NOB187,Chứng khoán Vốn do các TCTD khác trong nước phát hành,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4034
+STX_FSC_NOTEBANK,NOB188,Chứng khoán Vốn do các TCKT trong nước phát hành,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4035
+STX_FSC_NOTEBANK,NOB189,Chứng khoán Vốn nước ngoài,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4036
+STX_FSC_NOTEBANK,NOB190,1.3 Dự phòng rủi ro chứng khoán sẵn sàng để bán,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4037
+STX_FSC_NOTEBANK,NOB191,Dự phòng giảm giá,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4038
+STX_FSC_NOTEBANK,NOB192,Dự phòng chung,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4039
+STX_FSC_NOTEBANK,NOB193,Dự phòng cụ thể,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4040
+STX_FSC_NOTEBANK,NOB194,2. Chứng khoán đầu tư giữ đến ngày đáo hạn,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4041
+STX_FSC_NOTEBANK,NOB195,2.1 Chứng khoán nợ,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4042
+STX_FSC_NOTEBANK,NOB196,Trái phiếu Chính phủ,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4043
+STX_FSC_NOTEBANK,NOB197,Trái phiếu do chính phủ bảo lãnh,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4044
+STX_FSC_NOTEBANK,NOB198,Trái phiếu do các TCTD khác trong nước phát hành,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4045
+STX_FSC_NOTEBANK,NOB199,Trái phiếu do các TCKT trong nước phát hành,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4046
+STX_FSC_NOTEBANK,NOB200,Chứng khoán Nợ nước ngoài,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4047
+STX_FSC_NOTEBANK,NOB201,Trái phiếu đặc biệt do VAMC phát hành,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4048
+STX_FSC_NOTEBANK,NOB202,2.2 Dự phòng rủi ro chứng khoán đầu tư giữ đến ngày đáo hạn,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4049
+STX_FSC_NOTEBANK,NOB203,Dự phòng giảm giá,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4050
+STX_FSC_NOTEBANK,NOB204,Dự phòng chung,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4051
+STX_FSC_NOTEBANK,NOB205,Dự phòng cụ thể,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4052
+STX_FSC_NOTEBANK,NOB206,Dự phòng trái phiếu đặc biệt,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4053
+STX_FSC_NOTEBANK,NOB207,Lãi thuần từ hoạt động khác,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4054
+STX_FSC_NOTEBANK,NOB208,Thu nhập từ các khoản cho vay đã xử lý bằng quỹ dự phòng rủi ro,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4055
+STX_FSC_NOTEBANK,NOB209,Thu từ thanh lý tài sản cố định,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4056
+STX_FSC_NOTEBANK,NOB210,Thu từ nghiệp vụ mua bán nợ,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4057
+STX_FSC_NOTEBANK,NOB211,Thu về nghiệp vụ tất toán Trái phiếu VAMC,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4058
+STX_FSC_NOTEBANK,NOB212,Thu nhập về các công cụ tài chính phái sinh khác,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4059
+STX_FSC_NOTEBANK,NOB213,Thu nhập khác,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4060
+STX_FSC_NOTEBANK,NOB214,Chi phí cho nghiệp vụ hoán đổi lãi suất,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4061
+STX_FSC_NOTEBANK,NOB215,Chi từ thanh lý tài sản,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4062
+STX_FSC_NOTEBANK,NOB216,Chi về nghiệp vụ bán nợ,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4063
+STX_FSC_NOTEBANK,NOB217,Chi về các công cụ tài chính phái sinh khác,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4064
+STX_FSC_NOTEBANK,NOB218,Chi công tác xã hội,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4065
+STX_FSC_NOTEBANK,NOB219,Chi phí khác,thuyet-minh-bctc-hop-nhat-nhom-ngan-hang,4066

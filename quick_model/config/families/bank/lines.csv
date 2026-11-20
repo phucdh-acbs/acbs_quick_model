@@ -1,0 +1,33 @@
+line_id,statement,label_vn,block,source_code,unit,formula_vn,assumptions
+interest_income,IS,Thu nhập lãi và các khoản tương tự,nii,ISB25,VND,Lợi suất × TS sinh lãi bình quân × ngày / 365,yield_iea
+interest_expense,IS,Chi phí lãi và các khoản tương tự,nii,ISB26,VND,−Chi phí vốn × nợ chịu lãi bình quân × ngày / 365,cost_of_funds
+nii,IS,Thu nhập lãi thuần,nii,ISB27,VND,Thu nhập lãi + chi phí lãi,
+net_fee_income,IS,Lãi thuần từ hoạt động dịch vụ,non_interest,ISB30,VND,Tỷ lệ phí × dư nợ bình quân × ngày / 365,fee_to_loans
+fx_income,IS,Lãi/lỗ thuần kinh doanh ngoại hối và vàng,non_interest,ISB31,VND,Không dự phóng riêng (gộp vào thu nhập ngoài lãi khác),
+trading_sec_income,IS,Lãi/lỗ thuần mua bán chứng khoán kinh doanh,non_interest,ISB32,VND,Không dự phóng riêng (gộp vào thu nhập ngoài lãi khác),
+inv_sec_income,IS,Lãi/lỗ thuần mua bán chứng khoán đầu tư,non_interest,ISB33,VND,Không dự phóng riêng (gộp vào thu nhập ngoài lãi khác),
+other_income_net,IS,Lãi/lỗ thuần hoạt động khác,non_interest,ISB36,VND,Không dự phóng riêng (gộp vào thu nhập ngoài lãi khác),
+dividend_income,IS,Thu nhập từ góp vốn mua cổ phần,non_interest,ISB37,VND,Không dự phóng riêng (gộp vào thu nhập ngoài lãi khác),
+other_non_interest_income,IS,Thu nhập ngoài lãi khác (ngoại hối + CK + khác + góp vốn),non_interest,+ISB31 +ISB32 +ISB33 +ISB36 +ISB37,VND,Năm trước × (1 + tăng trưởng),other_income_growth
+toi,IS,Tổng thu nhập hoạt động,,ISB38,VND,Thu nhập lãi thuần + dịch vụ + ngoài lãi khác,
+opex,IS,Chi phí hoạt động,opex,ISB39,VND,−CIR × tổng thu nhập hoạt động,cir
+ppop,IS,LN thuần trước chi phí dự phòng,,ISB40,VND,TOI + chi phí hoạt động,
+provision_expense,IS,Chi phí dự phòng rủi ro tín dụng,asset_quality,ISB41,VND,−Chi phí tín dụng × dư nợ bình quân × ngày / 365,credit_cost
+pbt,IS,Lợi nhuận trước thuế,,ISA16,VND,LN trước dự phòng + chi phí dự phòng,
+income_tax,IS,Chi phí thuế TNDN,tax_equity,ISA19,VND,−Thuế suất hiệu dụng × LNTT (lỗ thì 0),effective_tax_rate
+npat,IS,Lợi nhuận sau thuế,,ISA20,VND,LNTT + thuế,
+npat_minority,IS,LNST của cổ đông không kiểm soát,tax_equity,-ISA21,VND,Tỷ lệ × LNST,minority_share
+npat_parent,IS,LNST của cổ đông công ty mẹ,,ISA22,VND,LNST − cổ đông không kiểm soát,
+dividends_paid,SCH,Cổ tức tiền,tax_equity,,VND,−Tỷ lệ chi trả × LNST công ty mẹ (nếu > 0),cash_dividend_payout
+share_issue,SCH,Phát hành cổ phiếu (tiền thu),tax_equity,,VND,Số khai báo,share_issue_proceeds
+avg_loans,SCH,Dư nợ cho vay KH bình quân,loans,,VND,(Đầu kỳ + cuối kỳ) / 2,
+avg_iea,SCH,Tài sản sinh lãi bình quân,nii,,VND,BQ các dòng có method + liên NH (TS) đầu kỳ,
+avg_ibl,SCH,Nợ chịu lãi bình quân,nii,,VND,BQ các dòng có method + liên NH (nợ) đầu kỳ,
+implied_write_off,SCH,Xoá nợ ngụ ý (sử dụng dự phòng),asset_quality,,VND,Dự phòng đầu kỳ + trích lập − dự phòng cuối kỳ,"credit_cost llr_coverage"
+deposits_before_cap,SCH,Tiền gửi KH theo tăng trưởng (trước trần LDR),funding,,VND,Đầu kỳ × (1 + tăng trưởng),deposit_growth
+ldr_cap_uplift,SCH,Tiền gửi KH nâng thêm do chạm trần LDR,funding,,VND,max(0; dư nợ / trần LDR − tiền gửi theo tăng trưởng),max_ldr
+liquidity_surplus,SCH,Thặng dư thanh khoản trước cân (nguồn − TS khác),balancing,,VND,Tổng nguồn vốn (liên NH nợ đầu kỳ) − TS không kể liên NH,
+interbank_floor,SCH,Sàn tiền gửi & cho vay liên NH,balancing,,VND,Tỷ lệ sàn × tiền gửi KH,min_interbank_assets_ratio
+interbank_cap,SCH,Trần nợ liên NH,balancing,,VND,Tỷ lệ trần × tổng tài sản,max_interbank_liab_to_assets
+auto_interbank_borrowing,SCH,Vay liên NH tự động (lũy kế),balancing,,VND,Phần thiếu để đạt sàn liên NH (TS),
+funding_gap,SCH,Funding gap,balancing,,VND,Phần thiếu vượt trần nợ liên NH,

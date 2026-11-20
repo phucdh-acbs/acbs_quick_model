@@ -1,0 +1,126 @@
+item_id,statement,source_code,label_vn,kind,sign,unit
+isb25,IS,ISB25,Thu nhập lãi và các khoản thu nhập tương tự,flow,as_reported,VND
+isb26,IS,ISB26,Chi phí lãi và các chi phí tương tự,flow,as_reported,VND
+isb27,IS,ISB27,Thu nhập lãi thuần,flow,as_reported,VND
+isb28,IS,ISB28,Thu nhập từ hoạt động dịch vụ,flow,as_reported,VND
+isb29,IS,ISB29,Chi phí hoạt động dịch vụ,flow,as_reported,VND
+isb30,IS,ISB30,Lãi thuần từ hoạt động dịch vụ,flow,as_reported,VND
+isb31,IS,ISB31,Lãi/lỗ thuần từ hoạt động kinh doanh ngoại hối và vàng,flow,as_reported,VND
+isb32,IS,ISB32,Lãi/lỗ thuần từ mua bán chứng khoán kinh doanh,flow,as_reported,VND
+isb33,IS,ISB33,Lãi/lỗ thuần từ mua bán chứng khoán đầu tư,flow,as_reported,VND
+isb34,IS,ISB34,Thu nhập từ hoạt động khác,flow,as_reported,VND
+isb35,IS,ISB35,Chi phí hoạt động khác,flow,as_reported,VND
+isb36,IS,ISB36,Lãi/lỗ thuần từ hoạt động khác,flow,as_reported,VND
+isb37,IS,ISB37,"Thu nhập từ góp vốn, mua cổ phần",flow,as_reported,VND
+isb38,IS,ISB38,Tổng thu nhập hoạt động,flow,as_reported,VND
+isb39,IS,ISB39,Chi phí hoạt động,flow,as_reported,VND
+isb40,IS,ISB40,LN thuần từ hoạt động kinh doanh trước CP dự phòng rủi ro tín dụng,flow,as_reported,VND
+isb41,IS,ISB41,Chi phí dự phòng rủi ro tín dụng,flow,as_reported,VND
+isa16,IS,ISA16,Tổng lợi nhuận trước thuế,flow,as_reported,VND
+isa19,IS,ISA19,Chi phí thuế thu nhập doanh nghiệp,flow,as_reported,VND
+isa17,IS,ISA17,Chi phí thuế TNDN hiện hành,flow,as_reported,VND
+isa18,IS,ISA18,Chi phí thuế TNDN hoãn lại,flow,as_reported,VND
+isa20,IS,ISA20,Lợi nhuận sau thuế,flow,as_reported,VND
+isa21,IS,ISA21,Lợi ích của cổ đông thiểu số,flow,as_reported,VND
+isa22,IS,ISA22,Cổ đông của Công ty mẹ,flow,as_reported,VND
+isa23,IS,ISA23,Lãi cơ bản trên cổ phiếu,flow,as_reported,VND
+bsa53,BS,BSA53,TỔNG CỘNG TÀI SẢN,stock,as_reported,VND
+bsa2,BS,BSA2,"Tiền mặt, vàng bạc, đá quý",stock,as_reported,VND
+bsb97,BS,BSB97,Tiền gửi tại ngân hàng nhà nước Việt Nam,stock,as_reported,VND
+bsb98,BS,BSB98,Tiền gửi tại các TCTD khác và cho vay các TCTD khác,stock,as_reported,VND
+bsb258,BS,BSB258,Tiền gửi tại các TCTD khác,stock,as_reported,VND
+bsb259,BS,BSB259,Cho vay các TCTD khác,stock,as_reported,VND
+bsb260,BS,BSB260,Dự phòng rủi ro,stock,as_reported,VND
+bsb99,BS,BSB99,Chứng khoán kinh doanh,stock,as_reported,VND
+bsb100,BS,BSB100,Chứng khoán kinh doanh,stock,as_reported,VND
+bsb101,BS,BSB101,Dự phòng giảm giá chứng khoán kinh doanh,stock,as_reported,VND
+bsb102,BS,BSB102,Các công cụ tài chính phái sinh và các tài sản tài chính khác,stock,as_reported,VND
+bsb103,BS,BSB103,Cho vay khách hàng,stock,as_reported,VND
+bsb104,BS,BSB104,Cho vay khách hàng,stock,as_reported,VND
+bsb105,BS,BSB105,Dự phòng rủi ro cho vay khách hàng,stock,as_reported,VND
+bsb261,BS,BSB261,Hoạt động mua nợ,stock,as_reported,VND
+bsb262,BS,BSB262,Mua nợ,stock,as_reported,VND
+bsb263,BS,BSB263,Dự phòng rủi ro hoạt động mua nợ,stock,as_reported,VND
+bsb106,BS,BSB106,Chứng khoán đầu tư,stock,as_reported,VND
+bsb107,BS,BSB107,Chứng khoán đầu tư sẵn sàng để bán,stock,as_reported,VND
+bsb108,BS,BSB108,Chứng khoán đầu tư giữ đến ngày đáo hạn,stock,as_reported,VND
+bsb109,BS,BSB109,Dự phòng giảm giá chứng khoán đầu tư,stock,as_reported,VND
+bsa43,BS,BSA43,"Góp vốn, đầu tư dài hạn",stock,as_reported,VND
+bsa44,BS,BSA44,Đầu tư vào công ty con,stock,as_reported,VND
+bsa45,BS,BSA45,"Đầu tư vào công ty liên doanh, liên kết",stock,as_reported,VND
+bsa276,BS,BSA276,Vốn Góp liên doanh,stock,as_reported,VND
+bsa277,BS,BSA277,Đầu tư vào công ty liên kết,stock,as_reported,VND
+bsa46,BS,BSA46,Đầu tư dài hạn khác,stock,as_reported,VND
+bsa47,BS,BSA47,Dự phòng giảm giá đầu tư dài hạn,stock,as_reported,VND
+bsa29,BS,BSA29,Tài sản cố định,stock,as_reported,VND
+bsa30,BS,BSA30,Tài sản cố định hữu hình,stock,as_reported,VND
+bsa31,BS,BSA31,Nguyên giá TSCĐHH,stock,as_reported,VND
+bsa32,BS,BSA32,Hao mòn TSCĐHH,stock,as_reported,VND
+bsa33,BS,BSA33,Tài sản cố định thuê tài chính,stock,as_reported,VND
+bsa34,BS,BSA34,Nguyên giá TSCĐTTC,stock,as_reported,VND
+bsa35,BS,BSA35,Hao mòn TSCĐTTC,stock,as_reported,VND
+bsa36,BS,BSA36,Tài sản cố định vô hình,stock,as_reported,VND
+bsa37,BS,BSA37,Nguyên giá TSCĐVH,stock,as_reported,VND
+bsa38,BS,BSA38,Hao mòn TSCĐVH,stock,as_reported,VND
+bsa40,BS,BSA40,Bất động sản đầu tư,stock,as_reported,VND
+bsa41,BS,BSA41,Nguyên giá bất động sản đầu tư,stock,as_reported,VND
+bsa42,BS,BSA42,Hao mòn bất động sản đầu tư,stock,as_reported,VND
+bsb110,BS,BSB110,Tài sản Có khác,stock,as_reported,VND
+bsb264,BS,BSB264,Các khoản phải thu,stock,as_reported,VND
+bsb265,BS,BSB265,Các khoản lãi và phí phải thu,stock,as_reported,VND
+bsb266,BS,BSB266,Tài sản thuế TNDN hoãn lại,stock,as_reported,VND
+bsb267,BS,BSB267,Tài sản Có khác,stock,as_reported,VND
+bsb268,BS,BSB268,Trong đó: Lợi thế thương mại,stock,as_reported,VND
+bsb269,BS,BSB269,Dự phòng rủi ro cho các tài sản Có nội bảng khác,stock,as_reported,VND
+bsa96,BS,BSA96,NỢ PHẢI TRẢ VÀ VỐN CHỦ SỞ HỮU,stock,as_reported,VND
+bsa54,BS,BSA54,TỔNG NỢ PHẢI TRẢ,stock,as_reported,VND
+bsb111,BS,BSB111,Các khoản nợ chính phủ và NHNN Việt Nam,stock,as_reported,VND
+bsb112,BS,BSB112,Tiền gửi và vay các Tổ chức tín dụng khác,stock,as_reported,VND
+bsb270,BS,BSB270,Tiền gửi của các tổ chức tín dụng khác,stock,as_reported,VND
+bsb271,BS,BSB271,Vay các tổ chức tín dụng khác,stock,as_reported,VND
+bsb113,BS,BSB113,Tiền gửi của khách hàng,stock,as_reported,VND
+bsb114,BS,BSB114,Các công cụ tài chính phái sinh và các khoản nợ tài chính khác,stock,as_reported,VND
+bsb115,BS,BSB115,"Vốn tài trợ, uỷ thác đầu tư của Chính phủ và các tổ chức tín dụng khác",stock,as_reported,VND
+bsb116,BS,BSB116,Phát hành giấy tờ có giá,stock,as_reported,VND
+bsb117,BS,BSB117,Các khoản nợ khác,stock,as_reported,VND
+bsb272,BS,BSB272,"Các khoản lãi, phí phải trả",stock,as_reported,VND
+bsb273,BS,BSB273,Thuế TNDN hoãn lại phải trả,stock,as_reported,VND
+bsb274,BS,BSB274,Các khoản phải trả và công nợ khác,stock,as_reported,VND
+bsb275,BS,BSB275,Dự phòng rủi ro khác,stock,as_reported,VND
+bsa78,BS,BSA78,VỐN CHỦ SỞ HỮU,stock,as_reported,VND
+bsb118,BS,BSB118,Vốn của tổ chức tín dụng,stock,as_reported,VND
+bsa80,BS,BSA80,Vốn điều lệ,stock,as_reported,VND
+bsb119,BS,BSB119,Vốn đầu tư XDCB,stock,as_reported,VND
+bsa81,BS,BSA81,Thặng dư vốn cổ phần,stock,as_reported,VND
+bsa83,BS,BSA83,Cổ phiếu Quỹ,stock,as_reported,VND
+bsb120,BS,BSB120,Cổ phiếu ưu đãi,stock,as_reported,VND
+bsa82,BS,BSA82,Vốn khác,stock,as_reported,VND
+bsb121,BS,BSB121,Quỹ của tổ chức tín dụng,stock,as_reported,VND
+bsa85,BS,BSA85,Chênh lệch tỷ giá hối đoái,stock,as_reported,VND
+bsa84,BS,BSA84,Chênh lệch đánh giá lại tài sản,stock,as_reported,VND
+bsa90,BS,BSA90,Lợi nhuận chưa phân phối/Lỗ lũy kế,stock,as_reported,VND
+bsa177,BS,BSA177,LN để lại năm trước,stock,as_reported,VND
+bsa178,BS,BSA178,LN năm nay,stock,as_reported,VND
+bsa210,BS,BSA210,Lợi ích của cổ đông không kiểm soát,stock,as_reported,VND
+bsa95,BS,BSA95,LỢI ÍCH CỦA CỔ ĐÔNG KHÔNG KIỂM SOÁT (trước 2015),stock,as_reported,VND
+bsb157,BS,BSB157,NỢ TIỀM TÀNG,stock,as_reported,VND
+bsb122,BS,BSB122,Thư tín dụng,stock,as_reported,VND
+bsb123,BS,BSB123,Thư tín dụng trả ngay,stock,as_reported,VND
+bsb124,BS,BSB124,Thư tín dụng trả chậm,stock,as_reported,VND
+bsb125,BS,BSB125,Khác,stock,as_reported,VND
+bsb126,BS,BSB126,Bảo lãnh tín dụng,stock,as_reported,VND
+bsb158,BS,BSB158,Bảo lãnh vay vốn,stock,as_reported,VND
+bsb127,BS,BSB127,Bảo lãnh thanh toán,stock,as_reported,VND
+bsb128,BS,BSB128,Bảo lãnh thực hiện hợp đồng,stock,as_reported,VND
+bsb129,BS,BSB129,Bảo lãnh dự thầu,stock,as_reported,VND
+bsb130,BS,BSB130,Bảo lãnh xuất khẩu,stock,as_reported,VND
+bsb131,BS,BSB131,Khác,stock,as_reported,VND
+bsb132,BS,BSB132,CAM KẾT TÍN DỤNG,stock,as_reported,VND
+bsb179,BS,BSB179,Cam kết giao dịch hối đoái,stock,as_reported,VND
+bsb180,BS,BSB180,Cam kết mua ngoại tệ,stock,as_reported,VND
+bsb181,BS,BSB181,Cam kết bán ngoại tệ,stock,as_reported,VND
+bsb182,BS,BSB182,Cam kết giao dịch hoán đổi,stock,as_reported,VND
+bsb183,BS,BSB183,Cam kết giao dịch tương lai,stock,as_reported,VND
+bsb184,BS,BSB184,Cam kết cho vay không hủy ngang,stock,as_reported,VND
+bsb185,BS,BSB185,Cam kết trong nghiệp vụ L/C,stock,as_reported,VND
+bsb186,BS,BSB186,Cam kết khác,stock,as_reported,VND

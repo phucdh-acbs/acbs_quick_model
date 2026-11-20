@@ -1,0 +1,27 @@
+line_id,side,label_vn,codes,owner,formula_vn,assumptions
+cash,asset,Tiền và tương đương tiền,+BSA2,cash,= tiền cuối kỳ LCTT,
+st_investments,asset,Đầu tư tài chính ngắn hạn,+BSA5,carry,Giữ nguyên số dư kỳ gốc (đã công bố là giản lược),
+trade_receivables,asset,Phải thu khách hàng ngắn hạn,+BSA9,working_capital,Doanh thu × số ngày phải thu / số ngày của kỳ,dso_days
+prepayments_to_suppliers,asset,Trả trước cho người bán ngắn hạn,+BSA10,working_capital,,
+other_st_receivables,asset,Phải thu ngắn hạn khác,+BSA8 -BSA9 -BSA10,carry,Giữ nguyên số dư kỳ gốc (đã công bố là giản lược),
+inventories,asset,Hàng tồn kho ròng,+BSA15,working_capital,−Giá vốn × số ngày tồn kho / số ngày của kỳ,dio_days
+other_current_assets,asset,Tài sản ngắn hạn khác,+BSA18,carry,Giữ nguyên số dư kỳ gốc (đã công bố là giản lược),
+st_biological_assets,asset,Tài sản sinh học ngắn hạn (TT99),+BSA290,carry,Giữ nguyên số dư kỳ gốc (đã công bố là giản lược),
+lt_receivables,asset,Phải thu dài hạn,+BSA24,carry,Giữ nguyên số dư kỳ gốc (đã công bố là giản lược),
+fixed_assets,asset,Tài sản cố định (giá trị còn lại),+BSA29,ppe,,
+cip,asset,Tài sản dở dang dài hạn (gồm XDCB dở dang),+BSA163,ppe,,
+investment_property,asset,Bất động sản đầu tư,+BSA40,carry,Giữ nguyên số dư kỳ gốc (đã công bố là giản lược),
+lt_investments,asset,Đầu tư dài hạn,+BSA43,carry,Giữ nguyên số dư kỳ gốc (đã công bố là giản lược),
+goodwill_pre2015,asset,Lợi thế thương mại (trước 2015),+BSA48,carry,Giữ nguyên số dư kỳ gốc (đã công bố là giản lược),
+other_lt_assets,asset,Tài sản dài hạn khác,+BSA49,carry,Giữ nguyên số dư kỳ gốc (đã công bố là giản lược),
+lt_biological_assets,asset,Tài sản sinh học dài hạn (TT99),+BSA294,carry,Giữ nguyên số dư kỳ gốc (đã công bố là giản lược),
+trade_payables,liability,Phải trả người bán ngắn hạn,+BSA57,working_capital,,
+advances_from_customers,liability,Người mua trả tiền trước ngắn hạn,+BSA58,working_capital,,
+st_borrowings,liability,Vay và nợ thuê tài chính ngắn hạn,+BSA56,debt,,
+bonus_welfare_fund,liability,Quỹ khen thưởng phúc lợi,+BSA66,tax_equity,,
+other_current_liabilities,liability,Nợ ngắn hạn khác,+BSA55 -BSA57 -BSA58 -BSA56 -BSA66,carry,Giữ nguyên số dư kỳ gốc (đã công bố là giản lược),
+lt_borrowings,liability,Vay và nợ thuê tài chính dài hạn,+BSA71,debt,,
+other_lt_liabilities,liability,Nợ dài hạn khác,+BSA67 -BSA71,carry,Giữ nguyên số dư kỳ gốc (đã công bố là giản lược),
+equity_parent,equity,Vốn chủ sở hữu của cổ đông công ty mẹ,+BSA78 -BSA210,tax_equity,,
+minority_interest,equity,Lợi ích cổ đông không kiểm soát,+BSA210,tax_equity,Đầu kỳ + LNST cổ đông thiểu số,minority_share
+minority_interest_pre2015,equity,Lợi ích cổ đông thiểu số (trước 2015),+BSA95,carry,Giữ nguyên số dư kỳ gốc (đã công bố là giản lược),

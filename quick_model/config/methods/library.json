@@ -1,0 +1,542 @@
+{
+  "schema_version": "1.0",
+  "description_vn": "Thư viện kiểu method (kind) dùng chung mọi ngành. Template ngành gắn mỗi method vào một kind; engine dispatch theo kind, không theo method_id. 'primitives' là hàm thuần trong quick_model/methods/primitives.py. 'seen_in' là mã DN có model card analyst đã kiểm là dùng cách tính tương tự (danh sách chưa đầy đủ) (chỉ để tham khảo, không phải số liệu). implemented=false: đã khai báo để thiết kế template, engine chưa chạy được.",
+  "primitives": {
+    "growth": "base × (1 + g)",
+    "ratio_of": "tỷ lệ × driver",
+    "margin_cost": "−(1 − biên) × doanh thu",
+    "fixed_plus_variable": "tỷ lệ biến đổi × driver + cố định",
+    "volume_price": "sản lượng × giá",
+    "days_balance": "dòng tiền kỳ × số ngày / số ngày của kỳ",
+    "rate_on_balance": "lãi suất năm × số dư × số ngày của kỳ / số ngày trong năm",
+    "straight_line_depreciation": "nguyên giá / thời gian sử dụng × số ngày của kỳ / số ngày trong năm",
+    "rollforward": "đầu kỳ + tăng − giảm",
+    "average_balance": "(đầu kỳ + cuối kỳ) / 2",
+    "schedule_sum": "Σ các khoản trong danh sách"
+  },
+  "kinds": [
+    {
+      "kind": "growth_matching_period",
+      "label_vn": "Tăng trưởng so với kỳ tương ứng năm trước",
+      "formula_vn": "Giá trị kỳ = giá trị kỳ tương ứng năm trước × (1 + g). Theo năm: năm trước; theo quý: cùng quý năm trước.",
+      "primitives": [
+        "growth"
+      ],
+      "implemented": true,
+      "seen_in": [
+        "IMP",
+        "VNM",
+        "PNJ",
+        "CTD"
+      ]
+    },
+    {
+      "kind": "volume_x_price",
+      "label_vn": "Sản lượng × giá bán bình quân + doanh thu khác",
+      "formula_vn": "Doanh thu = sản lượng × giá + doanh thu ngoài sản lượng.",
+      "primitives": [
+        "volume_price"
+      ],
+      "implemented": true,
+      "seen_in": [
+        "DCM",
+        "HAH"
+      ]
+    },
+    {
+      "kind": "segment_volume_price_sum",
+      "label_vn": "Tổng theo sản phẩm/phân khúc (sản lượng × giá)",
+      "formula_vn": "Doanh thu = Σ sản phẩm (sản lượng × giá) + doanh thu khác xác định rõ.",
+      "primitives": [
+        "volume_price",
+        "schedule_sum"
+      ],
+      "implemented": false,
+      "seen_in": [
+        "HPG",
+        "VNM"
+      ]
+    },
+    {
+      "kind": "units_x_productivity",
+      "label_vn": "Số đơn vị × năng suất mỗi đơn vị",
+      "formula_vn": "Đơn vị cuối kỳ = đầu kỳ + mở mới − đóng; doanh thu = đơn vị bình quân × doanh thu/đơn vị/năm × ngày/365 + doanh thu khác.",
+      "primitives": [
+        "rollforward",
+        "average_balance",
+        "volume_price"
+      ],
+      "implemented": true,
+      "seen_in": [
+        "FRT",
+        "MWG",
+        "PNJ"
+      ]
+    },
+    {
+      "kind": "capacity_utilization_price",
+      "label_vn": "Công suất × hiệu suất × giá",
+      "formula_vn": "Sản lượng = công suất × hiệu suất; doanh thu = sản lượng × giá.",
+      "primitives": [
+        "ratio_of",
+        "volume_price"
+      ],
+      "implemented": false,
+      "seen_in": [
+        "HPG",
+        "VNM",
+        "HAH"
+      ]
+    },
+    {
+      "kind": "backlog_rollforward",
+      "label_vn": "Backlog: ghi nhận từ backlog đầu kỳ và hợp đồng ký mới",
+      "formula_vn": "Doanh thu = backlog đầu kỳ × tỷ lệ ghi nhận/năm × ngày/365 + HĐ mới × tỷ lệ ghi nhận kỳ đầu; backlog cuối = đầu + ký mới − doanh thu.",
+      "primitives": [
+        "ratio_of",
+        "rollforward"
+      ],
+      "implemented": true,
+      "seen_in": [
+        "CTD",
+        "HHV"
+      ]
+    },
+    {
+      "kind": "gross_margin",
+      "label_vn": "Biên lợi nhuận gộp",
+      "formula_vn": "Giá vốn = −(1 − biên gộp) × doanh thu.",
+      "primitives": [
+        "margin_cost"
+      ],
+      "implemented": true,
+      "seen_in": [
+        "CTD",
+        "HHV",
+        "HPG"
+      ]
+    },
+    {
+      "kind": "unit_cost_plus_fixed",
+      "label_vn": "Chi phí biến đổi/đơn vị + chi phí cố định",
+      "formula_vn": "Giá vốn = chi phí biến đổi/đơn vị × sản lượng + cố định + (1 − biên doanh thu khác) × doanh thu khác.",
+      "primitives": [
+        "fixed_plus_variable",
+        "margin_cost"
+      ],
+      "implemented": true,
+      "seen_in": []
+    },
+    {
+      "kind": "material_cost_build",
+      "label_vn": "Giá vốn theo định mức nguyên liệu × giá nguyên liệu",
+      "formula_vn": "Giá vốn = Σ nguyên liệu (định mức/đơn vị × giá × tỷ giá × sản lượng) + khấu hao + chi phí khác.",
+      "primitives": [
+        "volume_price",
+        "schedule_sum"
+      ],
+      "implemented": false,
+      "seen_in": [
+        "HPG"
+      ]
+    },
+    {
+      "kind": "expense_cost_structure",
+      "label_vn": "Chi phí cố định + biến đổi ước lượng từ lịch sử (L1)",
+      "formula_vn": "CPBH = −(cố định + tỷ lệ biến đổi × doanh thu); CPQL tương tự. Default: hồi quy chi phí theo doanh thu.",
+      "primitives": [
+        "fixed_plus_variable"
+      ],
+      "implemented": true,
+      "seen_in": [
+        "CTD",
+        "HHV",
+        "HPG"
+      ]
+    },
+    {
+      "kind": "expense_fixed_variable",
+      "label_vn": "Chi phí cố định + biến đổi",
+      "formula_vn": "Chi phí = tỷ lệ biến đổi × doanh thu (+ chi phí/đơn vị × sản lượng) + cố định.",
+      "primitives": [
+        "fixed_plus_variable"
+      ],
+      "implemented": true,
+      "seen_in": []
+    },
+    {
+      "kind": "wc_days_cogs_proxy",
+      "label_vn": "Số ngày phải thu, tồn kho, phải trả (phải trả theo giá vốn)",
+      "formula_vn": "Số dư = dòng tiền kỳ × số ngày / số ngày của kỳ; phải trả dùng giá vốn thay mua hàng (xấp xỉ, công bố).",
+      "primitives": [
+        "days_balance"
+      ],
+      "implemented": true,
+      "seen_in": [
+        "CTD"
+      ]
+    },
+    {
+      "kind": "wc_days_purchases",
+      "label_vn": "Vốn lưu động theo mua hàng, trả trước, người mua trả trước",
+      "formula_vn": "Mua hàng = giá vốn + Δ tồn kho − khấu hao trong giá vốn; phải trả, trả trước theo mua hàng; người mua trả trước theo doanh thu.",
+      "primitives": [
+        "days_balance"
+      ],
+      "implemented": true,
+      "seen_in": []
+    },
+    {
+      "kind": "capex_intensity_depreciation_rate",
+      "label_vn": "Capex theo % doanh thu + tỷ lệ khấu hao",
+      "formula_vn": "Capex = tỷ lệ × doanh thu; khấu hao = tỷ lệ năm × (TSCĐ + dở dang) đầu kỳ × số ngày / 365.",
+      "primitives": [
+        "ratio_of",
+        "rate_on_balance",
+        "rollforward"
+      ],
+      "implemented": true,
+      "seen_in": []
+    },
+    {
+      "kind": "cip_rollforward_useful_life",
+      "label_vn": "Roll-forward XDCB → TSCĐ, khấu hao theo thời gian sử dụng",
+      "formula_vn": "Dở dang = đầu + capex − chuyển; TSCĐ = đầu + chuyển − khấu hao; khấu hao = nguyên giá / thời gian sử dụng.",
+      "primitives": [
+        "rollforward",
+        "straight_line_depreciation"
+      ],
+      "implemented": true,
+      "seen_in": [
+        "HPG",
+        "CTD"
+      ]
+    },
+    {
+      "kind": "project_schedule",
+      "label_vn": "Theo dự án / lớp tài sản: ngân sách, tiến độ, ngày vận hành",
+      "formula_vn": "Σ dự án hoặc lớp tài sản (capex theo lịch, khấu hao từ ngày vận hành).",
+      "primitives": [
+        "schedule_sum",
+        "straight_line_depreciation"
+      ],
+      "implemented": false,
+      "seen_in": [
+        "HHV",
+        "HAH",
+        "DCM"
+      ]
+    },
+    {
+      "kind": "debt_net_borrowing",
+      "label_vn": "Dư nợ giữ nguyên hoặc vay/trả ròng khai báo",
+      "formula_vn": "Dư nợ = đầu kỳ + vay ròng + giải ngân dài hạn; lãi = lãi suất × dư nợ đầu kỳ. (thay bằng cân nguồn tự động ở L1 từ 2026-11-16)",
+      "primitives": [
+        "rollforward",
+        "rate_on_balance"
+      ],
+      "implemented": false,
+      "seen_in": []
+    },
+    {
+      "kind": "debt_facility_schedule",
+      "label_vn": "Lịch vay ngắn hạn / dài hạn, lãi suất riêng",
+      "formula_vn": "Ngắn hạn: thay đổi ròng; dài hạn: giải ngân − trả gốc; lãi theo từng loại × dư nợ đầu kỳ.",
+      "primitives": [
+        "rollforward",
+        "rate_on_balance"
+      ],
+      "implemented": true,
+      "seen_in": []
+    },
+    {
+      "kind": "instrument_schedule",
+      "label_vn": "Nợ vay theo từng khoản / dự án",
+      "formula_vn": "Σ khoản vay (giải ngân, lịch trả gốc, lãi suất riêng).",
+      "primitives": [
+        "schedule_sum",
+        "rollforward",
+        "rate_on_balance"
+      ],
+      "implemented": false,
+      "seen_in": [
+        "CTD",
+        "HHV",
+        "DCM"
+      ]
+    },
+    {
+      "kind": "declared_revolver",
+      "label_vn": "Cân nguồn tự động (revolver khai báo)",
+      "formula_vn": "Tiền trước tài trợ < tiền tối thiểu thì vay tự động (chia ngắn/dài hạn theo tỷ trọng), dư thì trả phần vay tự động; tổng nợ ≤ trần nợ/tổng tài sản; phần thiếu còn lại là funding gap.",
+      "primitives": [
+        "rollforward"
+      ],
+      "implemented": true,
+      "seen_in": [
+        "CTD",
+        "DCM",
+        "HPG"
+      ]
+    },
+    {
+      "kind": "yield_on_average_balance",
+      "label_vn": "Lợi suất × số dư bình quân",
+      "formula_vn": "Thu nhập/chi phí = lợi suất năm × (đầu kỳ + cuối kỳ)/2 × số ngày / 365 (thu nhập lãi ngân hàng, lãi tiền gửi, lãi vay).",
+      "primitives": [
+        "average_balance",
+        "rate_on_balance"
+      ],
+      "implemented": false,
+      "seen_in": [
+        "BID",
+        "CTG",
+        "HDB",
+        "MBB",
+        "STB",
+        "TCB",
+        "VCB",
+        "VIB",
+        "VPB"
+      ]
+    },
+    {
+      "kind": "non_operating_policies",
+      "label_vn": "Thu nhập tài chính, chi phí tài chính khác, liên doanh, lợi nhuận khác",
+      "formula_vn": "Thu nhập tài chính = suất × (tiền + ĐTNH) đầu kỳ; chi phí khác = tỷ lệ × doanh thu; liên doanh, lợi nhuận khác = số tuyệt đối.",
+      "primitives": [
+        "rate_on_balance",
+        "ratio_of"
+      ],
+      "implemented": true,
+      "seen_in": [
+        "HPG",
+        "FRT",
+        "PNJ"
+      ]
+    },
+    {
+      "kind": "tax_payout_policies",
+      "label_vn": "Thuế suất hiệu dụng, thiểu số, cổ tức theo tỷ lệ, phát hành",
+      "formula_vn": "Thuế = thuế suất × LNTT (khi > 0); cổ tức tiền = tỷ lệ × LNST công ty mẹ.",
+      "primitives": [
+        "ratio_of"
+      ],
+      "implemented": true,
+      "seen_in": [
+        "HPG",
+        "CTD",
+        "HHV"
+      ]
+    },
+    {
+      "kind": "distribution_schedule",
+      "label_vn": "Lịch cổ tức tiền, trích và chi quỹ khen thưởng phúc lợi",
+      "formula_vn": "Cổ tức số tuyệt đối; quỹ = đầu + trích (% LNST mẹ) − chi.",
+      "primitives": [
+        "ratio_of",
+        "rollforward"
+      ],
+      "implemented": true,
+      "seen_in": []
+    },
+    {
+      "kind": "bank_loan_growth",
+      "label_vn": "Tăng trưởng dư nợ cho vay KH",
+      "formula_vn": "Dư nợ gộp = năm trước × (1 + g); g default = EMA 5 năm tăng trưởng dư nợ.",
+      "primitives": [],
+      "implemented": true,
+      "seen_in": [
+        "TCB",
+        "BID",
+        "CTG",
+        "HDB",
+        "MBB",
+        "STB",
+        "VCB",
+        "VIB",
+        "VPB"
+      ]
+    },
+    {
+      "kind": "bank_deposit_growth_ldr_cap",
+      "label_vn": "Tăng trưởng tiền gửi KH, trần LDR; GTCG theo tỷ lệ",
+      "formula_vn": "Tiền gửi KH = năm trước × (1 + g). LDR (dư nợ gộp / tiền gửi KH) chỉ là trần: vượt trần thì tiền gửi KH nâng lên bằng dư nợ / trần (công bố). GTCG = tỷ lệ × tiền gửi KH.",
+      "primitives": [],
+      "implemented": true,
+      "seen_in": [
+        "TCB",
+        "BID",
+        "CTG",
+        "HDB",
+        "MBB",
+        "STB",
+        "VCB",
+        "VIB",
+        "VPB"
+      ]
+    },
+    {
+      "kind": "bank_liquidity_ratios",
+      "label_vn": "Dự trữ NHNN theo huy động; tiền mặt theo tiền gửi",
+      "formula_vn": "TG NHNN = tỷ lệ dự trữ × (tiền gửi KH + GTCG), default 3% (thay hệ số gõ trong công thức của card). Tiền mặt = tỷ lệ × tiền gửi KH.",
+      "primitives": [],
+      "implemented": true,
+      "seen_in": [
+        "TCB",
+        "BID",
+        "CTG",
+        "HDB",
+        "MBB",
+        "STB",
+        "VCB",
+        "VIB",
+        "VPB"
+      ]
+    },
+    {
+      "kind": "bank_securities_to_loans",
+      "label_vn": "Chứng khoán đầu tư theo tốc độ tăng trưởng",
+      "formula_vn": "CK đầu tư (ròng) = năm trước × (1 + tăng trưởng).",
+      "primitives": [],
+      "implemented": true,
+      "seen_in": [
+        "TCB",
+        "BID",
+        "CTG",
+        "HDB",
+        "MBB",
+        "STB",
+        "VCB",
+        "VIB",
+        "VPB"
+      ]
+    },
+    {
+      "kind": "bank_credit_cost_coverage",
+      "label_vn": "Chi phí tín dụng",
+      "formula_vn": "Chi phí dự phòng = −chi phí tín dụng × dư nợ gộp cuối kỳ; dự phòng cho vay giữ nguyên số kỳ gốc; xoá nợ ngụ ý = trích lập (công bố).",
+      "primitives": [],
+      "implemented": true,
+      "seen_in": [
+        "TCB",
+        "BID",
+        "CTG",
+        "HDB",
+        "MBB",
+        "STB",
+        "VCB",
+        "VIB",
+        "VPB"
+      ]
+    },
+    {
+      "kind": "bank_yield_cof",
+      "label_vn": "Lợi suất TS sinh lãi và chi phí vốn",
+      "formula_vn": "Thu nhập lãi = lợi suất × TS sinh lãi BQ; chi phí lãi = −chi phí vốn × nợ chịu lãi BQ. Liên NH (dòng cân) tính trên số dư đầu kỳ để không vòng lặp. NIM tính ngược để so lịch sử.",
+      "primitives": [],
+      "implemented": true,
+      "seen_in": [
+        "TCB",
+        "BID",
+        "CTG",
+        "HDB",
+        "MBB",
+        "STB",
+        "VCB",
+        "VIB",
+        "VPB"
+      ]
+    },
+    {
+      "kind": "bank_non_interest",
+      "label_vn": "Phí theo dư nợ; ngoài lãi khác theo tăng trưởng",
+      "formula_vn": "Lãi thuần dịch vụ = tỷ lệ × dư nợ BQ; thu nhập ngoài lãi khác = năm trước × (1 + g); cộng khoản bất thường đã xác nhận của năm dự phóng.",
+      "primitives": [],
+      "implemented": true,
+      "seen_in": [
+        "TCB",
+        "BID",
+        "CTG",
+        "HDB",
+        "MBB",
+        "STB",
+        "VCB",
+        "VIB",
+        "VPB"
+      ]
+    },
+    {
+      "kind": "bank_cir",
+      "label_vn": "Chi phí hoạt động theo CIR",
+      "formula_vn": "Chi phí hoạt động = −CIR × tổng thu nhập hoạt động.",
+      "primitives": [],
+      "implemented": true,
+      "seen_in": [
+        "TCB",
+        "BID",
+        "CTG",
+        "HDB",
+        "MBB",
+        "STB",
+        "VCB",
+        "VIB",
+        "VPB"
+      ]
+    },
+    {
+      "kind": "bank_other_bs_ratios",
+      "label_vn": "TS Có khác theo dư nợ; nợ khác theo tiền gửi",
+      "formula_vn": "TS Có khác = tỷ lệ × dư nợ gộp; nợ khác = tỷ lệ × tiền gửi KH (card: tăng theo tín dụng / tiền gửi).",
+      "primitives": [],
+      "implemented": true,
+      "seen_in": [
+        "TCB",
+        "BID",
+        "CTG",
+        "HDB",
+        "MBB",
+        "STB",
+        "VCB",
+        "VIB",
+        "VPB"
+      ]
+    },
+    {
+      "kind": "bank_tax_payout_policies",
+      "label_vn": "Thuế suất hiệu dụng, cổ đông không kiểm soát, cổ tức tiền, phát hành",
+      "formula_vn": "Dùng lại công thức thuế/thiểu số của nhóm phi tài chính; quỹ khen thưởng phúc lợi của ngân hàng nằm trong nợ khác (theo tỷ lệ), không trích riêng.",
+      "primitives": [],
+      "implemented": true,
+      "seen_in": [
+        "TCB",
+        "BID",
+        "CTG",
+        "HDB",
+        "MBB",
+        "STB",
+        "VCB",
+        "VIB",
+        "VPB"
+      ]
+    },
+    {
+      "kind": "bank_interbank_balancing",
+      "label_vn": "Cân thanh khoản tự động qua liên ngân hàng",
+      "formula_vn": "Thặng dư nguồn vốn vào tiền gửi & cho vay liên NH (không thấp hơn sàn); thiếu thì vay liên NH tự động trong trần nợ liên NH/tổng TS; vượt trần là funding gap (không khả thi). Thay biến cân tiền mặt của model card.",
+      "primitives": [],
+      "implemented": true,
+      "seen_in": [
+        "TCB",
+        "BID",
+        "CTG",
+        "HDB",
+        "MBB",
+        "STB",
+        "VCB",
+        "VIB",
+        "VPB"
+      ]
+    }
+  ]
+}

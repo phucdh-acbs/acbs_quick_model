@@ -1,0 +1,92 @@
+item_id,statement,source_code,label_vn,kind,sign,unit
+gross_sales,IS,ISA1,Doanh thu bán hàng và cung cấp dịch vụ,flow,positive,VND
+sales_deductions,IS,ISA2,Các khoản giảm trừ doanh thu,flow,negative,VND
+net_revenue,IS,ISA3,Doanh thu thuần,flow,positive,VND
+cogs,IS,ISA4,Giá vốn hàng bán,flow,negative,VND
+gross_profit,IS,ISA5,Lợi nhuận gộp,flow,either,VND
+financial_income,IS,ISA6,Doanh thu hoạt động tài chính,flow,positive,VND
+financial_expense,IS,ISA7,Chi phí tài chính,flow,negative,VND
+interest_expense,IS,ISA8,Trong đó: chi phí lãi vay,flow,negative,VND
+jv_associates,IS,ISA102,Lãi/lỗ từ công ty liên doanh liên kết,flow,either,VND
+selling_expense,IS,ISA9,Chi phí bán hàng,flow,negative,VND
+admin_expense,IS,ISA10,Chi phí quản lý doanh nghiệp,flow,negative,VND
+operating_profit,IS,ISA11,Lợi nhuận thuần từ hoạt động kinh doanh,flow,either,VND
+other_income,IS,ISA12,Thu nhập khác,flow,positive,VND
+other_expense,IS,ISA13,Chi phí khác,flow,negative,VND
+other_profit,IS,ISA14,Lợi nhuận khác,flow,either,VND
+jv_associates_pre2015,IS,ISA15,Lãi/lỗ từ công ty liên doanh (trước 2015),flow,either,VND
+pbt,IS,ISA16,Lợi nhuận kế toán trước thuế,flow,either,VND
+income_tax,IS,ISA19,Chi phí thuế TNDN,flow,either,VND
+income_tax_current,IS,ISA17,Thuế TNDN hiện hành,flow,either,VND
+income_tax_deferred,IS,ISA18,Thuế TNDN hoãn lại,flow,either,VND
+npat,IS,ISA20,Lợi nhuận sau thuế,flow,either,VND
+npat_minority,IS,ISA21,Lợi ích của cổ đông không kiểm soát,flow,either,VND
+npat_parent,IS,ISA22,Lợi nhuận sau thuế của cổ đông công ty mẹ,flow,either,VND
+eps_basic,IS,ISA23,Lãi cơ bản trên cổ phiếu,per_share,either,VND/share
+eps_diluted,IS,ISA24,Lãi suy giảm trên cổ phiếu,per_share,either,VND/share
+current_assets,BS,BSA1,Tài sản ngắn hạn,stock,positive,VND
+cash,BS,BSA2,Tiền và tương đương tiền,stock,positive,VND
+st_investments,BS,BSA5,Đầu tư tài chính ngắn hạn,stock,positive,VND
+st_receivables,BS,BSA8,Các khoản phải thu ngắn hạn,stock,positive,VND
+trade_receivables,BS,BSA9,Phải thu ngắn hạn của khách hàng,stock,positive,VND
+prepayments_to_suppliers,BS,BSA10,Trả trước cho người bán ngắn hạn,stock,positive,VND
+inventories_net,BS,BSA15,Hàng tồn kho ròng,stock,positive,VND
+inventories_gross,BS,BSA16,Hàng tồn kho,stock,positive,VND
+inventory_provision,BS,BSA17,Dự phòng giảm giá hàng tồn kho,stock,negative,VND
+other_current_assets,BS,BSA18,Tài sản ngắn hạn khác,stock,positive,VND
+noncurrent_assets,BS,BSA23,Tài sản dài hạn,stock,positive,VND
+lt_receivables,BS,BSA24,Phải thu dài hạn,stock,positive,VND
+fixed_assets,BS,BSA29,Tài sản cố định,stock,positive,VND
+tangible_fa_net,BS,BSA30,Giá trị còn lại TSCĐ hữu hình,stock,positive,VND
+tangible_fa_cost,BS,BSA31,Nguyên giá TSCĐ hữu hình,stock,positive,VND
+tangible_fa_accum_dep,BS,BSA32,Khấu hao lũy kế TSCĐ hữu hình,stock,negative,VND
+finance_lease_net,BS,BSA33,Giá trị còn lại tài sản thuê tài chính,stock,positive,VND
+intangible_net,BS,BSA36,Giá trị còn lại TSCĐ vô hình,stock,positive,VND
+investment_property,BS,BSA40,Bất động sản đầu tư,stock,positive,VND
+lt_assets_in_progress,BS,BSA163,Tài sản dở dang dài hạn,stock,positive,VND
+cip,BS,BSA188,Xây dựng cơ bản dở dang,stock,positive,VND
+lt_investments,BS,BSA43,Đầu tư dài hạn,stock,positive,VND
+other_lt_assets,BS,BSA49,Tài sản dài hạn khác,stock,positive,VND
+total_assets,BS,BSA53,Tổng cộng tài sản,stock,positive,VND
+liabilities,BS,BSA54,Nợ phải trả,stock,positive,VND
+current_liabilities,BS,BSA55,Nợ ngắn hạn,stock,positive,VND
+trade_payables,BS,BSA57,Phải trả người bán ngắn hạn,stock,positive,VND
+advances_from_customers,BS,BSA58,Người mua trả tiền trước ngắn hạn,stock,positive,VND
+taxes_payable,BS,BSA59,Thuế và các khoản phải nộp Nhà nước,stock,positive,VND
+st_borrowings,BS,BSA56,Vay và nợ thuê tài chính ngắn hạn,stock,positive,VND
+bonus_welfare_fund,BS,BSA66,Quỹ khen thưởng phúc lợi,stock,positive,VND
+lt_liabilities,BS,BSA67,Nợ dài hạn,stock,positive,VND
+lt_borrowings,BS,BSA71,Vay và nợ thuê tài chính dài hạn,stock,positive,VND
+equity,BS,BSA78,Vốn chủ sở hữu,stock,either,VND
+capital_and_reserves,BS,BSA79,Vốn và các quỹ,stock,either,VND
+paid_in_capital,BS,BSA80,Vốn góp của chủ sở hữu,stock,positive,VND
+share_premium,BS,BSA81,Thặng dư vốn cổ phần,stock,either,VND
+treasury_shares,BS,BSA83,Cổ phiếu quỹ,stock,negative,VND
+retained_earnings,BS,BSA90,Lợi nhuận sau thuế chưa phân phối,stock,either,VND
+minority_interest,BS,BSA210,Lợi ích cổ đông không kiểm soát,stock,either,VND
+budget_funds,BS,BSA92,Nguồn kinh phí và quỹ khác,stock,either,VND
+minority_interest_pre2015,BS,BSA95,Lợi ích cổ đông không kiểm soát (trước 2015),stock,either,VND
+total_resources,BS,BSA96,Tổng cộng nguồn vốn,stock,positive,VND
+cf_pbt,CF,CFA1,Lợi nhuận trước thuế (LCTT),flow,either,VND
+cf_depreciation,CF,CFA2,Khấu hao TSCĐ,flow,cash_sign,VND
+cf_provisions,CF,CFA3,Chi phí dự phòng,flow,cash_sign,VND
+cf_op_before_wc,CF,CFA9,Lợi nhuận trước thay đổi vốn lưu động,flow,cash_sign,VND
+cf_chg_receivables,CF,CFA10,(Tăng)/giảm các khoản phải thu,flow,cash_sign,VND
+cf_chg_inventories,CF,CFA11,(Tăng)/giảm hàng tồn kho,flow,cash_sign,VND
+cf_chg_payables,CF,CFA12,Tăng/(giảm) các khoản phải trả,flow,cash_sign,VND
+cf_chg_prepaid,CF,CFA13,(Tăng)/giảm chi phí trả trước,flow,cash_sign,VND
+cf_interest_paid,CF,CFA14,Tiền lãi vay đã trả,flow,cash_sign,VND
+cf_tax_paid,CF,CFA15,Thuế TNDN đã nộp,flow,cash_sign,VND
+cfo,CF,CFA18,Lưu chuyển tiền thuần từ hoạt động kinh doanh,flow,cash_sign,VND
+capex,CF,CFA19,Tiền mua sắm TSCĐ và tài sản dài hạn khác,flow,cash_sign,VND
+disposal_proceeds,CF,CFA20,Tiền thu từ thanh lý TSCĐ,flow,cash_sign,VND
+cfi,CF,CFA26,Lưu chuyển tiền thuần từ hoạt động đầu tư,flow,cash_sign,VND
+share_issue_proceeds,CF,CFA27,Tiền thu từ phát hành cổ phiếu,flow,cash_sign,VND
+borrowings_drawn,CF,CFA29,Tiền thu từ đi vay,flow,cash_sign,VND
+borrowings_repaid,CF,CFA30,Tiền trả nợ gốc vay,flow,cash_sign,VND
+dividends_paid,CF,CFA32,Cổ tức đã trả,flow,cash_sign,VND
+cff,CF,CFA34,Lưu chuyển tiền thuần từ hoạt động tài chính,flow,cash_sign,VND
+net_cash_flow,CF,CFA35,Lưu chuyển tiền thuần trong kỳ,flow,cash_sign,VND
+cash_open,CF,CFA36,Tiền và tương đương tiền đầu kỳ,stock,positive,VND
+fx_effect,CF,CFA37,Ảnh hưởng của chênh lệch tỷ giá,flow,cash_sign,VND
+cash_close,CF,CFA38,Tiền và tương đương tiền cuối kỳ,stock,positive,VND

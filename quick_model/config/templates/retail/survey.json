@@ -1,0 +1,621 @@
+{
+  "template": "retail",
+  "version": "0.1.0",
+  "note": "Bộ câu hỏi cho chế độ nhập 'Theo câu hỏi'. Mỗi câu hỏi gắn với assumption ID / method ID của registry; thông báo và cách sửa gắn với mã quy tắc. Không dùng từ 'block', 'level', 'method' trong lời hiển thị.",
+  "sections": [
+    {
+      "id": "sales",
+      "title": "1. Bán hàng",
+      "intro": "Năm tới công ty bán được bao nhiêu?"
+    },
+    {
+      "id": "costs",
+      "title": "2. Chi phí",
+      "intro": "Mỗi đồng doanh thu tốn bao nhiêu chi phí?"
+    },
+    {
+      "id": "cash",
+      "title": "3. Tiền bị giam trong kinh doanh",
+      "intro": "Tiền nằm ở công nợ và hàng tồn kho bao lâu?"
+    },
+    {
+      "id": "investment",
+      "title": "4. Đầu tư",
+      "intro": "Công ty có chi đầu tư lớn không?"
+    },
+    {
+      "id": "funding",
+      "title": "5. Vay nợ và tiền",
+      "intro": "Thiếu tiền thì lấy từ đâu?"
+    },
+    {
+      "id": "distributions",
+      "title": "6. Thuế và phân phối",
+      "intro": "Lợi nhuận được chia thế nào?"
+    }
+  ],
+  "questions": [
+    {
+      "id": "sales_basis",
+      "section": "sales",
+      "kind": "choice",
+      "block": "revenue",
+      "quick": true,
+      "text": "Bạn đang có dữ liệu gì để dự phóng doanh thu?",
+      "options": [
+        {
+          "label": "Tôi chỉ có quan điểm về tăng trưởng doanh thu",
+          "method": "revenue.L1.yoy_growth",
+          "explain": "Doanh thu mỗi kỳ = doanh thu kỳ tương ứng năm trước × (1 + tăng trưởng)."
+        },
+        {
+          "label": "Tôi có số cửa hàng và doanh thu bình quân mỗi cửa hàng",
+          "method": "revenue.L2.store_network",
+          "explain": "Doanh thu = số cửa hàng bình quân × doanh thu/cửa hàng + doanh thu khác."
+        }
+      ]
+    },
+    {
+      "id": "sales_growth",
+      "section": "sales",
+      "kind": "values",
+      "quick": true,
+      "chart": "revenue",
+      "text": "Doanh thu mỗi kỳ tăng bao nhiêu so với kỳ tương ứng năm trước?",
+      "assumptions": [
+        "revenue_yoy_growth",
+        "long_run_growth"
+      ]
+    },
+    {
+      "id": "sales_stores",
+      "section": "sales",
+      "kind": "values",
+      "quick": true,
+      "chart": "revenue",
+      "text": "Đầu kỳ có bao nhiêu cửa hàng, mỗi kỳ mở/đóng bao nhiêu, doanh thu bình quân mỗi cửa hàng một năm và doanh thu ngoài chuỗi là bao nhiêu?",
+      "assumptions": [
+        "stores_opening",
+        "stores_new",
+        "stores_closed",
+        "revenue_per_store",
+        "retail_other_revenue"
+      ]
+    },
+    {
+      "id": "cost_basis",
+      "section": "costs",
+      "kind": "choice",
+      "block": "cogs",
+      "quick": false,
+      "text": "Bạn ước tính giá vốn theo cách nào?",
+      "options": [
+        {
+          "label": "Theo biên lợi nhuận gộp",
+          "method": "cogs.L1.gross_margin",
+          "explain": "Giá vốn = (1 − biên gộp) × doanh thu."
+        }
+      ]
+    },
+    {
+      "id": "cost_margin",
+      "section": "costs",
+      "kind": "values",
+      "quick": true,
+      "chart": "cogs",
+      "text": "Mỗi 100 đồng doanh thu còn lại bao nhiêu đồng lãi gộp?",
+      "assumptions": [
+        "gross_margin"
+      ]
+    },
+    {
+      "id": "sga_basis",
+      "section": "costs",
+      "kind": "choice",
+      "block": "sga",
+      "quick": false,
+      "text": "Chi phí bán hàng và quản lý: chỉ theo % doanh thu, hay tách thêm phần cố định?",
+      "options": [
+        {
+          "label": "Cố định + % doanh thu (ước lượng từ lịch sử)",
+          "method": "sga.L1.cost_structure",
+          "explain": "Mỗi loại chi phí = một khoản cố định + một tỷ lệ trên doanh thu, ước lượng từ lịch sử."
+        },
+        {
+          "label": "Tách phần biến đổi và phần cố định",
+          "method": "sga.L2.fixed_variable",
+          "explain": "Chi phí = tỷ lệ × doanh thu + số cố định mỗi kỳ (bán hàng có thể thêm chi phí mỗi tấn)."
+        }
+      ]
+    },
+    {
+      "id": "sga_ratios",
+      "section": "costs",
+      "kind": "values",
+      "quick": false,
+      "chart": "sga",
+      "text": "Chi phí bán hàng và quản lý: phần cố định mỗi kỳ bao nhiêu, phần biến đổi chiếm bao nhiêu % doanh thu?",
+      "assumptions": [
+        "selling_fixed_cost",
+        "selling_expense_ratio",
+        "admin_fixed_cost",
+        "admin_expense_ratio"
+      ]
+    },
+    {
+      "id": "sga_split",
+      "section": "costs",
+      "kind": "values",
+      "quick": false,
+      "chart": "sga",
+      "text": "Phần biến đổi và phần cố định của chi phí bán hàng, chi phí quản lý là bao nhiêu?",
+      "assumptions": [
+        "selling_variable_ratio",
+        "selling_fixed",
+        "admin_variable_ratio",
+        "admin_fixed"
+      ]
+    },
+    {
+      "id": "non_operating",
+      "section": "costs",
+      "kind": "values",
+      "quick": false,
+      "chart": "non_operating",
+      "text": "Thu nhập và chi phí ngoài kinh doanh chính (tiền gửi, tỷ giá, liên doanh, khoản khác) là bao nhiêu?",
+      "assumptions": [
+        "financial_income_run_rate",
+        "other_financial_expense_ratio",
+        "jv_associates_run_rate",
+        "other_profit"
+      ]
+    },
+    {
+      "id": "wc_basis",
+      "section": "cash",
+      "kind": "choice",
+      "block": "working_capital",
+      "quick": false,
+      "text": "Bạn theo dõi công nợ nhà cung cấp theo giá vốn hay theo giá trị mua hàng?",
+      "options": [
+        {
+          "label": "Theo giá vốn (nhanh)",
+          "method": "working_capital.L1.days",
+          "explain": "Phải trả người bán tính theo số ngày giá vốn — xấp xỉ."
+        },
+        {
+          "label": "Theo giá trị mua hàng, tách trả trước người bán và người mua trả trước",
+          "method": "working_capital.L2.purchases",
+          "explain": "Mua hàng = giá vốn + tăng tồn kho − khấu hao nằm trong giá vốn; công nợ tính theo mua hàng."
+        }
+      ]
+    },
+    {
+      "id": "wc_days",
+      "section": "cash",
+      "kind": "values",
+      "quick": true,
+      "chart": "working_capital",
+      "text": "Tiền bị giam bao nhiêu ngày: khách hàng nợ, hàng nằm trong kho, và công ty nợ nhà cung cấp?",
+      "assumptions": [
+        "dso_days",
+        "dio_days",
+        "dpo_days"
+      ]
+    },
+    {
+      "id": "wc_purchases",
+      "section": "cash",
+      "kind": "values",
+      "quick": true,
+      "chart": "working_capital",
+      "text": "Công nợ theo giá trị mua hàng: bao nhiêu ngày phải trả, trả trước người bán, người mua trả trước?",
+      "assumptions": [
+        "dpo_purchases_days",
+        "prepayment_days",
+        "customer_advance_days",
+        "noncash_cogs_share"
+      ]
+    },
+    {
+      "id": "capex_basis",
+      "section": "investment",
+      "kind": "choice",
+      "block": "ppe",
+      "quick": false,
+      "text": "Bạn dự phóng đầu tư theo % doanh thu, hay theo số tiền chi và thời gian sử dụng tài sản?",
+      "options": [
+        {
+          "label": "Theo % doanh thu (nhanh)",
+          "method": "ppe.L1.capex_intensity",
+          "explain": "Chi đầu tư = tỷ lệ × doanh thu; khấu hao theo tỷ lệ trên tài sản đầu kỳ."
+        },
+        {
+          "label": "Theo số tiền chi, tiến độ hoàn thành và thời gian sử dụng",
+          "method": "ppe.L2.asset_rollforward",
+          "explain": "Chi đầu tư vào công trình dở dang, chuyển sang tài sản khi hoàn thành, khấu hao theo số năm sử dụng."
+        },
+        {
+          "label": "Theo từng dự án đầu tư",
+          "method": "ppe.L3.projects",
+          "explain": "Mỗi dự án: ngân sách, tiến độ chi, ngày vận hành, công suất."
+        }
+      ]
+    },
+    {
+      "id": "capex_ratio",
+      "section": "investment",
+      "kind": "values",
+      "quick": true,
+      "chart": "ppe",
+      "text": "Công ty chi đầu tư bao nhiêu % doanh thu, và tài sản khấu hao nhanh cỡ nào?",
+      "assumptions": [
+        "capex_to_revenue",
+        "depreciation_rate"
+      ]
+    },
+    {
+      "id": "capex_schedule",
+      "section": "investment",
+      "kind": "values",
+      "quick": true,
+      "chart": "ppe",
+      "text": "Mỗi kỳ chi đầu tư bao nhiêu, bao nhiêu phần công trình hoàn thành, và tài sản dùng bao nhiêu năm?",
+      "assumptions": [
+        "capex_amount",
+        "cip_transfer_rate",
+        "useful_life_years"
+      ]
+    },
+    {
+      "id": "debt_basis",
+      "section": "funding",
+      "kind": "choice",
+      "block": "debt",
+      "quick": false,
+      "text": "Kế hoạch vay: một con số vay/trả ròng, hay lịch vay ngắn hạn và dài hạn riêng?",
+      "options": [
+        {
+          "label": "Để mô hình tự cân nguồn (vay ngắn và dài hạn khi thiếu tiền)",
+          "method": "debt.L1.auto_balance",
+          "explain": "Thiếu tiền so với mức tối thiểu thì vay tự động, dư thì trả bớt; tổng nợ không vượt trần nợ/tổng tài sản."
+        },
+        {
+          "label": "Lịch vay ngắn hạn, dài hạn và lãi suất riêng",
+          "method": "debt.L2.facility_schedule",
+          "explain": "Thay đổi vay ngắn hạn, giải ngân và trả gốc dài hạn, mỗi loại một lãi suất."
+        }
+      ]
+    },
+    {
+      "id": "debt_plan",
+      "section": "funding",
+      "kind": "values",
+      "quick": true,
+      "chart": "debt",
+      "text": "Lãi suất vay bao nhiêu, cần giữ tối thiểu bao nhiêu tiền so với doanh thu, và nếu thiếu tiền thì vay tự động theo cơ cấu nào, tối đa bao nhiêu so với tổng tài sản?",
+      "assumptions": [
+        "interest_rate",
+        "min_cash_ratio",
+        "auto_st_share",
+        "max_debt_to_assets"
+      ]
+    },
+    {
+      "id": "debt_schedule",
+      "section": "funding",
+      "kind": "values",
+      "quick": true,
+      "chart": "debt",
+      "text": "Lịch vay: vay ngắn hạn thay đổi bao nhiêu, giải ngân và trả gốc dài hạn bao nhiêu, lãi suất mỗi loại?",
+      "assumptions": [
+        "st_net_change",
+        "lt_drawdown",
+        "lt_repayment",
+        "st_interest_rate",
+        "lt_interest_rate",
+        "min_cash"
+      ]
+    },
+    {
+      "id": "dividend_basis",
+      "section": "distributions",
+      "kind": "choice",
+      "block": "tax_equity",
+      "quick": false,
+      "text": "Cổ tức tiền: theo % lợi nhuận, hay theo số tiền và lịch chi trả cụ thể?",
+      "options": [
+        {
+          "label": "Theo % lợi nhuận (nhanh)",
+          "method": "tax_equity.L1.policies",
+          "explain": "Cổ tức tiền = tỷ lệ × lợi nhuận sau thuế của cổ đông công ty mẹ, chi trong kỳ."
+        },
+        {
+          "label": "Theo số tiền, kèm trích và chi quỹ khen thưởng phúc lợi",
+          "method": "tax_equity.L2.distribution_schedule",
+          "explain": "Cổ tức tiền theo lịch; trích quỹ từ lợi nhuận và chi quỹ bằng tiền."
+        }
+      ]
+    },
+    {
+      "id": "dividend_payout",
+      "section": "distributions",
+      "kind": "values",
+      "quick": true,
+      "chart": "tax_equity",
+      "text": "Công ty chia cổ tức tiền bao nhiêu % lợi nhuận, có phát hành thêm cổ phiếu thu tiền không?",
+      "assumptions": [
+        "cash_dividend_payout",
+        "share_issue_proceeds"
+      ]
+    },
+    {
+      "id": "dividend_schedule",
+      "section": "distributions",
+      "kind": "values",
+      "quick": true,
+      "chart": "tax_equity",
+      "text": "Cổ tức tiền chi bao nhiêu mỗi kỳ, trích và chi quỹ khen thưởng phúc lợi bao nhiêu?",
+      "assumptions": [
+        "cash_dividend_amount",
+        "welfare_fund_rate",
+        "welfare_fund_usage"
+      ]
+    },
+    {
+      "id": "tax_minority",
+      "section": "distributions",
+      "kind": "values",
+      "quick": false,
+      "text": "Thuế suất thực tế và phần lợi nhuận thuộc cổ đông thiểu số là bao nhiêu?",
+      "assumptions": [
+        "effective_tax_rate",
+        "minority_share"
+      ]
+    }
+  ],
+  "messages": {
+    "needs_input": "Chưa có số cho {label}{when}.",
+    "out_of_range": "{label}{when} có giá trị không hợp lệ.",
+    "wrong_length": "{label} thiếu số cho một số kỳ.",
+    "override_reason_missing": "Cần ghi lý do khi sửa {label}.",
+    "outside_history": "{label}{when} khác xa mức trong lịch sử.",
+    "high_growth": "Tăng trưởng doanh thu{when} rất cao.",
+    "weak_sample": "Số mặc định của {label} dựa trên ít dữ liệu lịch sử.",
+    "volatile_history": "Lịch sử của {label} dao động mạnh; số mặc định có thể không đại diện.",
+    "method_unavailable": "Cách tính này chưa dùng được.",
+    "DEP-01": "Giá vốn đang tính theo chi phí mỗi tấn, nhưng doanh thu chưa có sản lượng.",
+    "DEP-02": "Bạn đã nhập chi phí bán hàng theo tấn, nhưng doanh thu chưa có sản lượng.",
+    "OWN-01": "Số bạn nhập cho {label} theo cách tính cũ vẫn được giữ, nhưng không dùng với cách tính hiện tại.",
+    "IN-01": "Giá bán{when} bằng 0 hoặc âm trong khi có sản lượng.",
+    "IN-02": "Thời gian sử dụng tài sản{when} phải lớn hơn 0 năm.",
+    "IN-03": "Trả gốc vay dài hạn{when} nhiều hơn số đang nợ.",
+    "IN-04": "Vay ngắn hạn{when} bị âm sau khi trả.",
+    "IN-05": "Chi quỹ khen thưởng phúc lợi{when} nhiều hơn số dư quỹ.",
+    "CAL-01": "Theo các số hiện tại, giá trị mua hàng{when} bị âm (tồn kho giảm quá nhanh) nên không tính được công nợ nhà cung cấp.",
+    "CAL-02": "Khấu hao{when} lớn hơn giá trị tài sản còn lại.",
+    "CAL-03": "Không có doanh thu kỳ tương ứng năm trước{when} để áp tăng trưởng.",
+    "REV-01": "Giá bán{when} thấp hơn chi phí biến đổi mỗi tấn: mỗi tấn bán ra đều lỗ.",
+    "REV-02": "Sản lượng{when} vượt công suất bạn đã nhập.",
+    "REV-03": "Doanh thu{when} tính từ sản lượng × giá khác xa lịch sử — kiểm tra đơn vị tấn và giá.",
+    "REV-04": "Biên gộp{when} tính ra khác xa lịch sử.",
+    "REV-05": "Chi phí sản xuất cố định{when} thấp hơn khấu hao nằm trong giá vốn.",
+    "REV-06": "Tỷ lệ chi phí bán hàng hoặc quản lý{when} khác xa lịch sử.",
+    "REV-07": "Cổ tức{when} lớn hơn lợi nhuận chưa phân phối có thể chia.",
+    "REV-08": "Số ngày phải trả{when} (quy theo giá vốn) khác xa lịch sử.",
+    "REV-09": "Khấu hao{when} khác xa tỷ lệ khấu hao lịch sử.",
+    "IN-07": "Số cửa hàng cuối kỳ bị âm{when}: số cửa hàng đóng nhiều hơn số đang có cộng mở mới.",
+    "REV-10": "Dự phóng cả năm{when} thấp hơn số thực tế lũy kế các quý đã công bố của năm đó.",
+    "INT-01": "Doanh nghiệp không có nợ vay trong lịch sử nên lãi suất default = 0, nhưng mô hình phát sinh nợ vay{when}: cần nhập lãi suất.",
+    "AUTO-01": "Mô hình đã tự cân nguồn{when}: vay thêm khi thiếu tiền hoặc đưa một tỷ lệ về biên lịch sử.",
+    "AUTO-02": "Sau khi tự cân nguồn, nợ vay vẫn tăng quá nhanh hoặc vẫn thiếu tiền{when}; cần xem lại giả định.",
+    "FUND-L2": "Đang dùng lịch vay tự khai báo nên mô hình không tự vay; thiếu tiền{when} cần được bù bằng nguồn tài trợ.",
+    "ONE-01": "Một quý đã công bố{when} có khoản thu/chi bất thường (lệch xa xu hướng các quý trước); hãy xác nhận đó là khoản một lần hay bỏ qua.",
+    "ONE-02": "Khoản bất thường đã được xác nhận{when}: chạy theo năm thì được cộng vào số cả năm; mọi trường hợp đều được loại khỏi số lịch sử dùng làm mặc định."
+  },
+  "fixes": {
+    "needs_input@revenue": [
+      {
+        "label": "Quay về dự phóng doanh thu theo tăng trưởng",
+        "action": "select_method",
+        "block": "revenue",
+        "method": "revenue.L1.yoy_growth"
+      }
+    ],
+    "needs_input@cogs": [
+      {
+        "label": "Quay về tính giá vốn theo biên gộp",
+        "action": "select_method",
+        "block": "cogs",
+        "method": "cogs.L1.gross_margin"
+      }
+    ],
+    "needs_input": [
+      {
+        "label": "Dùng lại số mặc định",
+        "action": "reset_assumption"
+      }
+    ],
+    "out_of_range": [
+      {
+        "label": "Dùng lại số mặc định",
+        "action": "reset_assumption"
+      }
+    ],
+    "outside_history": [
+      {
+        "label": "Dùng lại số mặc định",
+        "action": "reset_assumption"
+      }
+    ],
+    "high_growth": [
+      {
+        "label": "Dùng lại số mặc định",
+        "action": "reset_assumption"
+      }
+    ],
+    "OWN-01": [
+      {
+        "label": "Xóa số cũ không dùng",
+        "action": "reset_assumption"
+      }
+    ],
+    "IN-02": [
+      {
+        "label": "Dùng lại số mặc định",
+        "action": "reset_assumption"
+      }
+    ],
+    "IN-03": [
+      {
+        "label": "Dùng lại số mặc định",
+        "action": "reset_assumption"
+      }
+    ],
+    "IN-04": [
+      {
+        "label": "Dùng lại số mặc định",
+        "action": "reset_assumption"
+      }
+    ],
+    "IN-05": [
+      {
+        "label": "Dùng lại số mặc định",
+        "action": "reset_assumption"
+      }
+    ],
+    "CAL-01": [
+      {
+        "label": "Quay về tính công nợ theo giá vốn",
+        "action": "select_method",
+        "block": "working_capital",
+        "method": "working_capital.L1.days"
+      }
+    ],
+    "CAL-02": [
+      {
+        "label": "Dùng lại thời gian sử dụng mặc định",
+        "action": "reset_assumption",
+        "assumption": "useful_life_years"
+      }
+    ],
+    "REV-07": [
+      {
+        "label": "Dùng lại số mặc định",
+        "action": "reset_assumption",
+        "assumption": "cash_dividend_amount"
+      }
+    ]
+  },
+  "hints": {},
+  "starters": [
+    {
+      "id": "history",
+      "label": "Theo lịch sử",
+      "action": "reset",
+      "description": "Mọi câu trả lời dùng số mặc định lấy từ lịch sử; cách tính nhanh nhất cho mọi phần."
+    },
+    {
+      "id": "conservative",
+      "label": "Thận trọng",
+      "action": "adjust",
+      "description": "Từ số mặc định: tăng trưởng doanh thu thấp hơn 5 điểm %, biên gộp thấp hơn 1 điểm %, hàng tồn kho lâu hơn 10 ngày.",
+      "adjust": [
+        {
+          "assumption": "revenue_yoy_growth",
+          "delta": -0.05
+        },
+        {
+          "assumption": "gross_margin",
+          "delta": -0.01
+        },
+        {
+          "assumption": "dio_days",
+          "delta": 10
+        }
+      ]
+    },
+    {
+      "id": "guidance",
+      "label": "Theo kế hoạch doanh nghiệp",
+      "action": "guidance",
+      "description": "Nhập doanh thu kế hoạch của năm hiện tại và tỷ lệ cổ tức tiền; tăng trưởng phần còn lại của năm (các quý còn lại, hoặc cả năm khi chạy theo năm) được tính để khớp kế hoạch.",
+      "inputs": [
+        {
+          "id": "revenue_plan",
+          "label": "Doanh thu kế hoạch năm {year}",
+          "unit": "VND"
+        },
+        {
+          "id": "payout",
+          "label": "Tỷ lệ cổ tức tiền / lợi nhuận",
+          "unit": "ratio",
+          "assumption": "cash_dividend_payout"
+        }
+      ]
+    }
+  ],
+  "sensitivity": {
+    "note": "Mỗi giả định đang dùng được tăng/giảm một bước; đo thay đổi tổng LNST cổ đông công ty mẹ trong 12 tháng dự phóng đầu tiên (4 quý hoặc 1 năm).",
+    "steps": {
+      "ratio": {
+        "type": "absolute",
+        "delta": 0.01,
+        "label": "±1 điểm %"
+      },
+      "ratio_annual": {
+        "type": "absolute",
+        "delta": 0.01,
+        "label": "±1 điểm %/năm"
+      },
+      "days": {
+        "type": "absolute",
+        "delta": 10,
+        "label": "±10 ngày"
+      },
+      "years": {
+        "type": "relative",
+        "delta": 0.1,
+        "label": "±10%"
+      },
+      "tonnes": {
+        "type": "relative",
+        "delta": 0.1,
+        "label": "±10%"
+      },
+      "VND_per_tonne": {
+        "type": "relative",
+        "delta": 0.1,
+        "label": "±10%"
+      },
+      "VND": {
+        "type": "relative",
+        "delta": 0.1,
+        "label": "±10%"
+      }
+    },
+    "overrides": {
+      "revenue_yoy_growth": {
+        "type": "absolute",
+        "delta": 0.05,
+        "label": "±5 điểm %"
+      }
+    },
+    "exclude": [
+      "min_cash",
+      "capacity",
+      "noncash_cogs_share",
+      "share_issue_proceeds",
+      "cash_dividend_payout",
+      "cash_dividend_amount",
+      "welfare_fund_usage",
+      "net_borrowing",
+      "st_net_change",
+      "lt_drawdown",
+      "lt_repayment",
+      "lt_borrowing_draw",
+      "jv_associates_run_rate",
+      "other_profit"
+    ]
+  }
+}

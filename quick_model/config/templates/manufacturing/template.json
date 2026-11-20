@@ -1,0 +1,307 @@
+{
+  "schema_version": "1.1",
+  "template_id": "manufacturing",
+  "version": "1.0.0",
+  "extends": "nonfinancial",
+  "label_vn": "Doanh nghiệp sản xuất",
+  "description_vn": "Kế thừa template phi tài chính; thêm doanh thu sản lượng × giá (L2), theo sản phẩm (L3, chưa chạy) và giá vốn theo chi phí/tấn (L2).",
+  "files": {
+    "survey": "survey.json"
+  },
+  "methods": [
+    {
+      "method_id": "revenue.L2.volume_asp",
+      "block": "revenue",
+      "level": "L2",
+      "kind": "volume_x_price",
+      "label_vn": "Sản lượng × giá bán bình quân + doanh thu khác",
+      "version": "1",
+      "implemented": true,
+      "outputs": [
+        "net_revenue",
+        "sales_volume"
+      ],
+      "provides": [
+        "sales_volume"
+      ],
+      "notes_vn": "Doanh thu = sản lượng (tấn) × giá bán bình quân (VND/tấn) + doanh thu ngoài sản lượng. Database không có sản lượng/giá: analyst nhập. Doanh thu tổng chỉ đọc khi L2 đang chạy.",
+      "line_formulas": {
+        "net_revenue": [
+          "Sản lượng × giá bán + doanh thu ngoài sản lượng",
+          [
+            "sales_volume",
+            "asp",
+            "other_revenue"
+          ]
+        ],
+        "sales_volume": [
+          "Khai báo",
+          [
+            "sales_volume"
+          ]
+        ],
+        "asp": [
+          "Khai báo",
+          [
+            "asp"
+          ]
+        ],
+        "volume_revenue": [
+          "Sản lượng × giá",
+          []
+        ],
+        "other_revenue": [
+          "Khai báo",
+          [
+            "other_revenue"
+          ]
+        ]
+      }
+    },
+    {
+      "method_id": "revenue.L3.product_build",
+      "block": "revenue",
+      "level": "L3",
+      "kind": "segment_volume_price_sum",
+      "label_vn": "Tổng theo sản phẩm (sản lượng × giá) + doanh thu khác",
+      "version": "0",
+      "implemented": false,
+      "provides": [
+        "sales_volume"
+      ],
+      "unavailable_reason": "Chưa triển khai; cần dữ liệu theo sản phẩm do analyst nhập."
+    },
+    {
+      "method_id": "cogs.L2.unit_cost",
+      "block": "cogs",
+      "level": "L2",
+      "kind": "unit_cost_plus_fixed",
+      "label_vn": "Chi phí biến đổi/tấn + chi phí sản xuất cố định",
+      "version": "1",
+      "implemented": true,
+      "outputs": [
+        "cogs",
+        "gross_profit"
+      ],
+      "requires": [
+        "sales_volume"
+      ],
+      "notes_vn": "Giá vốn = chi phí biến đổi/tấn × sản lượng + chi phí cố định + (1 − biên gộp doanh thu khác) × doanh thu khác. Cần sản lượng từ doanh thu L2/L3.",
+      "line_formulas": {
+        "cogs": [
+          "−(chi phí biến đổi/tấn × sản lượng + chi phí cố định + (1 − biên khác) × doanh thu khác)",
+          [
+            "variable_cost_per_tonne",
+            "fixed_production_cost",
+            "other_revenue_gross_margin"
+          ]
+        ],
+        "unit_cogs": [
+          "(Chi phí biến đổi × sản lượng + cố định) / sản lượng",
+          []
+        ]
+      }
+    }
+  ],
+  "method_patches": [
+    {
+      "method_id": "sga.L2.fixed_variable",
+      "line_formulas": {
+        "selling_expense": [
+          "−(tỷ lệ × doanh thu + chi phí/tấn × sản lượng + cố định)",
+          [
+            "selling_variable_ratio",
+            "selling_cost_per_tonne",
+            "selling_fixed"
+          ]
+        ]
+      },
+      "notes_vn": "CPBH = tỷ lệ × doanh thu + chi phí/tấn × sản lượng (tùy chọn) + cố định; CPQL = tỷ lệ × doanh thu + cố định. Điền chi phí/tấn thì cần sản lượng."
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption_id": "sales_volume",
+      "method_id": "revenue.L2.volume_asp",
+      "label_vn": "Sản lượng bán",
+      "description_vn": "Sản lượng bán ra ngoài tập đoàn trong kỳ (không tính bán nội bộ).",
+      "unit": "tonnes",
+      "valid_range": [
+        0.0,
+        null
+      ],
+      "default_policy": "Không có trong database: analyst nhập.",
+      "default": {
+        "type": "needs_input",
+        "note": "Database không có sản lượng bán; nhập theo công bố của doanh nghiệp."
+      }
+    },
+    {
+      "assumption_id": "asp",
+      "method_id": "revenue.L2.volume_asp",
+      "label_vn": "Giá bán bình quân",
+      "description_vn": "Giá bán thuần bình quân (sau giảm trừ) trên mỗi tấn.",
+      "unit": "VND_per_tonne",
+      "valid_range": [
+        0.0,
+        null
+      ],
+      "default_policy": "Không có trong database: analyst nhập. Có nút gợi ý khớp doanh thu L1.",
+      "default": {
+        "type": "needs_input",
+        "note": "Database không có giá bán; nhập hoặc dùng nút gợi ý giá để khớp doanh thu theo tăng trưởng."
+      }
+    },
+    {
+      "assumption_id": "other_revenue",
+      "method_id": "revenue.L2.volume_asp",
+      "label_vn": "Doanh thu ngoài sản lượng",
+      "description_vn": "Doanh thu không gắn với sản lượng ở trên (mảng khác, dịch vụ…). Nhập 0 nếu không có.",
+      "unit": "VND",
+      "valid_range": [
+        0.0,
+        null
+      ],
+      "default_policy": "Không có trong database: analyst nhập.",
+      "default": {
+        "type": "needs_input",
+        "note": "Nhập doanh thu không gắn với sản lượng (nhập 0 nếu không có)."
+      }
+    },
+    {
+      "assumption_id": "capacity",
+      "method_id": "revenue.L2.volume_asp",
+      "label_vn": "Công suất bán tối đa (tùy chọn)",
+      "description_vn": "Để trống nếu không kiểm tra. Điền thì cảnh báo khi sản lượng vượt công suất.",
+      "unit": "tonnes",
+      "valid_range": [
+        0.0,
+        null
+      ],
+      "default_policy": "Không có default.",
+      "optional": true,
+      "default": {
+        "type": "blank",
+        "note": "Để trống = không kiểm tra công suất."
+      }
+    },
+    {
+      "assumption_id": "variable_cost_per_tonne",
+      "method_id": "cogs.L2.unit_cost",
+      "label_vn": "Chi phí biến đổi / tấn",
+      "description_vn": "Nguyên vật liệu, năng lượng… trên mỗi tấn bán ra.",
+      "unit": "VND_per_tonne",
+      "valid_range": [
+        0.0,
+        null
+      ],
+      "default_policy": "Không có trong database: analyst nhập.",
+      "default": {
+        "type": "needs_input",
+        "note": "Database không có chi phí theo tấn; analyst nhập."
+      }
+    },
+    {
+      "assumption_id": "fixed_production_cost",
+      "method_id": "cogs.L2.unit_cost",
+      "label_vn": "Chi phí sản xuất cố định",
+      "description_vn": "Chi phí cố định trong giá vốn mỗi kỳ, gồm khấu hao phân bổ vào giá vốn.",
+      "unit": "VND",
+      "valid_range": [
+        0.0,
+        null
+      ],
+      "default_policy": "Không có trong database: analyst nhập.",
+      "default": {
+        "type": "needs_input",
+        "note": "Database không tách chi phí cố định trong giá vốn; analyst nhập."
+      }
+    },
+    {
+      "assumption_id": "other_revenue_gross_margin",
+      "method_id": "cogs.L2.unit_cost",
+      "label_vn": "Biên gộp của doanh thu ngoài sản lượng",
+      "description_vn": "Giá vốn của doanh thu khác = −(1 − biên) × doanh thu khác.",
+      "unit": "ratio",
+      "valid_range": [
+        null,
+        1.0
+      ],
+      "default_policy": "Proxy: biên gộp chung trung vị 8 quý.",
+      "default": {
+        "type": "copy",
+        "from": "gross_margin",
+        "note": "Proxy: dùng biên gộp chung của doanh nghiệp."
+      }
+    },
+    {
+      "assumption_id": "selling_cost_per_tonne",
+      "method_id": "sga.L2.fixed_variable",
+      "label_vn": "CPBH / tấn (tùy chọn)",
+      "description_vn": "Chi phí vận chuyển, bán hàng trên mỗi tấn. Để trống nếu không dùng; điền thì cần sản lượng.",
+      "unit": "VND_per_tonne",
+      "valid_range": [
+        0.0,
+        null
+      ],
+      "default_policy": "Không có default.",
+      "optional": true,
+      "default": {
+        "type": "blank",
+        "note": "Để trống = không dùng chi phí bán hàng theo tấn."
+      }
+    }
+  ],
+  "lines": [
+    {
+      "line_id": "sales_volume",
+      "statement": "OPS",
+      "label_vn": "Sản lượng bán",
+      "block": "revenue",
+      "source_code": null,
+      "unit": "tonnes"
+    },
+    {
+      "line_id": "asp",
+      "statement": "OPS",
+      "label_vn": "Giá bán bình quân",
+      "block": "revenue",
+      "source_code": null,
+      "unit": "VND_per_tonne"
+    },
+    {
+      "line_id": "volume_revenue",
+      "statement": "OPS",
+      "label_vn": "Doanh thu theo sản lượng",
+      "block": "revenue",
+      "source_code": null,
+      "unit": "VND"
+    },
+    {
+      "line_id": "other_revenue",
+      "statement": "OPS",
+      "label_vn": "Doanh thu ngoài sản lượng",
+      "block": "revenue",
+      "source_code": null,
+      "unit": "VND"
+    },
+    {
+      "line_id": "unit_cogs",
+      "statement": "OPS",
+      "label_vn": "Giá vốn / tấn (gồm cố định)",
+      "block": "cogs",
+      "source_code": null,
+      "unit": "VND_per_tonne"
+    }
+  ],
+  "requires_when_filled": {
+    "selling_cost_per_tonne": [
+      "sales_volume"
+    ]
+  },
+  "quarterly_engine": {
+    "extra_stock_assumptions": [
+      "capacity"
+    ]
+  }
+}
