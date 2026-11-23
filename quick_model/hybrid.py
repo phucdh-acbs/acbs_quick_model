@@ -349,7 +349,11 @@ def quarter_defaults(h, plan: Plan, tpl, family, annual: dict[str, AssumptionVal
         aid = rc["assumption"]
         rev = revenue_components(h, plan, rc, annual[aid])
         if rev is not None:
-            out[aid] = rev
+            # quý không dựng được từ 3 thành phần (nền ≤ 0, thiếu quý): dùng default quý thông thường, không để trống
+            base_vals = out[aid].values
+            gaps = [q for q, v in zip(plan.quarters, rev.values) if v is None]
+            vals = tuple(b if v is None else v for v, b in zip(rev.values, base_vals))
+            out[aid] = AssumptionValue(aid, vals, rev.source, {**rev.basis, "fallback_quarters": gaps}) if gaps else rev
     _anchor_quarters(plan, cfg, out, hist, annual)
     _cap_quarters(cfg, out)
     for aid, d in copies.items():
