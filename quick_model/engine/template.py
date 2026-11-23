@@ -26,7 +26,7 @@ from quick_model.paths import CONFIG_DIR  # noqa: E402
 TEMPLATES_DIR = CONFIG_DIR / "templates"
 LEVELS = ("L1", "L2", "L3")
 DEFAULT_TYPES = ("history", "explicit", "needs_input", "blank", "copy", "cost_structure")
-HISTORY_STATS = ("median", "mean", "min", "max", "latest", "same_period_latest", "converge", "ema", "ema_rolling", "ema_decay")
+HISTORY_STATS = ("median", "mean", "min", "max", "latest", "same_period_latest", "converge", "ema", "ema_rolling", "ema_decay", "ema_cap_by")
 CONVERGE_STARTS = ("latest", "same_period_latest")
 
 

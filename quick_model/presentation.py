@@ -226,10 +226,6 @@ def _quarter_source(h: History) -> pd.DataFrame:
     return period_source(h, FREQ_QUARTER)
 
 
-def _fy_source(h: History) -> pd.DataFrame:
-    return period_source(h, FREQ_ANNUAL)
-
-
 def _source_terms(code: str) -> list[tuple[int, str]]:
     """Mã nguồn của một dòng: 'ISA3', '-ISA21' hoặc biểu thức '+ISB31 +ISB32'."""
     toks = str(code).split()

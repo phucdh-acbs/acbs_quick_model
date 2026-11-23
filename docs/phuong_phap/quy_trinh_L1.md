@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| Phiên bản mô hình | L1 phi tài chính **v2.6.3** (chốt 2026-11-20); ngân hàng dùng chung engine quý + năm |
+| Phiên bản mô hình | Thư viện **v2.6.4** (2026-11-23): L1 phi tài chính chốt v2.6.3 (không đổi); ngân hàng dùng chung engine quý + năm, default CK đầu tư mới |
 | Người đọc | Người vận hành, bảo trì mô hình; team IT (đóng gói thư viện/API) |
 | Tài liệu gốc | Phương pháp: `docs/L1_phi_tai_chinh.md`, `docs/thiet_ke_bank_L1.md`; kiến trúc code: `docs/kien_truc_code.md` |
 | Báo cáo kèm theo | `docs/report/Bao_cao_mo_hinh_L1_v2.6.3.pptx`; backtest: `docs/backtest/backtest_report_v2.6.3.html` |
@@ -167,6 +167,7 @@ Thay đổi ở nhóm khác (ngân hàng, template ngành L2/L3) phải giữ `t
 | v2.6.1 | 20/11 | Quý tới bị neo quá nặng (LNST 1 quý tới WAPE 65% → 75%) | Trọng số neo theo số quý tới | 1 quý tới WAPE 75% → 68% |
 | v2.6.2 | 20/11 | Lãi vay bùng nổ khi dư nợ đầu kỳ gần 0 (CTD: lãi suất ~4.590%/năm) | Lãi suất trên dư nợ bình quân | Lãi vay 1 quý tới WAPE 43% → 22%; ca bùng nổ 38 → 16 |
 | v2.6.3 | 20/11 | Tỷ lệ CĐKKS phóng đại khi LNST gần 0 (HU1, VID); biên gộp từ quý doanh thu gần 0 (BTP) | CĐKKS = tổng 4 quý / tổng 4 quý; quán tính biên và neo theo trọng số doanh thu | CĐKKS 1 quý tới WAPE 68% → 47%; ca bùng nổ 16 → 4 |
+| v2.6.4 | 23/11 | Ngân hàng: CK đầu tư mặc định tăng 24%/năm (ACB) nhanh hơn huy động 11–13%, funding gap ~182 nghìn tỷ; lỗi chia cho 0 ở nhánh biên | CK đầu tư = min(EMA5, tăng trưởng huy động); chặn chia 0 / inf | Backtest 25 NH: MAE năm 1 30,6 → 26,2 pp; ACB gap 182 → 12 nghìn tỷ. Phi tài chính không đổi |
 
 Ngân hàng: thiết kế duyệt 17 – 18/11 (EMA5 có giảm dần về 15%/13%, trần LDR, cân thanh khoản qua liên ngân hàng); dùng
 engine quý + năm từ 18/11 (AEY, COF theo quý); thu nhập ngoài lãi khác theo mức và không tự làm sạch từ 19/11.

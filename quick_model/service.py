@@ -25,7 +25,7 @@ from quick_model.families.base import ForecastResult, forecast_periods
 from quick_model.paths import CONFIG_DIR
 from quick_model.periods import FREQ_ANNUAL, FREQ_QUARTER
 
-MODEL_VERSION = "L1 v2.6.3"
+MODEL_VERSION = "L1 v2.6.4"
 FAMILIES = ("nonfinancial", "bank")  # template mặc định của nhóm trùng tên nhóm
 REQUIRED_TABLES = {"nonfinancial": ("INCOME_STATEMENT", "BALANCE_SHEET", "CASH_FLOW"),
                    "bank": ("INCOME_STATEMENT", "BALANCE_SHEET")}

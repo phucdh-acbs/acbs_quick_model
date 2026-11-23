@@ -74,10 +74,6 @@ class RawStatement:
     codes: list[str]
     dropped: pd.DataFrame = field(default_factory=pd.DataFrame)  # bản ghi bị loại bởi quy tắc chọn
 
-    def summary(self) -> str:
-        return (f"{self.statement} ({self.bq_table}): {len(self.frame)} kỳ, "
-                f"{len(self.codes)} mã, loại {len(self.dropped)} bản ghi")
-
 
 def read_manifest(manifest_path: Path) -> dict[str, list[str]]:
     """bq_table -> danh sách mã khoản mục kỳ vọng, theo thứ tự trong SQL."""
@@ -149,11 +145,15 @@ def raw_statement_from_frame(df: pd.DataFrame, statement: str, required_codes: l
         if other:
             raise RawDataError(f"{path.name}: có mã khác {ticker}: {other}")
 
+    numeric = {}
     for c in required_codes:
         try:
-            df[c] = pd.to_numeric(df[c], errors="raise").astype("float64")
+            numeric[c] = pd.to_numeric(df[c], errors="raise").astype("float64")
         except (ValueError, TypeError):
             raise RawDataError(f"{path.name}: cột {c} có giá trị không phải số") from None
+    if numeric:  # ghép một lần (không gán từng cột: hàng trăm mã làm DataFrame phân mảnh, PerformanceWarning)
+        meta = df.drop(columns=list(numeric))
+        df = pd.concat([meta, pd.DataFrame(numeric, index=df.index)], axis=1)[list(df.columns)]
 
     kept, dropped = _apply_selection_rule(df)
     if len(incomplete):

@@ -24,6 +24,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
+import numpy as np
 import pandas as pd
 
 from quick_model.engine.assumptions import AssumptionValue, OVERRIDE_SOURCES
@@ -119,6 +120,7 @@ def policy(tpl) -> dict:
     # v2.6: neo default quý về cùng quý năm trước, trọng số theo số quý còn lại của năm (anchor_weight)
     cfg["anchor"] = dict(cfg.get("anchor", {}) or {})
     cfg.setdefault("targets", {})
+    cfg["caps"] = dict(cfg.get("caps", {}) or {})
     return cfg
 
 
@@ -202,6 +204,21 @@ def _anchor_quarters(plan: Plan, cfg: dict, out: dict, hist: dict, annual: dict 
             out[aid] = AssumptionValue(aid, tuple(vals), av.source, basis)
 
 
+def _cap_quarters(cfg: dict, out: dict) -> None:
+    """caps {giả định: giả định tham chiếu} (owner 2026-11-23): giá trị quý không vượt giá trị quý cùng kỳ của giả định
+    tham chiếu. Bỏ qua khi giả định là số analyst nhập (số nhập thắng)."""
+    for aid, ref in (cfg.get("caps") or {}).items():
+        av, rv = out.get(aid), out.get(ref)
+        if av is None or rv is None or av.source in OVERRIDE_SOURCES:
+            continue
+        vals = tuple(x if x is None or r is None else min(x, r) for x, r in zip(av.values, rv.values))
+        if vals != tuple(av.values):
+            note = f"Không vượt {ref} cùng quý (caps, owner 2026-11-23)."
+            out[aid] = AssumptionValue(aid, vals, av.source, {
+                **av.basis, "cap_q": ref, "formula_q": f"{av.basis.get('formula_q', '')}; {note}".strip("; "),
+                "note_q": f"{av.basis.get('note_q', '')} {note}".strip()})
+
+
 def is_flow(spec, cfg) -> bool:
     return spec.unit in FLOW_UNITS and spec.assumption_id not in cfg["stocks"]
 
@@ -255,12 +272,12 @@ def quarter_defaults(h, plan: Plan, tpl, family, annual: dict[str, AssumptionVal
                 if fixed is not None:
                     exp, _ = qm.series(d["expense_metric"])
                     rev, _ = qm.series("revenue_amount")
-                    series = (exp - fixed * days / 365.0) / rev
-                    formula = f"(chi phí quý − cố định năm × ngày/365) / doanh thu quý"
+                    series = ((exp - fixed * days / 365.0) / rev.where(rev > 0))  # doanh thu ≤ 0: NaN, không sinh ±inf
+                    formula = "(chi phí quý − cố định năm × ngày/365) / doanh thu quý"
                     if cfg["weighted_ema"]:
                         pair = (exp - fixed * days / 365.0, rev.where(rev > 0))
         if series is not None:
-            hist[aid] = (pair[0] / pair[1]) if pair is not None else series
+            hist[aid] = ((pair[0] / pair[1]) if pair is not None else series).replace([np.inf, -np.inf], np.nan)
             if pair is not None:
                 hist[f"{aid}__den"] = pair[1]
         if series is None:
@@ -334,6 +351,7 @@ def quarter_defaults(h, plan: Plan, tpl, family, annual: dict[str, AssumptionVal
         if rev is not None:
             out[aid] = rev
     _anchor_quarters(plan, cfg, out, hist, annual)
+    _cap_quarters(cfg, out)
     for aid, d in copies.items():
         base = out.get(d["from"])
         if base is not None:
@@ -411,13 +429,16 @@ def revenue_components(h, plan: Plan, rc: dict, annual_av: AssumptionValue) -> A
     for i, q in enumerate(plan.quarters):
         g = annual_av.values[plan.year_index(q)]
         mp, prev = shift_label(q, -4), shift_label(q, -1)
-        if g is None or mp not in R or prev not in R or R[mp] <= 0:
+        if g is None or g <= -1 or mp not in R or prev not in R or R[mp] <= 0:  # g ≤ −100%: (1 + g)^x suy biến / số phức
             vals.append(None)
             continue
         last = [shift_label(q, -k) for k in range(1, n + 1)]
         l_run = sum(R[x] / sq(x) for x in last) / n
         d = 4 - (n + 1) / 2  # giữa các quý dùng tính mức hiện hành (q − 1,5 khi n = 2) lùi tới q − 4: 2,5 quý
         base = l_run / (1 + g) ** (d / 4) * sq(q)
+        if base <= 0:  # nền doanh thu ≤ 0 (các quý liền trước không có doanh thu): không có cơ sở tỷ lệ YoY
+            vals.append(None)
+            continue
         e = (chain[-1] if 0 < len(chain) < span else _ema(chain, span)) if chain else g
         qoq = R[prev] * S_qoq[int(q[-1])] / S_qoq[(int(q[-1]) - 2) % 4 + 1] * (1 + g) ** 0.25
         yoy = base * (1 + e)

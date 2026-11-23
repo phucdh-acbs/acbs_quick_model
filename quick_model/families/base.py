@@ -297,7 +297,6 @@ class PeriodEngine(ABC):
                              f"(tổng {total / 1e9:+,.0f} tỷ): " + "; ".join(
                                  f"{labels.get(o.line, o.line)} {o.quarter} {o.amount / 1e9:+,.0f} tỷ" for o in auto)
                              + ". Số thực tế giữ nguyên; analyst bỏ qua được từng khoản."))
-        auto_keys = {(o.line, o.quarter) for o in auto}
         for c in oneoff.pending(cands, tuple(s.one_offs) + tuple(auto)):
             out.append(Issue("warning", "ONE-01", block, c.line, c.quarter,
                              oneoff.describe(c, labels) + ". Chưa xử lý: xác nhận để loại khỏi chuỗi làm default "

@@ -86,7 +86,7 @@ def _hist_one_off(ex, spec, p):  # khoản bất thường analyst đã xác nh�
 ANOMALY_MULTIPLE = 3.0  # quý thực tế gấp > 3 lần trung vị 8 quý trước -> bất thường
 STAT_TEXT = {"median": "trung vị", "min": "thấp nhất", "max": "cao nhất", "latest": "thực tế kỳ liền trước",
              "same_period_latest": "thực tế cùng kỳ gần nhất",
-             "converge": "hội tụ từ thực tế gần nhất về mức neo (EMA 5 năm)", "ema": "EMA 5 năm", "ema_rolling": "EMA 5 năm cuốn chiếu", "ema_decay": "EMA 5 năm giảm dần về mức mục tiêu",
+             "converge": "hội tụ từ thực tế gần nhất về mức neo (EMA 5 năm)", "ema": "EMA 5 năm", "ema_rolling": "EMA 5 năm cuốn chiếu", "ema_decay": "EMA 5 năm giảm dần về mức mục tiêu", "ema_cap_by": "EMA 5 năm, không vượt giả định tham chiếu cùng năm",
              "latest_short": "thực tế kỳ liền trước (chưa đủ chuỗi cho EMA)", "seasonal_median": "trung vị cùng quý", "marginal_cost": "tách cố định/biến đổi theo chi phí biên"}
 
 

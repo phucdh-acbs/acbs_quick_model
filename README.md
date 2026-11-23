@@ -1,10 +1,18 @@
 # ACBS Quick Model L1: thư viện và API dự phóng nhanh BCTC
 
-Phiên bản mô hình: **L1 v2.6.3** (chốt 20/11/2026). Gói này để team IT test và tích hợp vào luồng dự phóng tự động
+Phiên bản mô hình: **L1 v2.6.4** (chốt 23/11/2026). Gói này để team IT test và tích hợp vào luồng dự phóng tự động
 (sub-agent). Phòng Phân tích cung cấp thư viện và API. Luồng gọi, lịch chạy và truy vấn GBQ do IT quản lý.
 
 > Kết quả là dự phóng tự động từ lịch sử BCTC, **không phải khuyến nghị đầu tư**. Mọi đầu ra dùng đại trà phải kèm
 > ghi chú này (`meta.disclaimer`).
+
+## Thay đổi so với v2.6.3
+
+- **Ngân hàng:** default `inv_securities_growth` = `min(EMA 5 năm YoY CK đầu tư, deposit_growth cùng năm)`; theo quý không
+  vượt `deposit_growth` cùng quý (cấu hình `quarterly_engine.caps`, bỏ qua khi analyst nhập số). Sửa ánh xạ dòng CK đầu tư
+  trong `bs_lines.csv` (`inv_securities_growth`). Phi tài chính (L1 v2.6.3) không đổi.
+- **Sửa lỗi:** chia cho 0 / `inf` trong `hybrid.py` (chi phí biến đổi khi doanh thu quý ≤ 0, tăng trưởng năm ≤ −100%, nền
+  doanh thu ≤ 0 → quý đó để trống); `PerformanceWarning` ở `raw_loader.py` khi bảng có hàng trăm mã BCTC.
 
 ## 1. Gói này làm gì
 
@@ -28,7 +36,7 @@ giữ trạng thái giữa các lần gọi.
 ## 2. Cấu trúc thư mục
 
 ```
-acbs_quick_model_v2.6.3/
+acbs_quick_model_v2.6.4/
 ├── README.md
 ├── pyproject.toml
 ├── quick_model/               engine + cấu hình mô hình (quick_model/config)
@@ -114,7 +122,7 @@ Tài liệu tương tác ở `http://localhost:8000/docs`.
 
 ## 6. Phiên bản và thay đổi
 
-- `meta.model_version` và `/health` đều trả `"L1 v2.6.3"`.
+- `meta.model_version` và `/health` đều trả `"L1 v2.6.4"`.
 - L1 phi tài chính đã khóa. Nếu `quick_model/config` bị sửa, `tests/test_l1_frozen.py` sẽ báo lỗi.
 - Chỉ Phòng Phân tích được đổi phương pháp, và mỗi lần đổi đi kèm phiên bản mới. Team IT không sửa cấu hình mô hình.
 

@@ -16,7 +16,7 @@ import pandas as pd
 from quick_model import oneoff
 from quick_model.engine.assumptions import AssumptionValue, Scenario, resolve
 from quick_model.engine.validation import Issue, validate_inputs
-from quick_model.families.base import ForecastResult, PeriodEngine, forecast_periods
+from quick_model.families.base import ForecastResult, PeriodEngine
 from quick_model.methods.base import CalcError, PeriodContext, method_class
 from quick_model.periods import (FREQ_ANNUAL, FREQ_QUARTER, fiscal_year, freq_of, is_year_end, period_days,
                                  shift_label, year_quarters)

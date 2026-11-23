@@ -7,7 +7,7 @@ derivative_assets,asset,Công cụ phái sinh và TS tài chính khác,+BSB102,c
 gross_loans,asset,Cho vay khách hàng (gộp),+BSB104,loans,Năm trước × (1 + tăng trưởng),loan_growth
 loan_loss_reserve,asset,Dự phòng rủi ro cho vay khách hàng,+BSB105,asset_quality,Giữ nguyên số dư kỳ gốc,
 purchased_debt,asset,Hoạt động mua nợ (ròng),+BSB261,carry,Giữ nguyên số dư kỳ gốc (giản lược),
-investment_securities,asset,Chứng khoán đầu tư (ròng),+BSB106,securities,Tỷ lệ × dư nợ gộp,inv_securities_to_loans
+investment_securities,asset,Chứng khoán đầu tư (ròng),+BSB106,securities,Năm trước × (1 + tăng trưởng),inv_securities_growth
 lt_investments,asset,Góp vốn đầu tư dài hạn,+BSA43,carry,Giữ nguyên số dư kỳ gốc (giản lược),
 fixed_assets,asset,Tài sản cố định,+BSA29,carry,Giữ nguyên số dư kỳ gốc (giản lược),
 investment_property,asset,Bất động sản đầu tư,+BSA40,carry,Giữ nguyên số dư kỳ gốc (giản lược),

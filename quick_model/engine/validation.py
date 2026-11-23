@@ -71,7 +71,7 @@ def _review_warnings(spec: AssumptionSpec, val: AssumptionValue, default: Assump
     if val.source == "historical_default" and lo and hi and lo > 0 and hi / lo > VOLATILE_RATIO:
         out.append(Issue("warning", "volatile_history", spec.block, spec.assumption_id, None,
                          f"{spec.label_vn}: lịch sử biến động mạnh ({lo:.4g}–{hi:.4g}); default "
-                         + ("EMA" if val.basis.get("statistic") in ("ema", "ema_rolling", "ema_decay") else "trung vị")
+                         + ("EMA" if val.basis.get("statistic") in ("ema", "ema_rolling", "ema_decay", "ema_cap_by") else "trung vị")
                          + " có thể không đại diện, nên xem lại"))
     for p, v in zip(periods, val.values):
         if v is None:

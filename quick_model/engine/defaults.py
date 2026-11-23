@@ -22,7 +22,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-import numpy as np
 import pandas as pd
 
 from quick_model.data.history import History
@@ -84,7 +83,8 @@ def compute_defaults(h: History, origin: str, horizon: int, policy: DefaultPolic
     paths = {**PATH_DEFAULTS, **(tpl.default_paths or {})}
     out: dict[str, AssumptionValue] = {}
     copies = {}
-    refs = {(x.get("anchor") or {}).get("assumption") for x in tpl.default_specs.values()} - {None}
+    refs = ({(x.get("anchor") or {}).get("assumption") for x in tpl.default_specs.values()}
+            | {x.get("cap_by") for x in tpl.default_specs.values()}) - {None}
     ordered = sorted(tpl.default_specs.items(), key=lambda kv: kv[0] not in refs)  # mức neo tính trước
     for aid, d in ordered:
         kind = d["type"]
@@ -110,6 +110,9 @@ def compute_defaults(h: History, origin: str, horizon: int, policy: DefaultPolic
             elif stat in ("ema", "ema_rolling"):
                 out[aid] = _ema_default(aid, series, formula, d, origin, horizon, annual, paths, min_n,
                                         tpl.specs[aid].unit, rolling=stat == "ema_rolling")
+            elif stat == "ema_cap_by":
+                out[aid] = _ema_cap_by_default(aid, series, formula, d, origin, horizon, annual, paths, min_n,
+                                               tpl.specs[aid].unit, out.get(d["cap_by"]))
             elif stat == "ema_decay":
                 out[aid] = _ema_decay_default(aid, series, formula, d, origin, horizon, annual, paths, min_n,
                                               tpl.specs[aid].unit)
@@ -124,7 +127,7 @@ def compute_defaults(h: History, origin: str, horizon: int, policy: DefaultPolic
                                            {**out[aid].basis, "note": x.get("note", ""), "no_history": True})
             b = out[aid].basis
             in_use = (set(b.get("used_periods", ())) or set(b.get("sample", {}))) if stat in (
-                "median", "mean", "min", "max", "converge", "ema", "ema_rolling", "ema_decay") else {b.get("source_period")} | {
+                "median", "mean", "min", "max", "converge", "ema", "ema_rolling", "ema_decay", "ema_cap_by") else {b.get("source_period")} | {
                 x.get("source_period") for x in b.get("per_period", {}).values()}
             used = [o for o in touched.get(d["metric"], ())
                     if (str(oneoff.fiscal_year(o.quarter)) if annual else o.quarter) in in_use]
@@ -494,6 +497,25 @@ def _ema_decay_default(aid, series, formula, d, origin, horizon, annual, paths, 
              if base.basis.get("short_history") else f"EMA {paths['ema_span_years']} năm")
     basis["note"] = (f"Năm 1 = {first} {_fmt_unit(start, unit)}; giảm tuyến tính về "
                      f"{_fmt_unit(target, unit)} ở năm thứ {n}, giữ sau đó: " + ", ".join(_fmt_unit(x, unit) for x in vals) + ".")
+    return AssumptionValue(aid, vals, "historical_default", basis)
+
+
+def _ema_cap_by_default(aid, series, formula, d, origin, horizon, annual, paths, min_n, unit,
+                        ref: AssumptionValue | None) -> AssumptionValue:
+    """min(EMA 5 năm, giả định tham chiếu `cap_by` cùng năm) (owner 2026-11-23): mức tăng không vượt tham chiếu
+    (vd CK đầu tư không tăng nhanh hơn tiền gửi KH). Tham chiếu thiếu giá trị năm nào thì năm đó dùng EMA."""
+    base = _ema_default(aid, series, formula, {}, origin, horizon, annual, paths, min_n, unit)
+    if base.source != "historical_default" or ref is None:
+        return base
+    ema = base.values[0]
+    vals = tuple(ema if r is None else min(ema, r) for r in (ref.values + (None,) * horizon)[:horizon])
+    capped = [i for i, (v, r) in enumerate(zip(vals, ref.values)) if r is not None and r < ema]
+    basis = {**base.basis, "statistic": "ema_cap_by", "cap_by": d["cap_by"], "cap_values": list(ref.values),
+             "capped_years": capped, "ema": ema,
+             "formula": f"min(EMA span {paths['ema_span_years']} năm của {formula}, {d['cap_by']} cùng năm)"}
+    basis["note"] = (f"EMA {paths['ema_span_years']} năm = {_fmt_unit(ema, unit)}, không vượt {d['cap_by']} cùng năm"
+                     + (f" (bị cắt {len(capped)}/{horizon} năm)" if capped else "") + ": "
+                     + ", ".join(_fmt_unit(x, unit) for x in vals) + ".")
     return AssumptionValue(aid, vals, "historical_default", basis)
 
 

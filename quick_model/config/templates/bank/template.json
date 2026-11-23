@@ -248,7 +248,7 @@
       "outputs": [
         "investment_securities"
       ],
-      "notes_vn": "CK đầu tư (ròng) = cùng kỳ năm trước × (1 + tăng trưởng); tăng trưởng = EMA5 (quý: EMA20) YoY BSB106 (owner 2026-11-18).",
+      "notes_vn": "CK đầu tư (ròng) = cùng kỳ năm trước × (1 + tăng trưởng); tăng trưởng = min(EMA5 YoY BSB106, tăng trưởng tiền gửi KH cùng năm) (owner 2026-11-23; quý: EMA 8 quý, không vượt tăng trưởng tiền gửi quý).",
       "line_formulas": {
         "investment_securities": [
           "CK đầu tư cùng kỳ năm trước × (1 + tăng trưởng)",
@@ -598,11 +598,12 @@
         -1.0,
         null
       ],
-      "default_policy": "EMA 5 năm (span 5, cửa sổ tối đa 10 năm) của YoY CK đầu tư BSB106, giữ cùng một mức (owner 2026-11-18).",
+      "default_policy": "min(EMA 5 năm của YoY CK đầu tư BSB106, tăng trưởng tiền gửi KH cùng năm) (owner 2026-11-23, thay EMA5 phẳng 2026-11-18).",
       "default": {
         "type": "history",
         "metric": "inv_securities_yoy",
-        "stat": "ema"
+        "stat": "ema_cap_by",
+        "cap_by": "deposit_growth"
       }
     },
     {
@@ -834,7 +835,7 @@
   "lines": [],
   "requires_when_filled": {},
   "quarterly_engine": {
-    "description_vn": "Engine quý + năm (owner 2026-11-18): từ quý sau quý công bố mới nhất đến hết Q4 năm sau chạy theo quý, các năm sau chạy theo năm, cùng một vòng tính nên số năm = tổng các quý. Default quý = λ × EMA span 8 quý liên tiếp (cuốn chiếu, chuỗi quý đã làm sạch khoản bất thường) + (1 − λ) × default năm của năm đó (giữ nguyên cách tính năm). Giả định trong annual_only dùng thẳng giá trị năm. Số tiền/sản lượng dạng luồng chia theo số ngày của quý. Ràng buộc cuối năm chỉ kiểm ở Q4. Analyst ghi đè số năm: coi là mục tiêu năm, phần chênh so với các quý đã công bố dồn vào các quý còn lại (targets). Ngân hàng (owner 2026-11-18): lợi suất TS sinh lãi và chi phí vốn chỉ đi từ quý lên năm (λ = 1: EMA 8 quý cuốn chiếu, không gộp giá trị năm); các năm sau phần quý giữ mức quý cuối. Owner 2026-11-19: thu nhập ngoài lãi khác theo mức (bình quân 8 quý của số quy năm, λ = 1, năm sau giữ mức quý cuối; default năm = bình quân 2 năm).",
+    "description_vn": "Engine quý + năm (owner 2026-11-18): từ quý sau quý công bố mới nhất đến hết Q4 năm sau chạy theo quý, các năm sau chạy theo năm, cùng một vòng tính nên số năm = tổng các quý. Default quý = λ × EMA span 8 quý liên tiếp (cuốn chiếu, chuỗi quý đã làm sạch khoản bất thường) + (1 − λ) × default năm của năm đó (giữ nguyên cách tính năm). Giả định trong annual_only dùng thẳng giá trị năm. Số tiền/sản lượng dạng luồng chia theo số ngày của quý. Ràng buộc cuối năm chỉ kiểm ở Q4. Analyst ghi đè số năm: coi là mục tiêu năm, phần chênh so với các quý đã công bố dồn vào các quý còn lại (targets). Ngân hàng (owner 2026-11-18): lợi suất TS sinh lãi và chi phí vốn chỉ đi từ quý lên năm (λ = 1: EMA 8 quý cuốn chiếu, không gộp giá trị năm); các năm sau phần quý giữ mức quý cuối. Owner 2026-11-23: tăng trưởng CK đầu tư theo quý không vượt tăng trưởng tiền gửi KH của cùng quý (caps). Owner 2026-11-19: thu nhập ngoài lãi khác theo mức (bình quân 8 quý của số quy năm, λ = 1, năm sau giữ mức quý cuối; default năm = bình quân 2 năm).",
     "lambda": 0.65,
     "ema_span_quarters": 8,
     "annual_only": [
@@ -924,6 +925,9 @@
           ]
         }
       }
+    },
+    "caps": {
+      "inv_securities_growth": "deposit_growth"
     },
     "quarter_only": [
       "yield_iea",

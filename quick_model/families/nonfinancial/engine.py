@@ -21,7 +21,7 @@ from quick_model.engine.validation import Issue, validate_inputs
 from quick_model.families.base import ForecastResult, PeriodEngine, forecast_periods  # noqa: F401
 from quick_model.methods.base import CalcError, PeriodContext, method_class
 from quick_model import oneoff
-from quick_model.periods import (FREQ_ANNUAL, FREQ_QUARTER, fiscal_year, freq_of, is_year_end, period_days, shift_label,
+from quick_model.periods import (FREQ_ANNUAL, FREQ_QUARTER, fiscal_year, freq_of, is_year_end, period_days,
                                  year_quarters)
 
 # Dòng tổng = tổng có dấu của các dòng thành phần (dùng để phân rã nguyên nhân thay đổi)
