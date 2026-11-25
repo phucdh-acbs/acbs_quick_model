@@ -3,7 +3,8 @@
                       giá trị của mỗi mốc, hôm nay ở đâu trong 5 năm, trần tái định giá. Không có giá nào, không có mặc định nào.
   có `choice`         phương pháp, tỷ trọng, bội số (hoặc beta, g) và lý do do AI chọn; công cụ kiểm rồi tính.
 Luật trần: bội số trên max(hôm nay, P10 5 năm) phải có lý do dẫn mã chất xúc tác người gọi đưa vào, hoặc EPS 12 tháng tới tăng đủ ngưỡng. rf và
-ERP do người gọi đưa vào (AI không đặt). Lượt không qua cổng thì không có bảng và không có giá trị. Kết quả nội bộ, không phải khuyến nghị."""
+ERP do người gọi đưa vào (AI không đặt). Lượt không qua cổng thì không có bảng và không có giá trị. Luật định giá là luật tạm thời, chưa phải công
+thức cuối cùng Phòng Phân tích chốt."""
 from __future__ import annotations
 
 import csv
@@ -240,7 +241,7 @@ def menu(k: Case) -> dict:
     rows += [{"id": m, "available": False, "why": w} for m, w in k.c["unavailable"][k.fam].items()]
     return {"status": "need_choice", "unit": "đồng/cp", "shares_million": dstr(k.n, 6), "forecast": _profile(k), "methods": rows,
             "params": {"market": None if k.market is None else {x: str(v) for x, v in k.market.items()}, "ke": "rf + beta × erp"},
-            "rerating": {"rule": "bội số trên cap cần lý do dẫn mã chất xúc tác hoặc EPS tới tăng ít nhất eps_growth_min", "eps_growth_min": k.c["eps_growth_min"], "catalysts": k.catalysts}, "flags": k.flags,
+            "rerating": {"rule": "bội số trên cap cần lý do dẫn mã chất xúc tác hoặc EPS tới tăng ít nhất eps_growth_min", "eps_growth_min": k.c["eps_growth_min"], "catalysts": k.catalysts}, "flags": k.flags, "rule_status": settings.VALUATION["rule_status"],
             "choice_form": {"decided_by": "vai", "methods": {"<id>": {"weight": "tổng 1", "multiple": "pe|pb", "beta, g": "pb_roe|residual_income", "reason": "vì sao hợp với dự phóng này, ít nhất 30 ký tự"}}}}
 
 
@@ -313,11 +314,13 @@ def decide(k: Case, choice: dict) -> dict:
             "choice_sha256": sha_hex(canonical(choice)), "shares_million": dstr(k.n, 6), "shares_source": k.inp["shares_source"], "multiples_source": k.source,
             "eps": {y: dstr(k.eps[y], 0) for y in k.fc[:3]}, "bvps": {y: dstr(k.bvps[y], 0) for y in k.fc[:3]},
             "range": {"low": dstr(fa * (1 - err), 0), "high": dstr(fa * (1 + err), 0), "basis": k.c["typical_npat_error"]["basis"]},
-            "flags": k.flags, "note": "giá trị nội bộ từ dự phóng, phương pháp và bội số do AI chọn; không phải giá mục tiêu hay khuyến nghị"}
+            "flags": k.flags, "rule_status": settings.VALUATION["rule_status"]}
 
 
 def value(doc: dict, inp: dict) -> dict:
     head = {"ticker": doc["key"]["ticker"], "run_id": doc["run_id"], "valuation_date": inp["valuation_date"]}
+    if not doc["key"].get("org"):
+        return {**head, "status": "refused", "reasons": ["lượt chạy tạo trước khi có chốt ngành: gọi op run lại với com_type_code và icb_code"]}
     bad = [r for r in doc["reasons"] if r["code"] not in settings.VALUATION["reasons_allowed"]]
     if bad or doc["annual"] is None:
         return {**head, "status": "refused", "reasons": [r["text"] for r in bad] or ["mô hình không có số"]}

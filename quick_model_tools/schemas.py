@@ -3,10 +3,13 @@ from . import settings
 
 FORECAST = {
     "name": "quick_model_forecast",
-    "description": "Dự phóng báo cáo tài chính của một mã (phi tài chính không gồm bất động sản, ngân hàng) bằng mô hình L1. Trả lời ngắn (tỷ đồng). model_ok = false thì không dùng số; lý do trong reasons. Không có giá.",
+    "description": "Dự phóng báo cáo tài chính của một mã (phi tài chính không gồm bất động sản, ngân hàng) bằng mô hình L1. Chứng khoán, bảo hiểm, bất động sản bị từ chối FAMILY_UNSUPPORTED (chờ bản cập nhật mô hình). Trả lời ngắn (tỷ đồng). model_ok = false thì không dùng số; lý do trong reasons. Không có giá.",
     "input_schema": {"type": "object", "additionalProperties": False, "required": ["op"], "properties": {
         "op": {"enum": ["run", "view", "explain", "assumptions"]},
-        "ticker": {"type": "string"}, "family": {"enum": ["nonfinancial", "bank"], "description": "nhóm báo cáo tài chính của mã; bất động sản, chứng khoán, bảo hiểm chưa hỗ trợ"},
+        "ticker": {"type": "string"},
+        "com_type_code": {"type": "string", "description": "run, bắt buộc: COM_TYPE_CODE của dòng ORGANIZATION có STATUS = 1 (CT, NH; CK và BH chưa hỗ trợ)"},
+        "icb_code": {"type": "string", "description": "run, bắt buộc: ICB_CODE 4 chữ số của dòng ORGANIZATION (86xx là bất động sản, chưa hỗ trợ)"},
+        "family": {"enum": ["nonfinancial", "bank"], "description": "assumptions: bắt buộc; run: không cần, nếu có phải khớp nhóm suy từ com_type_code"},
         "dataset_dir": {"type": "string", "description": "run: thư mục có <ticker>_is.csv … (cột GBQ)"}, "store": {"type": "string", "description": "thư mục lưu lượt chạy, giữ giữa các lần gọi"},
         "years": {"type": "integer", "minimum": 1, "maximum": 10}, "overrides": {"type": "object", "description": "{mã giả định: số | [số mỗi năm] | {năm: số}}; tỷ lệ là phân số"},
         "rebase": {"type": "boolean", "description": "run: đặt lại giả định khi cổng báo đổi phạm vi hợp nhất; chỉ dùng sau lượt bị SCOPE_SUSPECT"},
@@ -23,7 +26,7 @@ CHOICE = {"type": "object", "additionalProperties": False, "required": ["methods
 
 VALUATION = {
     "name": "quick_model_valuation",
-    "description": "Định giá từ một lượt dự phóng. Gọi không kèm choice: bảng đo (không có giá) để AI chọn phương pháp, tỷ trọng, bội số. Gọi kèm choice: kiểm rồi tính. Không có mặc định nào.",
+    "description": "Định giá từ một lượt dự phóng. Gọi không kèm choice: bảng đo (không có giá) để AI chọn phương pháp, tỷ trọng, bội số. Gọi kèm choice: kiểm rồi tính. Không có mặc định nào. Luật tạm thời, chưa phải công thức cuối cùng Phòng Phân tích chốt.",
     "input_schema": {"type": "object", "additionalProperties": False, "required": ["run_id", "store", "valuation_date", "multiples_csv", "shares_million", "shares_source"], "properties": {
         "run_id": {"type": "string"}, "store": {"type": "string"}, "valuation_date": {"type": "string", "pattern": r"^\d{4}-\d{2}-\d{2}$"},
         "multiples_csv": {"type": "string", "description": "CSV lịch sử bội số theo ngày: date, pe, pb (ít nhất " + str(settings.VALUATION["min_days"]) + " phiên)"},

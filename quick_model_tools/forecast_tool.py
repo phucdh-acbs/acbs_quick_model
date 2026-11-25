@@ -1,6 +1,6 @@
 """Công cụ dự phóng: gói mỏng quanh `quick_model.service`, không sửa gì của mô hình.
 
-op run          (ticker, family, dataset_dir) -> dự phóng -> cổng kiểm -> câu trả lời ngắn; lượt chạy lưu theo nội dung đầu vào
+op run          (ticker, com_type_code, icb_code, dataset_dir) -> nhóm báo cáo tài chính -> dự phóng -> cổng kiểm -> câu trả lời ngắn; lượt chạy lưu theo nội dung đầu vào
 op view         hình dạng khác của một lượt đã lưu, không tính lại
 op explain      một ô: công thức và các phần đóng góp lớn nhất
 op assumptions  giả định được phép nhập, theo nhóm
@@ -72,6 +72,27 @@ def audit(folder: pathlib.Path, ticker: str) -> dict:
         latest[table] = qs
     both = latest.get("INCOME_STATEMENT", set()) & latest.get("BALANCE_SHEET", set())
     return {"latest_quarter": max(both) if both else None}
+
+
+def route(ticker: str, com_type_code, icb_code, family: str | None = None) -> str:
+    """Nhóm của mã theo dòng ORGANIZATION. Chứng khoán, bảo hiểm, bất động sản và loại lạ bị từ chối: mô hình vẫn ra số cho các mã này nhưng là số sai
+    (một mã chứng khoán chạy như phi tài chính không có cảnh báo nào)."""
+    r = settings.ROUTING
+    ctype, icb = str(com_type_code).strip().upper(), str(icb_code).strip()
+    icb = icb.zfill(4) if icb.isdigit() else icb
+    if ctype in r["unsupported_com_type"]:
+        raise Refuse("FAMILY_UNSUPPORTED", [("com_type_code", f"{ticker}: {r['unsupported_com_type'][ctype]} — {r['waiting']}")])
+    for prefix, name in r["unsupported_icb_prefix"].items():
+        if icb.startswith(prefix):
+            raise Refuse("FAMILY_UNSUPPORTED", [("icb_code", f"{ticker}: {name} — {r['waiting']}")])
+    fam = r["family_by_com_type"].get(ctype)
+    if fam is None or fam not in service.FAMILIES:
+        raise Refuse("FAMILY_UNSUPPORTED", [("com_type_code", f"{ticker}: COM_TYPE_CODE {ctype!r} chưa có trong cấu hình")])
+    if not (icb.isdigit() and len(icb) == 4):
+        raise Refuse("INVALID_INPUT", [("icb_code", f"{icb_code!r} không phải mã ICB 4 chữ số")])
+    if family and family != fam:
+        raise Refuse("INVALID_INPUT", [("family", f"{family!r} khác nhóm {fam!r} suy từ COM_TYPE_CODE {ctype}")])
+    return fam
 
 
 # ------------------------------------------------------------------------------------------------------------ cổng kiểm
@@ -208,14 +229,15 @@ def rebase_overrides(doc: dict, first: str) -> dict:
     return {k: {c[:4]: round(float(a[k] if i == 0 else b[k]), 10) for i, c in enumerate(fc)} for k in a}
 
 
-def execute(store, ticker: str, family: str, folder, *, years: int | None = None, overrides: dict | None = None, rebase: bool = False) -> dict:
+def execute(store, ticker: str, org: dict, folder, *, family: str | None = None, years: int | None = None, overrides: dict | None = None, rebase: bool = False) -> dict:
     """Bản ghi lượt chạy (tính mới, hoặc đọc lại khi đã có cùng đầu vào; `_cached` cho biết)."""
+    family = route(ticker, org["com_type_code"], org["icb_code"], family)
     root, folder = pathlib.Path(store).resolve(), pathlib.Path(folder).resolve()
     if not folder.is_dir():
         raise Refuse("INPUT_MISSING", [need("dataset_dir", "thư mục dữ liệu không tồn tại")])
     ds = dataset_id(folder, ticker)
     ov = check_overrides(overrides, family, years)
-    key = {"dataset": ds["id"], "engine": engine(), "ticker": ticker, "family": family, "years": years or 5, "overrides": ov, **({"rebase": True} if rebase else {})}
+    key = {"dataset": ds["id"], "engine": engine(), "ticker": ticker, "family": family, "org": {k: str(org[k]) for k in ("com_type_code", "icb_code")}, "years": years or 5, "overrides": ov, **({"rebase": True} if rebase else {})}
     run_id = "qmt:" + sha_hex(canonical(key))
     path = root / run_id[4:] / "run.json"
     if path.is_file():
@@ -223,7 +245,7 @@ def execute(store, ticker: str, family: str, folder, *, years: int | None = None
     kept = _keep(root, folder, ticker, ds)
     rb = None
     if rebase:
-        base = execute(store, ticker, family, kept, years=years, overrides=overrides)
+        base = execute(store, ticker, org, kept, family=family, years=years, overrides=overrides)
         sc = next((r for r in base["reasons"] if r["code"] == "SCOPE_SUSPECT"), None)
         if sc is None:
             raise Refuse("REBASE_NOT_NEEDED", [("rebase", "lượt chạy không có dấu hiệu đổi phạm vi hợp nhất: chạy không kèm rebase")])
@@ -355,11 +377,11 @@ def run(inp: dict) -> dict:
         op = inp.get("op", "run")
         if op == "assumptions":
             return {"status": "ok", "result": {"family": inp["family"], "cols": ["id", "label", "unit", "min", "max"], "rows": [[a["assumption_id"], a["label"], a["unit"], a["valid_min"], a["valid_max"]] for a in service.assumption_catalog(inp["family"])]}}
-        miss = [need(n, f"op {op} cần trường này") for n in {"run": ("ticker", "family", "dataset_dir", "store"), "view": ("run_id", "store"), "explain": ("run_id", "store", "line", "period")}.get(op, ()) if not inp.get(n)]
+        miss = [need(n, f"op {op} cần trường này") for n in {"run": ("ticker", "com_type_code", "icb_code", "dataset_dir", "store"), "view": ("run_id", "store"), "explain": ("run_id", "store", "line", "period")}.get(op, ()) if inp.get(n) in (None, "")]
         if miss:
             raise Refuse("INPUT_MISSING", miss)
         if op == "run":
-            d = execute(inp["store"], inp["ticker"].upper(), inp["family"], inp["dataset_dir"], years=inp.get("years"), overrides=inp.get("overrides"), rebase=bool(inp.get("rebase")))
+            d = execute(inp["store"], inp["ticker"].upper(), inp, inp["dataset_dir"], family=inp.get("family"), years=inp.get("years"), overrides=inp.get("overrides"), rebase=bool(inp.get("rebase")))
             return {"status": "ok", "cached": d["_cached"], "result": view(d, inp.get("view", "brief"), inp.get("freq", "year"))}
         if op == "view":
             return {"status": "ok", "result": view(read(inp["store"], inp["run_id"]), inp.get("view", "brief"), inp.get("freq", "year"))}

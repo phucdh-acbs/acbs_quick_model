@@ -19,8 +19,12 @@ DAY = "2026-11-23"
 WHY = "Thu nhập dự phóng ổn định và dương nên bội số lợi nhuận là thước đo hợp lý"
 
 
+ORG = {"TCB": ("NH", "8355"), "HPG": ("CT", "1757")}
+
+
 def forecast(tmp_path, ticker, family, **kw):
-    return F.run({"op": "run", "ticker": ticker, "family": family, "dataset_dir": str(DATA / ticker.lower()), "store": str(tmp_path / "store"), **kw})
+    ctype, icb = ORG[ticker]
+    return F.run({"op": "run", "ticker": ticker, "com_type_code": ctype, "icb_code": icb, "dataset_dir": str(DATA / ticker.lower()), "store": str(tmp_path / "store"), **kw})
 
 
 @pytest.fixture()
@@ -75,8 +79,38 @@ def test_every_wrong_override_is_named(tmp_path):
 
 def test_missing_inputs_are_all_named(tmp_path):
     r = F.run({"op": "run", "ticker": "TCB"})
-    assert r["code"] == "INPUT_MISSING" and {m["field"] for m in r["missing"]} == {"family", "dataset_dir", "store"}
+    assert r["code"] == "INPUT_MISSING" and {m["field"] for m in r["missing"]} == {"com_type_code", "icb_code", "dataset_dir", "store"}
     assert F.run({"op": "view", "run_id": "qmt:" + "0" * 64, "store": str(tmp_path)})["code"] == "RUN_NOT_FOUND"
+
+
+@pytest.mark.parametrize("ctype,icb,name", [("CK", "8777", "chứng khoán"), ("BH", "8575", "bảo hiểm"), ("CT", "8633", "bất động sản"), ("ct", 8633, "bất động sản"), ("XX", "1757", "chưa có trong cấu hình")])
+def test_company_types_the_model_does_not_take_are_refused(tmp_path, ctype, icb, name):
+    """Cùng dữ liệu HPG, chỉ đổi loại: mô hình sẽ vẫn ra số, công cụ phải từ chối trước."""
+    r = F.run({"op": "run", "ticker": "HPG", "com_type_code": ctype, "icb_code": icb, "dataset_dir": str(DATA / "hpg"), "store": str(tmp_path / "s")})
+    assert r["status"] == "refused" and r["code"] == "FAMILY_UNSUPPORTED" and name in r["missing"][0]["why"]
+    assert not (tmp_path / "s").exists()
+
+
+def test_the_family_comes_from_the_organization_row(tmp_path):
+    base = {"op": "run", "ticker": "TCB", "dataset_dir": str(DATA / "tcb"), "store": str(tmp_path / "s")}
+    assert F.run({**base, "com_type_code": "NH", "icb_code": "8355"})["result"]["family"] == "bank"
+    assert F.run({**base, "com_type_code": "NH", "icb_code": "8355", "family": "nonfinancial"})["code"] == "INVALID_INPUT"
+    assert F.run({**base, "com_type_code": "NH", "icb_code": "ngân hàng"})["code"] == "INVALID_INPUT"
+    assert F.run({**base, "com_type_code": "NH"})["code"] == "INPUT_MISSING"
+
+
+def test_a_run_made_before_the_guard_has_no_value(tcb):
+    run_id, tmp = tcb
+    doc = F.read(tmp / "store", run_id)
+    doc["key"].pop("org")
+    assert V.value(doc, {"valuation_date": DAY})["status"] == "refused"
+
+
+def test_one_year_can_be_set_without_moving_the_running_year(tmp_path):
+    g = lambda r, i, y: {x["id"]: x["v"] for x in r["rows"]}[i][r["cols"].index(y)]  # noqa: E731
+    a = forecast(tmp_path, "TCB", "bank", view="table")["result"]
+    b = forecast(tmp_path, "TCB", "bank", view="table", overrides={"cir": {"2027": 0.40}})["result"]
+    assert g(a, "opex", "2026F") == g(b, "opex", "2026F") and g(a, "opex", "2027F") != g(b, "opex", "2027F")
 
 
 def test_explain_and_views_read_the_stored_run(tcb):
@@ -90,6 +124,7 @@ def test_explain_and_views_read_the_stored_run(tcb):
 def test_without_a_choice_there_is_no_price(tcb):
     r = value(tcb)
     s, m = json.dumps(r), {x["id"]: x for x in r["result"]["methods"]}
+    assert "tạm thời" in r["result"]["rule_status"] and "nội bộ" not in s
     assert r["result"]["status"] == "need_choice" and "value_per_share" not in s and "fa_price" not in s
     assert all(m[k]["available"] for k in ("pe", "pb", "pb_roe", "residual_income")) and not m["dcf_fcff"]["available"] and m["dcf_fcff"]["why"]
     a = {n: float(x) for n, x, _ in m["pe"]["anchors"]}
@@ -137,6 +172,6 @@ def test_tool_definitions_and_command_line(tmp_path):
     defs = {d["name"]: d for d in tool_definitions()}
     assert set(defs) == {"quick_model_forecast", "quick_model_valuation"} and all(d["input_schema"]["type"] == "object" for d in defs.values())
     inp = tmp_path / "in.json"
-    inp.write_text(json.dumps({"op": "run", "ticker": "TCB", "family": "bank", "dataset_dir": str(DATA / "tcb"), "store": str(tmp_path / "s")}))
+    inp.write_text(json.dumps({"op": "run", "ticker": "TCB", "com_type_code": "NH", "icb_code": "8355", "dataset_dir": str(DATA / "tcb"), "store": str(tmp_path / "s")}))
     p = subprocess.run([sys.executable, "-m", "quick_model_tools", "forecast", "--in", str(inp)], cwd=ROOT, capture_output=True, text=True)
     assert p.returncode == 0 and json.loads(p.stdout)["result"]["ticker"] == "TCB"

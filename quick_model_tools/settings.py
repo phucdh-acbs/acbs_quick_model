@@ -1,5 +1,14 @@
 """Cấu hình của hai công cụ (một chỗ). Số của mô hình nằm trong quick_model/config, không lặp lại ở đây."""
 
+# Nhóm báo cáo tài chính suy từ COM_TYPE_CODE và ICB_CODE của dòng ORGANIZATION đang hiệu lực, không đoán từ mã khoản mục. Khi mô hình có thêm nhóm:
+# thêm vào `family_by_com_type` (hoặc bỏ tiền tố ICB), không phải sửa mã.
+ROUTING = {
+    "family_by_com_type": {"CT": "nonfinancial", "NH": "bank"},
+    "unsupported_com_type": {"CK": "chứng khoán", "BH": "bảo hiểm"},
+    "unsupported_icb_prefix": {"86": "bất động sản"},
+    "waiting": "mô hình chưa có nhóm này, đang chờ bản cập nhật; tạm dùng luồng sẵn có",
+}
+
 GATE = {'texts': {'NO_RESULT': 'mô hình có lỗi chặn, không có số',
            'FUNDING_GAP': 'thiếu vốn {gap} tỷ đồng từ {period}',
            'UPSTREAM_NOT_PUBLISHABLE': 'mô hình đánh dấu chưa được công bố',
@@ -16,7 +25,8 @@ BRIEF_YEARS = 2
 HEADLINE = "npat_parent"
 KEY_LINES = {'nonfinancial': ('net_revenue', 'gross_profit', 'pbt', 'npat_parent'), 'bank': ('nii', 'toi', 'provision_expense', 'npat_parent')}
 
-VALUATION = {'reasons_allowed': ('REBASED',),
+VALUATION = {'rule_status': 'luật tạm thời, chưa phải công thức cuối cùng Phòng Phân tích chốt',
+ 'reasons_allowed': ('REBASED',),
  'window_years': 5,
  'min_days': 250,
  'stale_days': 10,

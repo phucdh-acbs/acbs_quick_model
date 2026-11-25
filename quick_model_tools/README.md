@@ -8,7 +8,9 @@ Nguyên tắc: **máy đo, kiểm và tính; AI chọn.** Công cụ không đ�
 | Công cụ | Làm gì | Không làm gì |
 |---|---|---|
 | `quick_model_forecast` | dự phóng một mã, lưu lượt chạy theo mã nội dung, cổng kiểm, câu trả lời khoảng 1 KB | không ra giá |
-| `quick_model_valuation` | bảng đo cho AI chọn; AI chọn xong thì kiểm và tính giá trị mỗi cổ phiếu | không tự chọn, không phải giá mục tiêu hay khuyến nghị |
+| `quick_model_valuation` | bảng đo cho AI chọn; AI chọn xong thì kiểm và tính giá trị mỗi cổ phiếu | không tự chọn |
+
+**Luật định giá là luật tạm thời**, chưa phải công thức cuối cùng Phòng Phân tích chốt (`rule_status` trong kết quả nói lại điều này).
 
 ## Dùng nhanh
 
@@ -23,11 +25,23 @@ python -m quick_model_tools forecast --in input.json
 Đầu vào của dự phóng (thư mục dữ liệu đúng tệp và cột như `docs/HOP_DONG_DU_LIEU.md`):
 
 ```json
-{"op": "run", "ticker": "TCB", "family": "bank", "dataset_dir": "examples/data/tcb", "store": "runs"}
+{"op": "run", "ticker": "TCB", "com_type_code": "NH", "icb_code": "8355", "dataset_dir": "examples/data/tcb", "store": "runs"}
 ```
 
 Kết quả `brief`: `run_id`, `model_ok`, `reasons`, số chính (tỷ đồng), quý tới. **`model_ok` là false thì không dùng số.**
 `op`: `run`, `view` (`brief`, `thesis`, `table`, `assumptions`, `issues`, `one_offs`, `ratios`), `explain` (một ô), `assumptions`.
+
+## Chốt ngành
+
+`com_type_code` và `icb_code` bắt buộc ở `op: run`, lấy từ dòng ORGANIZATION có `STATUS = 1` của mã. Nhóm báo cáo tài chính suy từ hai trường này:
+
+| Mã loại | Kết quả |
+|---|---|
+| `CT`, ICB không bắt đầu bằng 86 | phi tài chính |
+| `NH` | ngân hàng |
+| `CK` chứng khoán, `BH` bảo hiểm, ICB 86xx bất động sản | từ chối `FAMILY_UNSUPPORTED`, chờ bản cập nhật mô hình; tạm dùng luồng sẵn có |
+
+Vì sao bắt buộc: một mã chứng khoán chạy như phi tài chính vẫn ra số và không có cảnh báo nào. Khi mô hình có thêm nhóm, chỉ cần sửa `ROUTING` trong `settings.py`.
 
 ## Cổng kiểm
 
@@ -64,9 +78,9 @@ Cờ kèm kết quả: `EPS_BEFORE_WELFARE_FUND`, `DIVIDEND_ZERO`, `ONE_OFF_REMO
 
 ## Giới hạn
 
-- Chỉ phi tài chính (không bất động sản) và ngân hàng, đúng phạm vi của mô hình.
+- Chỉ phi tài chính (không bất động sản) và ngân hàng, đúng phạm vi của mô hình hiện tại; chứng khoán, bảo hiểm, bất động sản chờ bản cập nhật.
 - Chưa có DCF, EV/EBITDA, DDM, SOTP: bảng đo nói rõ lý do từng phương pháp.
-- Giá trị nội bộ từ dự phóng tự động, không phải khuyến nghị đầu tư.
+- Luật định giá tạm thời. Dự phóng tự động từ lịch sử BCTC, không phải khuyến nghị đầu tư (ghi chú bắt buộc của mô hình, `disclaimer` trong kết quả).
 
 ## Kiểm thử
 
