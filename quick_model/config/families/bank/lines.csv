@@ -12,7 +12,7 @@ other_non_interest_income,IS,Thu nhập ngoài lãi khác (ngoại hối + CK + 
 toi,IS,Tổng thu nhập hoạt động,,ISB38,VND,Thu nhập lãi thuần + dịch vụ + ngoài lãi khác,
 opex,IS,Chi phí hoạt động,opex,ISB39,VND,−CIR × tổng thu nhập hoạt động,cir
 ppop,IS,LN thuần trước chi phí dự phòng,,ISB40,VND,TOI + chi phí hoạt động,
-provision_expense,IS,Chi phí dự phòng rủi ro tín dụng,asset_quality,ISB41,VND,−Chi phí tín dụng × dư nợ bình quân × ngày / 365,credit_cost
+provision_expense,IS,Chi phí dự phòng rủi ro tín dụng,asset_quality,ISB41,VND,−Chi phí tín dụng × dư nợ cuối kỳ × ngày / 365,credit_cost
 pbt,IS,Lợi nhuận trước thuế,,ISA16,VND,LN trước dự phòng + chi phí dự phòng,
 income_tax,IS,Chi phí thuế TNDN,tax_equity,ISA19,VND,−Thuế suất hiệu dụng × LNTT (lỗ thì 0),effective_tax_rate
 npat,IS,Lợi nhuận sau thuế,,ISA20,VND,LNTT + thuế,

@@ -1,10 +1,18 @@
 # ACBS Quick Model L1: thư viện và API dự phóng nhanh BCTC
 
-Phiên bản mô hình: **L1 v2.6.4** (chốt 23/11/2026). Gói này để team IT test và tích hợp vào luồng dự phóng tự động
+Phiên bản mô hình: **L1 v2.6.5** (chốt 25/11/2026). Gói này để team IT test và tích hợp vào luồng dự phóng tự động
 (sub-agent). Phòng Phân tích cung cấp thư viện và API. Luồng gọi, lịch chạy và truy vấn GBQ do IT quản lý.
 
 > Kết quả là dự phóng tự động từ lịch sử BCTC, **không phải khuyến nghị đầu tư**. Mọi đầu ra dùng đại trà phải kèm
 > ghi chú này (`meta.disclaimer`).
+
+## Thay đổi so với v2.6.4
+
+- **Sửa lỗi override theo năm:** trước đây sửa một năm của một giả định (ví dụ tăng trưởng doanh thu 2027) làm mọi năm
+  còn lại của giả định đó cũng thành mục tiêu năm, nên năm đã có quý thực tế bị ép về số mặc định (doanh thu Q4 và cả
+  năm 2026 giảm khi chỉ sửa 2027). Nay chỉ các năm override khác default mới là số analyst nhập
+  (`basis["override_years"]`, suy ra ở `resolve`); các năm còn lại giữ default. Áp dụng cho mọi giả định, cả phi tài chính
+  và ngân hàng. Mô hình mặc định (không override) không đổi.
 
 ## Thay đổi so với v2.6.3
 
@@ -36,7 +44,7 @@ giữ trạng thái giữa các lần gọi.
 ## 2. Cấu trúc thư mục
 
 ```
-acbs_quick_model_v2.6.4/
+acbs_quick_model_v2.6.5/
 ├── README.md
 ├── pyproject.toml
 ├── quick_model/               engine + cấu hình mô hình (quick_model/config)
@@ -122,7 +130,7 @@ Tài liệu tương tác ở `http://localhost:8000/docs`.
 
 ## 6. Phiên bản và thay đổi
 
-- `meta.model_version` và `/health` đều trả `"L1 v2.6.4"`.
+- `meta.model_version` và `/health` đều trả `"L1 v2.6.5"`.
 - L1 phi tài chính đã khóa. Nếu `quick_model/config` bị sửa, `tests/test_l1_frozen.py` sẽ báo lỗi.
 - Chỉ Phòng Phân tích được đổi phương pháp, và mỗi lần đổi đi kèm phiên bản mới. Team IT không sửa cấu hình mô hình.
 

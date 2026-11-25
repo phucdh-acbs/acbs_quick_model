@@ -473,6 +473,13 @@ def revenue_components(h, plan: Plan, rc: dict, annual_av: AssumptionValue) -> A
     return AssumptionValue(annual_av.assumption_id, tuple(vals), annual_av.source, basis)
 
 
+def _override_years(av: AssumptionValue) -> set[str] | None:
+    """Các năm analyst thực sự sửa (basis["override_years"]); None = không khai báo, coi mọi năm là số analyst.
+    Năm có giá trị bằng default không phải mục tiêu: không được ép doanh thu / chi phí quý còn lại về số đó."""
+    oy = (av.basis or {}).get("override_years")
+    return None if oy is None else {str(y) for y in oy}
+
+
 def period_arrays(plan: Plan, tpl, resolved: dict[str, AssumptionValue], qdefaults: dict[str, AssumptionValue]
                   ) -> tuple[dict[str, list], dict[str, AssumptionValue]]:
     """Mảng giả định theo kỳ của vòng tính (quý rồi năm) và giá trị quý hiệu lực (lượt 1: số năm analyst nhập áp đều)."""
@@ -485,13 +492,19 @@ def period_arrays(plan: Plan, tpl, resolved: dict[str, AssumptionValue], qdefaul
         if av.source in OVERRIDE_SOURCES or aid not in qdefaults:
             yearly = [av.values[plan.year_index(q)] for q in plan.quarters]
             flow = aid in specs and is_flow(specs[aid], cfg)
+            oy = _override_years(av)  # None: mọi năm là số analyst; có: chỉ các năm đó, năm còn lại giữ default
             if flow:
                 # analyst nhập số năm: cả số năm chia cho các quý còn lại theo ngày (khai báo dòng thực tế thì lượt
                 # sau trừ lũy kế đã công bố); default năm: chia theo tỷ trọng ngày của quý trong năm
-                ytd = {y: 0.0 for y in plan.q_years} if av.source in OVERRIDE_SOURCES else None
+                ytd = ({y: 0.0 for y in plan.q_years if oy is None or y in oy}
+                       if av.source in OVERRIDE_SOURCES else None)
                 q = _amount_split(plan, cfg.get("targets", {}).get(aid), av, ytd)
             else:
                 q = tuple(yearly)
+                qd = qdefaults.get(aid)
+                if oy is not None and qd is not None:  # năm không do analyst sửa: giữ default quý của năm đó
+                    q = tuple(d if str(fiscal_year(p)) not in oy and d is not None else x
+                              for p, x, d in zip(plan.quarters, q, qd.values))
             basis = {**av.basis, "quarterly": "override" if av.source in OVERRIDE_SOURCES else "annual"}
             qvals[aid] = AssumptionValue(aid, tuple(q), av.source, basis, av.override_reason)
         else:
@@ -549,9 +562,10 @@ def apply_targets(plan: Plan, tpl, resolved: dict, qvals: dict, a: dict, quarter
         t = cfg["targets"][aid]
         vals = list(qvals[aid].values)
         changed = False
+        oy = _override_years(av)
         for y in plan.q_years:
             T = av.values[plan.year_index(y)]
-            if T is None:
+            if T is None or (oy is not None and y not in oy):
                 continue
             rem = [q for q in plan.quarters if str(fiscal_year(q)) == y]
             done = plan.actual.get(y, [])

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "acbs-quick-model"
-version = "2.6.4"
+version = "2.6.5"
 description = "Mô hình L1 dự phóng nhanh BCTC (phi tài chính, ngân hàng) - thư viện Python và REST API"
 requires-python = ">=3.10,<3.14"
 dependencies = [

@@ -21,7 +21,7 @@ uvicorn quick_model_api.app:app --host 0.0.0.0 --port 8000 --workers 4
 
 | Method | Đường dẫn | Mô tả |
 |---|---|---|
-| GET | `/health` | `{"status": "ok", "model_version": "L1 v2.6.4"}` |
+| GET | `/health` | `{"status": "ok", "model_version": "L1 v2.6.5"}` |
 | GET | `/v1/families/{family}/data-contract` | Bảng và cột GBQ cần lấy (cache lại theo phiên bản) |
 | GET | `/v1/families/{family}/assumptions` | Giả định có thể đặt qua `overrides` |
 | POST | `/v1/forecast` | Dự phóng một mã |
@@ -58,7 +58,7 @@ Response có cùng cấu trúc với `ForecastOutput.to_dict()` (rút gọn):
 
 ```json
 {
-  "meta": {"ticker": "TCB", "family": "bank", "model_version": "L1 v2.6.4", "origin_year": "2025",
+  "meta": {"ticker": "TCB", "family": "bank", "model_version": "L1 v2.6.5", "origin_year": "2025",
            "last_reported_quarter": "2026Q3", "forecast_years": ["2026", "2027", "2028"],
            "forecast_quarters": ["2026Q4", "2027Q1", "..."], "overrides": [], "disclaimer": "..."},
   "status": {"ok": true, "publishable": true, "balanced": true, "feasible": true, "errors": 0, "warnings": 27},

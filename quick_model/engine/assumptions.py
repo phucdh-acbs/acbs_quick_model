@@ -118,6 +118,21 @@ def is_active(spec: AssumptionSpec, scenario: Scenario) -> bool:
     return spec.method_id in set(scenario.methods.values())
 
 
+def _with_override_years(scenario: Scenario, ov: AssumptionValue, default: AssumptionValue | None) -> AssumptionValue:
+    """Ghi vào basis["override_years"] các năm override thật sự khác default. Năm giữ nguyên default không phải số
+    analyst nhập nên không thành mục tiêu năm (vd. sửa 2027 không được ép lại 2026 về default năm). Kịch bản theo quý
+    hoặc override đã khai báo sẵn thì giữ nguyên."""
+    if ov.source not in OVERRIDE_SOURCES or "override_years" in ov.basis or default is None             or len(scenario.origin) != 4 or len(default.values) != len(ov.values):
+        return ov
+    years = [str(int(scenario.origin) + i + 1) for i in range(len(ov.values))]
+
+    def differs(x, d):
+        return (x is None) != (d is None) or (x is not None and abs(x - d) > 1e-12 * max(1.0, abs(d)))
+
+    changed = [y for y, x, d in zip(years, ov.values, default.values) if differs(x, d)]
+    return replace(ov, basis={**ov.basis, "override_years": changed})
+
+
 def resolve(scenario: Scenario, specs: dict[str, AssumptionSpec],
             defaults: dict[str, AssumptionValue]) -> dict[str, AssumptionValue]:
     """Giá trị hiệu lực cho các method đang active: override của analyst > default."""
@@ -126,7 +141,7 @@ def resolve(scenario: Scenario, specs: dict[str, AssumptionSpec],
         if not is_active(spec, scenario):
             continue  # assumption của method không active được giữ nhưng không ảnh hưởng tính toán
         if aid in scenario.overrides:
-            out[aid] = scenario.overrides[aid]
+            out[aid] = _with_override_years(scenario, scenario.overrides[aid], defaults.get(aid))
         elif aid in defaults:
             out[aid] = defaults[aid]
         else:
