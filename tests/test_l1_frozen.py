@@ -1,6 +1,6 @@
 """Khóa bản chốt L1 phi tài chính v2.0 (v1.0 owner chốt 2026-11-17; v1.1 2026-11-18 sáng: chỉ engine năm + phân bổ;
 v2.0 2026-11-18: engine quý + năm, default quý = 0,65 × EMA 8 quý + 0,35 × năm, tự làm sạch khoản bất thường;
-v2.1 cùng ngày: chuỗi chưa đủ cho EMA dùng số kỳ liền trước; v2.2: doanh thu quý 3 thành phần; v2.3: default ngoài miền chỉ cảnh báo, giới hạn doanh thu dồn cục; v2.4 (2026-11-19): co biên độ mùa vụ doanh thu α = 0,6; v2.5 (2026-11-19): EMA quý có trọng số, biên gộp quý TTM + 0,25 quán tính, DT tài chính theo mức; v2.5.1: DT tài chính bình quân 4 quý, khoản bất thường theo đột biến cô lập; v2.6: neo năm trước theo số quý còn lại, LDLK theo mức; v2.6.1 (2026-11-20): trọng số neo theo số quý tới; v2.6.2: lãi suất trên dư nợ bình quân; docs/L1_phi_tai_chinh.md).
+v2.1 cùng ngày: chuỗi chưa đủ cho EMA dùng số kỳ liền trước; v2.2: doanh thu quý 3 thành phần; v2.3: default ngoài miền chỉ cảnh báo, giới hạn doanh thu dồn cục; v2.4 (2026-11-19): co biên độ mùa vụ doanh thu α = 0,6; v2.5 (2026-11-19): EMA quý có trọng số, biên gộp quý TTM + 0,25 quán tính, DT tài chính theo mức; v2.5.1: DT tài chính bình quân 4 quý, khoản bất thường theo đột biến cô lập; v2.6: neo năm trước theo số quý còn lại, LDLK theo mức; v2.6.1 (2026-11-20): trọng số neo theo số quý tới; v2.6.2: lãi suất trên dư nợ bình quân; v2.6.6 (2026-11-26): lãi suất vay quý = quý gần nhất; docs/L1_phi_tai_chinh.md).
 
 Dấu vân tay chỉ gồm phần tính toán của L1 trong template gốc `nonfinancial` (method L1, giả định L1/dùng chung và
 default, `default_paths`, `one_off`, tần suất engine, `quarterly_engine`); sửa nhãn/mô tả không làm đỏ test. Muốn đổi L1: owner duyệt, cập nhật tài liệu
@@ -13,8 +13,8 @@ from pathlib import Path
 from quick_model.paths import CONFIG_DIR
 
 TEMPLATE = CONFIG_DIR / "templates" / "nonfinancial" / "template.json"
-L1_VERSION = "2.6.3"
-FROZEN_FINGERPRINT = "6cf8d249744146b0"
+L1_VERSION = "2.6.6"
+FROZEN_FINGERPRINT = "5f1bfe6a4bf6f08b"
 
 METHOD_KEYS = ("method_id", "block", "level", "kind", "version", "required_items", "outputs", "roles")
 ASSUMPTION_KEYS = ("assumption_id", "method_id", "unit", "valid_range", "per_period", "shared", "optional",

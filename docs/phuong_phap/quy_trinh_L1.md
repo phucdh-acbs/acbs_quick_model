@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| Phiên bản mô hình | Thư viện **v2.6.5** (2026-11-25): L1 phi tài chính chốt v2.6.3 (không đổi); ngân hàng dùng chung engine quý + năm, default CK đầu tư mới |
+| Phiên bản mô hình | Thư viện **v2.6.6** (2026-11-26): L1 phi tài chính chốt v2.6.6 (lãi suất vay quý gần nhất); ngân hàng: chi phí tín dụng theo quý |
 | Người đọc | Người vận hành, bảo trì mô hình; team IT (đóng gói thư viện/API) |
 | Tài liệu gốc | Phương pháp: `docs/L1_phi_tai_chinh.md`, `docs/thiet_ke_bank_L1.md`; kiến trúc code: `docs/kien_truc_code.md` |
 | Báo cáo kèm theo | `docs/report/Bao_cao_mo_hinh_L1_v2.6.3.pptx`; backtest: `docs/backtest/backtest_report_v2.6.3.html` |
@@ -169,6 +169,7 @@ Thay đổi ở nhóm khác (ngân hàng, template ngành L2/L3) phải giữ `t
 | v2.6.3 | 20/11 | Tỷ lệ CĐKKS phóng đại khi LNST gần 0 (HU1, VID); biên gộp từ quý doanh thu gần 0 (BTP) | CĐKKS = tổng 4 quý / tổng 4 quý; quán tính biên và neo theo trọng số doanh thu | CĐKKS 1 quý tới WAPE 68% → 47%; ca bùng nổ 16 → 4 |
 | v2.6.4 | 23/11 | Ngân hàng: CK đầu tư mặc định tăng 24%/năm (ACB) nhanh hơn huy động 11–13%, funding gap ~182 nghìn tỷ; lỗi chia cho 0 ở nhánh biên | CK đầu tư = min(EMA5, tăng trưởng huy động); chặn chia 0 / inf | Backtest 25 NH: MAE năm 1 30,6 → 26,2 pp; ACB gap 182 → 12 nghìn tỷ. Phi tài chính không đổi |
 | v2.6.5 | 25/11 | Demo HPG: sửa tăng trưởng doanh thu 2027 làm doanh thu 2026 và 2027 giảm (năm 2026 giữ giá trị mặc định bị coi là mục tiêu cả năm, ép Q4/2026 còn 5.249 tỷ) | Chỉ các năm override khác default mới là số analyst nhập (`override_years`, suy ra ở `resolve`) | Sửa một năm không đổi các năm trước; mô hình mặc định không đổi |
+| v2.6.6 | 26/11 | Lãi vay quý chậm theo lãi suất mới; chi phí dự phòng ngân hàng chỉ đi theo năm nên lệch ở quý tới | Phi tài chính: lãi suất vay quý = quý gần nhất. Ngân hàng: chi phí tín dụng quý = 0,65 × TB 4 quý + 0,35 × default năm | Lãi vay Q+1 WAPE 20,1% → 14,5%; dự phòng NH Q+1 43,6% → 36,2%, LNST NH Q+1 21,8% → 20,0% (năm tới 16,9% → 18,3%, mẫu 25 NH) |
 
 Ngân hàng: thiết kế duyệt 17 – 18/11 (EMA5 có giảm dần về 15%/13%, trần LDR, cân thanh khoản qua liên ngân hàng); dùng
 engine quý + năm từ 18/11 (AEY, COF theo quý); thu nhập ngoài lãi khác theo mức và không tự làm sạch từ 19/11.
