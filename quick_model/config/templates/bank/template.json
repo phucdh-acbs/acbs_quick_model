@@ -835,7 +835,7 @@
   "lines": [],
   "requires_when_filled": {},
   "quarterly_engine": {
-    "description_vn": "Engine quý + năm (owner 2026-11-18): từ quý sau quý công bố mới nhất đến hết Q4 năm sau chạy theo quý, các năm sau chạy theo năm, cùng một vòng tính nên số năm = tổng các quý. Default quý = λ × EMA span 8 quý liên tiếp (cuốn chiếu, chuỗi quý đã làm sạch khoản bất thường) + (1 − λ) × default năm của năm đó (giữ nguyên cách tính năm). Giả định trong annual_only dùng thẳng giá trị năm. Số tiền/sản lượng dạng luồng chia theo số ngày của quý. Ràng buộc cuối năm chỉ kiểm ở Q4. Analyst ghi đè số năm: coi là mục tiêu năm, phần chênh so với các quý đã công bố dồn vào các quý còn lại (targets). Ngân hàng (owner 2026-11-18): lợi suất TS sinh lãi và chi phí vốn chỉ đi từ quý lên năm (λ = 1: EMA 8 quý cuốn chiếu, không gộp giá trị năm); các năm sau phần quý giữ mức quý cuối. Owner 2026-11-26 (v2.6.6): chi phí tín dụng đi theo quý = 0,65 × trung bình 4 quý (số quy năm) + 0,35 × default năm, không còn annual_only. Owner 2026-11-23: tăng trưởng CK đầu tư theo quý không vượt tăng trưởng tiền gửi KH của cùng quý (caps). Owner 2026-11-19: thu nhập ngoài lãi khác theo mức (bình quân 8 quý của số quy năm, λ = 1, năm sau giữ mức quý cuối; default năm = bình quân 2 năm).",
+    "description_vn": "Engine quý + năm (owner 2026-11-18): từ quý sau quý công bố mới nhất đến hết Q4 năm sau chạy theo quý, các năm sau chạy theo năm, cùng một vòng tính nên số năm = tổng các quý. Default quý = λ × EMA span 8 quý liên tiếp (cuốn chiếu, chuỗi quý đã làm sạch khoản bất thường) + (1 − λ) × default năm của năm đó (giữ nguyên cách tính năm). Giả định trong annual_only dùng thẳng giá trị năm. Số tiền/sản lượng dạng luồng chia theo số ngày của quý. Ràng buộc cuối năm chỉ kiểm ở Q4. Analyst ghi đè số năm: coi là mục tiêu năm, phần chênh so với các quý đã công bố dồn vào các quý còn lại (targets). Ngân hàng (owner 2026-11-18): lợi suất TS sinh lãi và chi phí vốn chỉ đi từ quý lên năm (λ = 1: EMA 8 quý cuốn chiếu, không gộp giá trị năm); các năm sau phần quý giữ mức quý cuối. Owner 2026-11-26 (v2.6.7): CIR theo quý = trung bình 4 quý gần nhất (λ = 1, không gộp EMA 5 năm), vì EMA 5 năm làm chi phí hoạt động bị dự phóng cao hơn thực tế khoảng 10%. Owner 2026-11-26 (v2.6.6): chi phí tín dụng đi theo quý = 0,65 × trung bình 4 quý (số quy năm) + 0,35 × default năm, không còn annual_only. Owner 2026-11-23: tăng trưởng CK đầu tư theo quý không vượt tăng trưởng tiền gửi KH của cùng quý (caps). Owner 2026-11-19: thu nhập ngoài lãi khác theo mức (bình quân 8 quý của số quy năm, λ = 1, năm sau giữ mức quý cuối; default năm = bình quân 2 năm).",
     "lambda": 0.65,
     "ema_span_quarters": 8,
     "annual_only": [
@@ -938,6 +938,11 @@
         "stat": "mean",
         "window": 4,
         "lambda": 0.65
+      },
+      "cir": {
+        "stat": "mean",
+        "window": 4,
+        "lambda": 1.0
       },
       "other_income_run_rate": {
         "stat": "mean",

@@ -170,6 +170,7 @@ Thay đổi ở nhóm khác (ngân hàng, template ngành L2/L3) phải giữ `t
 | v2.6.4 | 23/11 | Ngân hàng: CK đầu tư mặc định tăng 24%/năm (ACB) nhanh hơn huy động 11–13%, funding gap ~182 nghìn tỷ; lỗi chia cho 0 ở nhánh biên | CK đầu tư = min(EMA5, tăng trưởng huy động); chặn chia 0 / inf | Backtest 25 NH: MAE năm 1 30,6 → 26,2 pp; ACB gap 182 → 12 nghìn tỷ. Phi tài chính không đổi |
 | v2.6.5 | 25/11 | Demo HPG: sửa tăng trưởng doanh thu 2027 làm doanh thu 2026 và 2027 giảm (năm 2026 giữ giá trị mặc định bị coi là mục tiêu cả năm, ép Q4/2026 còn 5.249 tỷ) | Chỉ các năm override khác default mới là số analyst nhập (`override_years`, suy ra ở `resolve`) | Sửa một năm không đổi các năm trước; mô hình mặc định không đổi |
 | v2.6.6 | 26/11 | Lãi vay quý chậm theo lãi suất mới; chi phí dự phòng ngân hàng chỉ đi theo năm nên lệch ở quý tới | Phi tài chính: lãi suất vay quý = quý gần nhất. Ngân hàng: chi phí tín dụng quý = 0,65 × TB 4 quý + 0,35 × default năm | Lãi vay Q+1 WAPE 20,1% → 14,5%; dự phòng NH Q+1 43,6% → 36,2%, LNST NH Q+1 21,8% → 20,0% (năm tới 16,9% → 18,3%, mẫu 25 NH) |
+| v2.6.7 | 26/11 | Ngân hàng: chi phí hoạt động dự phóng cao hơn thực tế ~10% (CIR EMA5 chậm khi CIR giảm dần) | CIR quý = trung bình 4 quý gần nhất (λ = 1) | PBT NH năm tới WAPE 17,8% → 15,2%; LNST năm tới 18,3% → 15,7%, Q+1 20,0% → 19,2% (25 NH) |
 
 Ngân hàng: thiết kế duyệt 17 – 18/11 (EMA5 có giảm dần về 15%/13%, trần LDR, cân thanh khoản qua liên ngân hàng); dùng
 engine quý + năm từ 18/11 (AEY, COF theo quý); thu nhập ngoài lãi khác theo mức và không tự làm sạch từ 19/11.
