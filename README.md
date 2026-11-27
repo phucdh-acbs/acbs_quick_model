@@ -1,10 +1,15 @@
 # ACBS Quick Model L1: thư viện và API dự phóng nhanh BCTC
 
-Phiên bản mô hình: **L1 v2.6.7** (chốt 26/11/2026). Gói này để team IT test và tích hợp vào luồng dự phóng tự động
+Phiên bản mô hình: **L1 v2.6.8** (chốt 27/11/2026). Gói này để team IT test và tích hợp vào luồng dự phóng tự động
 (sub-agent). Phòng Phân tích cung cấp thư viện và API. Luồng gọi, lịch chạy và truy vấn GBQ do IT quản lý.
 
 > Kết quả là dự phóng tự động từ lịch sử BCTC, **không phải khuyến nghị đầu tư**. Mọi đầu ra dùng đại trà phải kèm
 > ghi chú này (`meta.disclaimer`).
+
+## v2.6.8 (so với v2.6.7)
+
+- **Thêm `status.usable` và `status.flags`** cho agent. `usable = true` khi có kết quả và không có lỗi chặn, kể cả khi thiếu vốn hay LNST âm; `flags` liệt kê `funding_gap`, `not_balanced`, `negative_earnings`. `publishable` giữ nguyên nghĩa (dùng để quyết định công bố). Không đổi số dự phóng.
+- Thiếu vốn **không bao giờ** làm thư viện hay API trả lỗi: mô hình vẫn trả kết quả kèm `feasible = false`, `funding_gap_max`, `first_gap_period`. Hướng dẫn ngắn: `docs/HUONG_DAN_NHANH_AGENT.md`.
 
 ## v2.6.7 (so với v2.6.6)
 
@@ -55,7 +60,7 @@ giữ trạng thái giữa các lần gọi.
 ## 2. Cấu trúc thư mục
 
 ```
-acbs_quick_model_v2.6.7/
+acbs_quick_model_v2.6.8/
 ├── README.md
 ├── pyproject.toml
 ├── quick_model/               engine + cấu hình mô hình (quick_model/config)
@@ -65,6 +70,7 @@ acbs_quick_model_v2.6.7/
 │   ├── HOP_DONG_DU_LIEU.md    lấy gì từ GBQ
 │   ├── HUONG_DAN_THU_VIEN.md  dùng trong Python
 │   ├── HUONG_DAN_API.md       endpoint, request, response, triển khai
+│   ├── HUONG_DAN_NHANH_AGENT.md  khi nào dùng kết quả: status.usable, flags, publishable
 │   ├── KET_QUA.md             ý nghĩa từng phần kết quả, trạng thái, mã cảnh báo
 │   └── phuong_phap/           spec mô hình (công thức, giả định, lịch sử phiên bản)
 ├── examples/
@@ -141,7 +147,7 @@ Tài liệu tương tác ở `http://localhost:8000/docs`.
 
 ## 6. Phiên bản và thay đổi
 
-- `meta.model_version` và `/health` đều trả `"L1 v2.6.7"`.
+- `meta.model_version` và `/health` đều trả `"L1 v2.6.8"`.
 - L1 phi tài chính đã khóa. Nếu `quick_model/config` bị sửa, `tests/test_l1_frozen.py` sẽ báo lỗi.
 - Chỉ Phòng Phân tích được đổi phương pháp, và mỗi lần đổi đi kèm phiên bản mới. Team IT không sửa cấu hình mô hình.
 

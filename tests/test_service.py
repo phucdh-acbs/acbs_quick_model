@@ -41,6 +41,19 @@ def test_bank_and_explain():
     assert r.explain("npat_parent", r.meta["forecast_years"][0])["headline"]
 
 
+def test_usable_and_flags_do_not_depend_on_publishable():
+    """v2.6.8: status.usable = có kết quả dùng được (không lỗi chặn), kể cả khi thiếu vốn; flags nêu các lưu ý."""
+    from quick_model.engine.validation import Issue
+    r = S.forecast("HPG", "nonfinancial", folder=HPG, years=2)
+    assert r.status["usable"] is True and r.status["usable"] == r.status["ok"]
+    assert isinstance(r.status["flags"], list) and "publishable" in r.status
+    json.dumps(r.to_dict()["status"])
+    neg = [Issue("warning", "negative_npat", None, "npat", "2026", "LNST âm")]
+    assert S._flags({"feasible": False, "balanced": True}, neg) == ["funding_gap", "negative_earnings"]
+    assert S._flags({"feasible": True, "balanced": False}, []) == ["not_balanced"]
+    assert S._flags({"feasible": True, "balanced": True}, []) == []
+
+
 def test_input_errors():
     with pytest.raises(S.ServiceError):
         S.forecast("HPG", "insurance", folder=HPG)

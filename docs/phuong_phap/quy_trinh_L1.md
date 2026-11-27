@@ -5,7 +5,7 @@
 | Phiên bản mô hình | Thư viện **v2.6.6** (2026-11-26): L1 phi tài chính chốt v2.6.6 (lãi suất vay quý gần nhất); ngân hàng: chi phí tín dụng theo quý |
 | Người đọc | Người vận hành, bảo trì mô hình; team IT (đóng gói thư viện/API) |
 | Tài liệu gốc | Phương pháp: `docs/L1_phi_tai_chinh.md`, `docs/thiet_ke_bank_L1.md`; kiến trúc code: `docs/kien_truc_code.md` |
-| Báo cáo kèm theo | `docs/report/Bao_cao_mo_hinh_L1_v2.6.3.pptx`; backtest: `docs/backtest/backtest_report_v2.6.3.html` |
+| Báo cáo kèm theo | `docs/report/Bao_cao_mo_hinh_L1_v2.6.3.pptx`; backtest: `docs/backtest/backtest_report_v2.6.7.html` (slide vẫn là bản v2.6.3) |
 
 Tài liệu này mô tả **cách chạy, kiểm tra và thay đổi** mô hình. Công thức, default và tham số chi tiết nằm trong spec;
 khi spec và tài liệu này khác nhau thì spec đúng.
@@ -19,13 +19,13 @@ khi spec và tài liệu này khác nhau thì spec đúng.
 - **Phạm vi.** Nhóm BCTC phi tài chính (mọi template ngành kế thừa: sản xuất, bán lẻ, xây dựng, …), **không gồm bất động
   sản**; nhóm ngân hàng. Bất động sản, chứng khoán, bảo hiểm sẽ có engine riêng.
 - **Không phải** khuyến nghị đầu tư, định giá hay mô hình chi tiết thay analyst.
-- **Mức sai số kỳ vọng** (backtest v2.6.3, sai số trung vị, dự phóng cả năm từ đầu năm): năm bình thường 2024 – nay,
-  doanh thu ~11%, LNST công ty mẹ ~31%; ngân hàng LNST ~16%. Năm chu kỳ đổi chiều (2022–2023) LNST lệch 35–52%.
-- **Cộng cả nhóm, cả ngành sát hơn từng DN** (sai lệch các DN bù trừ): tổng LNST cả nhóm phi tài chính lệch ~22% (cả
-  năm) và ~15% (quý tới), so với ~31% và ~40% của một DN điển hình (2024 – nay). Ngoại lệ: ngành ít DN mà một DN chi
+- **Mức sai số kỳ vọng** (backtest v2.6.7, sai số trung vị, dự phóng cả năm từ đầu năm): năm bình thường 2024 – nay,
+  doanh thu ~11%, LNST công ty mẹ ~31%; ngân hàng LNST ~13%. Năm chu kỳ đổi chiều (2022–2023) LNST lệch 34–50%.
+- **Cộng cả nhóm, cả ngành sát hơn từng DN** (sai lệch các DN bù trừ): tổng LNST cả nhóm phi tài chính lệch ~19% (cả
+  năm, 2024 – nay), so với ~31% của một DN điển hình; với quý tới, số v2.6.3 là ~15% so với ~40% (chưa cập nhật). Ngoại lệ: ngành ít DN mà một DN chi
   phối (bán lẻ, 6 DN).
 - **Sai số lớn tập trung ở cú đảo chiều 2022**: tính trên riêng các quý còn phải dự phóng, tổng LNST cả nhóm lệch 35–40%
-  sau Q1–Q3 với mẫu 2022 – nay, nhưng chỉ 19%, 9%, 3% với mẫu 2023 – nay.
+  sau Q1–Q3 với mẫu 2022 – nay, nhưng chỉ 19%, 9%, 3% với mẫu 2023 – nay (số v2.6.3, chưa cập nhật cho v2.6.7).
 
 ## 2. Dữ liệu
 
@@ -171,6 +171,7 @@ Thay đổi ở nhóm khác (ngân hàng, template ngành L2/L3) phải giữ `t
 | v2.6.5 | 25/11 | Demo HPG: sửa tăng trưởng doanh thu 2027 làm doanh thu 2026 và 2027 giảm (năm 2026 giữ giá trị mặc định bị coi là mục tiêu cả năm, ép Q4/2026 còn 5.249 tỷ) | Chỉ các năm override khác default mới là số analyst nhập (`override_years`, suy ra ở `resolve`) | Sửa một năm không đổi các năm trước; mô hình mặc định không đổi |
 | v2.6.6 | 26/11 | Lãi vay quý chậm theo lãi suất mới; chi phí dự phòng ngân hàng chỉ đi theo năm nên lệch ở quý tới | Phi tài chính: lãi suất vay quý = quý gần nhất. Ngân hàng: chi phí tín dụng quý = 0,65 × TB 4 quý + 0,35 × default năm | Lãi vay Q+1 WAPE 20,1% → 14,5%; dự phòng NH Q+1 43,6% → 36,2%, LNST NH Q+1 21,8% → 20,0% (năm tới 16,9% → 18,3%, mẫu 25 NH) |
 | v2.6.7 | 26/11 | Ngân hàng: chi phí hoạt động dự phóng cao hơn thực tế ~10% (CIR EMA5 chậm khi CIR giảm dần) | CIR quý = trung bình 4 quý gần nhất (λ = 1) | PBT NH năm tới WAPE 17,8% → 15,2%; LNST năm tới 18,3% → 15,7%, Q+1 20,0% → 19,2% (25 NH) |
+| v2.6.8 | 27/11 | Agent của IT từ chối nhiều mã (MODEL_NOT_OK) vì thiếu vốn, dù thư viện vẫn trả kết quả; `publishable` bị hiểu là điều kiện chạy | Thêm `status.usable` (dùng được kết quả) và `status.flags` (`funding_gap`, `not_balanced`, `negative_earnings`); `publishable` giữ nghĩa công bố; thêm hướng dẫn nhanh cho agent | Không đổi số dự phóng |
 
 Ngân hàng: thiết kế duyệt 17 – 18/11 (EMA5 có giảm dần về 15%/13%, trần LDR, cân thanh khoản qua liên ngân hàng); dùng
 engine quý + năm từ 18/11 (AEY, COF theo quý); thu nhập ngoài lãi khác theo mức và không tự làm sạch từ 19/11.
