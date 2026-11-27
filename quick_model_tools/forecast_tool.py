@@ -4,7 +4,8 @@ op run          (ticker, com_type_code, icb_code, dataset_dir) -> nhóm báo cá
 op view         hình dạng khác của một lượt đã lưu, không tính lại
 op explain      một ô: công thức và các phần đóng góp lớn nhất
 op assumptions  giả định được phép nhập, theo nhóm
-Cùng dữ liệu, cùng phiên bản mô hình và công cụ, cùng giả định: cùng `run_id` và trả lại bản đã lưu. `model_ok` là false thì không dùng số."""
+Cùng dữ liệu, cùng phiên bản mô hình và công cụ, cùng giả định: cùng `run_id` và trả lại bản đã lưu. Theo quy tắc của mô hình (v2.6.8): dùng số khi
+`usable` là true; thiếu vốn, LNST âm, đổi phạm vi hợp nhất là cờ (`flags`), không chặn; `publishable` chỉ quyết định đăng tự động."""
 from __future__ import annotations
 
 import csv
@@ -129,29 +130,41 @@ def scope_break(quarterly) -> tuple[str, str] | None:
     return None
 
 
-def gate(out, aud: dict, overrides: dict, rebased: dict | None = None) -> list[dict]:
-    g, st, reasons = settings.GATE, out.status, []
+def gate(out, aud: dict, overrides: dict, rebased: dict | None = None) -> tuple[list[dict], list[dict]]:
+    """(lý do chặn, cờ). Chặn chỉ khi mô hình nói không dùng được (`status.usable` false); mọi thứ khác là cờ."""
+    g, st, iss = settings.GATE, out.status, out.issues
+    block, flags = [], []
 
-    def add(code, **kw):
-        reasons.append({"code": code, "text": g["texts"][code].format(**kw), **({"quarter": kw["q"]} if "q" in kw else {})})
-    if out.annual is None:
-        add("NO_RESULT")
-    elif (st.get("funding_gap_max") or 0) > 0 and st.get("first_gap_period"):
-        add("FUNDING_GAP", gap=f"{st['funding_gap_max'] / 1e9:,.0f}".replace(",", "."), period=st["first_gap_period"])
-    elif not st.get("publishable"):
-        add("UPSTREAM_NOT_PUBLISHABLE")
+    def add(dst, texts, code, **kw):
+        dst.append({"code": code, "text": texts[code].format(**kw), **({"quarter": kw["q"]} if "q" in kw else {})})
+    if not st.get("usable", st.get("ok")) or out.annual is None:
+        err = iss[iss["severity"] == "error"] if len(iss) else iss
+        need = sorted({str(t) for c, t in zip(err.get("code", []), err.get("target", [])) if c == "needs_input" and t})
+        if need:
+            add(block, g["block_texts"], "NEEDS_INPUT", ids=", ".join(need))
+        other = [f"{c}: {m}" for c, m in zip(err.get("code", []), err.get("message", [])) if c != "needs_input"]
+        if other or not need:
+            add(block, g["block_texts"], "NO_RESULT", detail="; ".join(dict.fromkeys(other)) [:300] or "xem view issues")
+        return block, flags
+    up = st.get("flags") or []
+    if "funding_gap" in up or (st.get("funding_gap_max") or 0) > 0:
+        add(flags, g["flag_texts"], "FUNDING_GAP", gap=f"{(st.get('funding_gap_max') or 0) / 1e9:,.0f}".replace(",", "."), period=st.get("first_gap_period") or "?")
+    loss = loss_in_path(out.annual, out.quarterly)
+    if "negative_earnings" in up or loss:
+        add(flags, g["flag_texts"], "NEGATIVE_EARNINGS", what=loss or "kỳ dự phóng")
+    if "not_balanced" in up:
+        add(flags, g["flag_texts"], "NOT_BALANCED")
+    if not st.get("publishable"):
+        add(flags, g["flag_texts"], "NOT_PUBLISHABLE")
     raw, used = aud["latest_quarter"], out.meta.get("last_reported_quarter")
     if raw and used and raw > used:
-        add("LATEST_QUARTER_NOT_USED", raw=raw, used=used)
+        add(flags, g["flag_texts"], "LATEST_QUARTER_NOT_USED", raw=raw, used=used)
     if out.quarterly is not None and (sb := scope_break(out.quarterly)):
-        add("REBASED" if rebased else "SCOPE_SUSPECT", q=sb[0], what=sb[1], y=out.meta["forecast_years"][0])
-    if out.annual is not None and (why := loss_in_path(out.annual, out.quarterly)):
-        add("LOSS_IN_PATH", what=why)
-    iss = out.issues
-    hit = sorted({r["target"] for _, r in iss.iterrows() if r["code"] in g["warn_codes_block"] and r["target"] in overrides and r["target"] not in (rebased or {})}) if len(iss) else []
+        add(flags, g["flag_texts"], "REBASED" if rebased else "SCOPE_SUSPECT", q=sb[0], what=sb[1], y=out.meta["forecast_years"][0])
+    hit = sorted({r["target"] for _, r in iss.iterrows() if r["code"] in g["warn_codes_override"] and r["target"] in overrides and r["target"] not in (rebased or {})}) if len(iss) else []
     if hit:
-        add("OVERRIDE_OUTSIDE_HISTORY", ids=", ".join(hit))
-    return reasons
+        add(flags, g["flag_texts"], "OVERRIDE_OUTSIDE_HISTORY", ids=", ".join(hit))
+    return block, flags
 
 
 # ------------------------------------------------------------------------------------------------------------ lượt chạy
@@ -246,14 +259,15 @@ def execute(store, ticker: str, org: dict, folder, *, family: str | None = None,
     rb = None
     if rebase:
         base = execute(store, ticker, org, kept, family=family, years=years, overrides=overrides)
-        sc = next((r for r in base["reasons"] if r["code"] == "SCOPE_SUSPECT"), None)
+        sc = next((r for r in base["flags"] if r["code"] == "SCOPE_SUSPECT"), None)
         if sc is None:
             raise Refuse("REBASE_NOT_NEEDED", [("rebase", "lượt chạy không có dấu hiệu đổi phạm vi hợp nhất: chạy không kèm rebase")])
         rb = {"first_quarter": sc["quarter"], "base_run": base["run_id"], "overrides": rebase_overrides(base, sc["quarter"])}
         ov = {**rb["overrides"], **ov}
     out = _compute(ticker, family, kept, years, ov)
-    reasons = gate(out, audit(kept, ticker), ov, rb["overrides"] if rb else None)
-    doc = {"schema": SCHEMA, "run_id": run_id, "key": key, "dataset": ds, "meta": clean(out.meta), "rebase": rb, "model_ok": not reasons, "reasons": reasons,
+    reasons, flags = gate(out, audit(kept, ticker), ov, rb["overrides"] if rb else None)
+    doc = {"schema": SCHEMA, "run_id": run_id, "key": key, "dataset": ds, "meta": clean(out.meta), "rebase": rb, "usable": not reasons, "model_ok": not reasons,
+           "reasons": reasons, "flags": flags, "publishable": bool(out.status.get("publishable")),
            "annual": _grid(out.annual) if out.annual is not None else None, "quarterly": _grid(out.quarterly) if out.quarterly is not None else None,
            "ratios": {k: {"columns": list(v.columns), "rows": [{"ratio": i, "values": [edge(x) for x in r]} for i, r in zip(v.index, v.to_numpy().tolist())]}
                       for k, v in out.ratios.items()},
@@ -318,7 +332,8 @@ class Grid:
 def brief(doc: dict) -> dict:
     k = doc["key"]
     out = {"ticker": k["ticker"], "run_id": doc["run_id"], "family": k["family"], "model": doc["meta"]["model_version"], "data_to": doc["meta"]["last_reported_quarter"],
-           "model_ok": doc["model_ok"], "reasons": [r["text"] for r in doc["reasons"]], "disclaimer": doc["meta"]["disclaimer"]}
+           "usable": doc["usable"], "model_ok": doc["model_ok"], "reasons": [r["text"] for r in doc["reasons"]], "flags": [f"{x['code']}: {x['text']}" for x in doc["flags"]],
+           "publishable": doc["publishable"], "disclaimer": doc["meta"]["disclaimer"]}
     if doc["annual"] is None:
         out["errors"] = [i["message"][:160] for i in doc["issues"] if i["severity"] == "error"][:3]
         return out
@@ -346,7 +361,8 @@ def thesis(doc: dict) -> dict:
     yoy = float(q.v(h, act_q)) / float(q.v(h, same)) - 1 if same and q.v(h, same) and float(q.v(h, same)) > 0 else None
     jv, pbt = q.v("jv_associates", act_q), q.v("pbt", act_q)
     share = float(jv) / float(pbt) if jv is not None and pbt is not None and float(pbt) > 0 else None
-    return {"ticker": doc["key"]["ticker"], "run_id": doc["run_id"], "model_ok": doc["model_ok"], "reasons": [r["text"] for r in doc["reasons"]],
+    return {"ticker": doc["key"]["ticker"], "run_id": doc["run_id"], "usable": doc["usable"], "model_ok": doc["model_ok"], "reasons": [r["text"] for r in doc["reasons"]],
+            "flags": [f"{x['code']}: {x['text']}" for x in doc["flags"]],
             "latest_quarter": {"period": act_q[:-2], h: bn(q.v(h, act_q)), "yoy": None if yoy is None else round(yoy, 4)},
             "forecast": {c[:4]: {h: bn(g.v(h, c)), **{ln: bn(g.v(ln, c)) for ln in settings.KEY_LINES[doc["key"]["family"]][:2]}} for c in g.forecast()[:2]},
             "associates_share_of_pbt": None if share is None else round(share, 4), "one_offs": len(doc["one_offs"])}

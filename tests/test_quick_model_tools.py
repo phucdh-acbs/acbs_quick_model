@@ -65,11 +65,42 @@ def test_same_input_same_run_and_stored_once(tmp_path):
     assert forecast(tmp_path, "TCB", "bank", years=4)["result"]["run_id"] != a["result"]["run_id"]
 
 
-def test_gate_stops_a_run_that_cannot_be_used(tmp_path):
+def test_a_funding_gap_is_a_flag_not_a_stop(tmp_path):
+    """v2.6.8 of the model: usable stays true with a funding gap; the tool used to stop such runs (MODEL_NOT_OK in the IT agent's log)."""
     r = forecast(tmp_path, "HPG", "nonfinancial")["result"]
-    assert r["model_ok"] is False and r["reasons"]
+    assert r["usable"] is True and r["model_ok"] is True and r["reasons"] == [] and any(f.startswith("FUNDING_GAP") for f in r["flags"])
+    assert r["publishable"] is False and any(f.startswith("NOT_PUBLISHABLE") for f in r["flags"])
     v = V.run({"run_id": r["run_id"], "store": str(tmp_path / "store"), "valuation_date": DAY, "multiples_csv": csv_file(tmp_path), "shares_million": 7000, "shares_source": "t"})
+    assert v["status"] == "ok" and v["result"]["status"] == "need_choice" and "FUNDING_GAP" in {f["code"] for f in v["result"]["flags"]}
+
+
+def _losses(src, dst):
+    """HPG with every profit line negative: no year with a profit before tax, so the model cannot form a tax rate or a minority share."""
+    import csv
+    dst.mkdir(parents=True)
+    for p in src.iterdir():
+        rows = list(csv.reader(open(p, encoding="utf-8")))
+        if p.name.endswith("_is.csv"):
+            h = rows[0]
+            for c in ("ISA16", "ISA17", "ISA18", "ISA19", "ISA20", "ISA21", "ISA22"):
+                k = h.index(c)
+                for r in rows[1:]:
+                    if r[k] not in ("", "0"):
+                        r[k] = str(-abs(float(r[k]))) if c in ("ISA16", "ISA20", "ISA21", "ISA22") else "0"
+        with open(dst / p.name, "w", newline="", encoding="utf-8") as f:
+            csv.writer(f).writerows(rows)
+
+
+def test_a_run_the_model_cannot_use_says_what_it_needs(tmp_path):
+    _losses(DATA / "hpg", tmp_path / "loss")
+    base = {"op": "run", "ticker": "HPG", "com_type_code": "CT", "icb_code": "1757", "dataset_dir": str(tmp_path / "loss"), "store": str(tmp_path / "s")}
+    r = F.run(base)["result"]
+    assert r["usable"] is False and r["model_ok"] is False and r["flags"] == []
+    assert "effective_tax_rate" in r["reasons"][0] and "minority_share" in r["reasons"][0] and "overrides" in r["reasons"][0]
+    v = V.run({"run_id": r["run_id"], "store": str(tmp_path / "s"), "valuation_date": DAY, "multiples_csv": csv_file(tmp_path), "shares_million": 7000, "shares_source": "t"})
     assert v["status"] == "refused" and v["code"] == "FORECAST_NOT_OK" and "value_per_share" not in json.dumps(v)
+    ok = F.run({**base, "overrides": {"effective_tax_rate": 0.2, "minority_share": 0.0}})["result"]
+    assert ok["usable"] is True and any(f.startswith("NEGATIVE_EARNINGS") for f in ok["flags"])
 
 
 def test_every_wrong_override_is_named(tmp_path):
@@ -147,6 +178,16 @@ def test_a_bad_choice_is_refused_with_every_reason(tcb):
     assert value(tcb, choice={"methods": {"pe": {"weight": 1, "multiple": 8.0, "reason": "ngắn"}}})["code"] == "CHOICE_INVALID"
     assert value(tcb, choice=pick(dcf_fcff={"weight": 1}))["code"] == "CHOICE_INVALID"
     assert value(tcb, market=None, choice=pick(residual_income={"weight": 1, "beta": 1.0, "g": 0.03}))["code"] == "CHOICE_INVALID"
+
+
+def test_a_method_worth_nothing_cannot_be_part_of_the_price(tcb):
+    """A residual income below zero (ROE under the cost of equity) is not a price: the choice is sent back, not averaged in."""
+    c = pick(pe={"weight": 0.7, "multiple": 6.0}, residual_income={"weight": 0.3, "beta": 2.5, "g": -0.02})
+    r = value(tcb, market={"rf": 0.30, "erp": 0.10}, choice=c)
+    trial = value(tcb, market={"rf": 0.30, "erp": 0.10})["result"]
+    ri = {m["id"]: m for m in trial["methods"]}["residual_income"]
+    if any(x[2] is not None and float(x[2]) <= 0 for x in ri["trial"]):
+        assert r["status"] == "refused" and "≤ 0" in " ".join(m["why"] for m in r["missing"])
 
 
 def test_above_the_cap_needs_a_catalyst_or_growth(tcb):

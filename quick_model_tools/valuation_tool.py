@@ -81,9 +81,10 @@ class Case:
             self._flag("EPS_BEFORE_WELFARE_FUND", "EPS chưa trừ trích quỹ khen thưởng, phúc lợi (eps_deduction = 0)")
         if not self.dps:
             self._flag("DIVIDEND_ZERO", "mô hình đặt cổ tức bằng 0: BVPS các năm sau cao hơn thực tế nếu có chia")
-        rebased = [r for r in doc["reasons"] if r["code"] == "REBASED"]
-        for r in rebased:
-            self._flag("REBASED", r["text"])
+        rebased = [r for r in doc["flags"] if r["code"] == "REBASED"]
+        for r in doc["flags"]:                                     # the forecast's own flags travel with the value
+            if r["code"] not in ("NOT_PUBLISHABLE", "LATEST_QUARTER_NOT_USED"):
+                self._flag(r["code"], r["text"])
         self.off = ZERO if inp.get("keep_one_offs") or rebased or self.fam == "bank" else self._one_off()
         if self.off:
             self._flag("ONE_OFF_REMOVED", f"đã bỏ {vi(float(self.off))} tỷ khoản một lần (sau thuế) khỏi LNST mẹ {self.fc[0]} khi tính EPS")
@@ -242,7 +243,8 @@ def menu(k: Case) -> dict:
     return {"status": "need_choice", "unit": "đồng/cp", "shares_million": dstr(k.n, 6), "forecast": _profile(k), "methods": rows,
             "params": {"market": None if k.market is None else {x: str(v) for x, v in k.market.items()}, "ke": "rf + beta × erp"},
             "rerating": {"rule": "bội số trên cap cần lý do dẫn mã chất xúc tác hoặc EPS tới tăng ít nhất eps_growth_min", "eps_growth_min": k.c["eps_growth_min"], "catalysts": k.catalysts}, "flags": k.flags, "rule_status": settings.VALUATION["rule_status"],
-            "choice_form": {"decided_by": "vai", "methods": {"<id>": {"weight": "tổng 1", "multiple": "pe|pb", "beta, g": "pb_roe|residual_income", "reason": "vì sao hợp với dự phóng này, ít nhất 30 ký tự"}}}}
+            "choice_form": {"decided_by": "vai", "methods": {"<id>": {"weight": "tổng 1", "multiple": "pe|pb", "beta, g": "pb_roe|residual_income", "reason": "vì sao hợp với dự phóng này, ít nhất 30 ký tự"}},
+                            "rules": "phương pháp có trong bảng và available; tổng tỷ trọng 1; bội số không quá cap trừ khi rerating cho phép; giá trị của từng phương pháp phải > 0"}}
 
 
 def decide(k: Case, choice: dict) -> dict:
@@ -287,6 +289,9 @@ def decide(k: Case, choice: dict) -> dict:
         if "refused" in r:
             bad.append((f"choice/methods/{m}", r["refused"]))
             continue
+        if r["per_share"] <= 0:
+            bad.append((f"choice/methods/{m}", f"giá trị {dstr(r['per_share'], 0)} đồng/cp ≤ 0: không dùng được làm giá; bỏ phương pháp này hoặc đổi tham số"))
+            continue
         row = {"id": m, "weight": dstr(x["weight"], 4), "value": dstr(r["per_share"], 2), "reason": x["reason"]}
         if m in MULTIPLE:
             b = r["inputs"][MULTIPLE[m]]
@@ -319,11 +324,10 @@ def decide(k: Case, choice: dict) -> dict:
 
 def value(doc: dict, inp: dict) -> dict:
     head = {"ticker": doc["key"]["ticker"], "run_id": doc["run_id"], "valuation_date": inp["valuation_date"]}
-    if not doc["key"].get("org"):
-        return {**head, "status": "refused", "reasons": ["lượt chạy tạo trước khi có chốt ngành: gọi op run lại với com_type_code và icb_code"]}
-    bad = [r for r in doc["reasons"] if r["code"] not in settings.VALUATION["reasons_allowed"]]
-    if bad or doc["annual"] is None:
-        return {**head, "status": "refused", "reasons": [r["text"] for r in bad] or ["mô hình không có số"]}
+    if not doc["key"].get("org") or "usable" not in doc:
+        return {**head, "status": "refused", "reasons": ["lượt chạy tạo bằng bản công cụ cũ: gọi op run lại (com_type_code, icb_code)"]}
+    if not doc["usable"] or doc["annual"] is None:
+        return {**head, "status": "refused", "reasons": [r["text"] for r in doc["reasons"]] or ["mô hình không có số"]}
     k = Case(doc, inp)
     return {**head, **(decide(k, inp["choice"]) if inp.get("choice") else menu(k))}
 

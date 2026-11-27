@@ -3,7 +3,7 @@ from . import settings
 
 FORECAST = {
     "name": "quick_model_forecast",
-    "description": "Dự phóng báo cáo tài chính của một mã (phi tài chính không gồm bất động sản, ngân hàng) bằng mô hình L1. Chứng khoán, bảo hiểm, bất động sản bị từ chối FAMILY_UNSUPPORTED (chờ bản cập nhật mô hình). Trả lời ngắn (tỷ đồng). model_ok = false thì không dùng số; lý do trong reasons. Không có giá.",
+    "description": "Dự phóng báo cáo tài chính của một mã (phi tài chính không gồm bất động sản, ngân hàng) bằng mô hình L1. Chứng khoán, bảo hiểm, bất động sản bị từ chối FAMILY_UNSUPPORTED (chờ bản cập nhật mô hình). Trả lời ngắn (tỷ đồng). Dùng số khi usable = true; flags là lưu ý (thiếu vốn, LNST âm...), không chặn; usable = false thì reasons nói lý do (NEEDS_INPUT: truyền overrides). Không có giá.",
     "input_schema": {"type": "object", "additionalProperties": False, "required": ["op"], "properties": {
         "op": {"enum": ["run", "view", "explain", "assumptions"]},
         "ticker": {"type": "string"},

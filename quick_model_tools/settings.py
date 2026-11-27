@@ -9,16 +9,19 @@ ROUTING = {
     "waiting": "mô hình chưa có nhóm này, đang chờ bản cập nhật; tạm dùng luồng sẵn có",
 }
 
-GATE = {'texts': {'NO_RESULT': 'mô hình có lỗi chặn, không có số',
-           'FUNDING_GAP': 'thiếu vốn {gap} tỷ đồng từ {period}',
-           'UPSTREAM_NOT_PUBLISHABLE': 'mô hình đánh dấu chưa được công bố',
-           'LATEST_QUARTER_NOT_USED': 'quý {raw} có trong dữ liệu nhưng bị bỏ, mô hình chỉ dùng đến {used}',
-           'SCOPE_SUSPECT': 'nghi đổi phạm vi hợp nhất từ {q} ({what}): chỉ dùng năm {y}, các năm sau cần đặt lại giả định',
-           'REBASED': 'đã đặt lại giả định theo các quý từ {q} vì đổi phạm vi hợp nhất ({what}); tăng trưởng doanh thu vẫn là của mô hình; cần '
-                      'chuyên viên xem',
-           'LOSS_IN_PATH': 'LNST mẹ không dương ở {what}: không nhân bội số được',
-           'OVERRIDE_OUTSIDE_HISTORY': 'giả định đặt tay nằm ngoài khoảng lịch sử: {ids}'},
- 'warn_codes_block': ('outside_history', 'high_growth'),
+# Quy tắc của mô hình từ v2.6.8 (docs/HUONG_DAN_NHANH_AGENT.md): dùng kết quả khi `status.usable = true`. Thiếu vốn, LNST âm, bảng cân đối lệch là
+# cờ đi kèm, không chặn; `publishable` chỉ quyết định đăng tự động. Chỉ chặn khi mô hình không dùng được (lỗi chặn trong issues).
+GATE = {'block_texts': {'NO_RESULT': 'mô hình có lỗi chặn, không có số: {detail}',
+                 'NEEDS_INPUT': 'mô hình cần nhập giả định vì lịch sử không có mẫu hợp lệ: {ids}; truyền overrides {{mã giả định: số}} kèm lý do'},
+ 'flag_texts': {'FUNDING_GAP': 'thiếu vốn tối đa {gap} tỷ đồng từ {period} (kịch bản không có vốn bổ sung); vẫn dùng số',
+                'NEGATIVE_EARNINGS': 'LNST mẹ âm ở {what}: không nhân P/E với LNST âm; vẫn dùng số',
+                'NOT_BALANCED': 'bảng cân đối dự phóng lệch, xem issues',
+                'NOT_PUBLISHABLE': 'mô hình chưa cho đăng tự động (publishable = false); vẫn dùng số',
+                'LATEST_QUARTER_NOT_USED': 'quý {raw} có trong dữ liệu nhưng bị bỏ, mô hình chỉ dùng đến {used}',
+                'SCOPE_SUSPECT': 'nghi đổi phạm vi hợp nhất từ {q} ({what}): các năm sau {y} theo cơ cấu cũ; có thể chạy lại với rebase, chuyên viên nên xem',
+                'REBASED': 'đã đặt lại giả định theo các quý từ {q} vì đổi phạm vi hợp nhất ({what}); tăng trưởng doanh thu vẫn là của mô hình; chuyên viên nên xem',
+                'OVERRIDE_OUTSIDE_HISTORY': 'giả định đặt tay nằm ngoài khoảng lịch sử: {ids}'},
+ 'warn_codes_override': ('outside_history', 'high_growth'),
  'scope': {'min_before': 4, 'max_after': 4, 'minority_min_share': 0.05, 'minority_ratio': 0.25, 'jv_min_share': 0.1, 'jv_ratio': 3.0}}
 
 BRIEF_YEARS = 2
@@ -26,7 +29,6 @@ HEADLINE = "npat_parent"
 KEY_LINES = {'nonfinancial': ('net_revenue', 'gross_profit', 'pbt', 'npat_parent'), 'bank': ('nii', 'toi', 'provision_expense', 'npat_parent')}
 
 VALUATION = {'rule_status': 'luật tạm thời, chưa phải công thức cuối cùng Phòng Phân tích chốt',
- 'reasons_allowed': ('REBASED',),
  'window_years': 5,
  'min_days': 250,
  'stale_days': 10,

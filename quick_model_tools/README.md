@@ -28,7 +28,9 @@ python -m quick_model_tools forecast --in input.json
 {"op": "run", "ticker": "TCB", "com_type_code": "NH", "icb_code": "8355", "dataset_dir": "examples/data/tcb", "store": "runs"}
 ```
 
-Kết quả `brief`: `run_id`, `model_ok`, `reasons`, số chính (tỷ đồng), quý tới. **`model_ok` là false thì không dùng số.**
+Kết quả `brief`: `run_id`, `usable`, `flags`, `reasons`, `publishable`, số chính (tỷ đồng), quý tới. Theo hướng dẫn của mô hình (`docs/HUONG_DAN_NHANH_AGENT.md`):
+**dùng số khi `usable` là true**; thiếu vốn, LNST âm, nghi đổi phạm vi hợp nhất là cờ trong `flags`, không chặn; `publishable` chỉ quyết định đăng tự động.
+`usable` false: `reasons` nói lý do; `NEEDS_INPUT` kê các giả định mô hình cần nhập (truyền `overrides` kèm lý do). `model_ok` giữ cho phía gọi cũ, bằng `usable`.
 `op`: `run`, `view` (`brief`, `thesis`, `table`, `assumptions`, `issues`, `one_offs`, `ratios`), `explain` (một ô), `assumptions`.
 
 ## Chốt ngành
@@ -43,14 +45,16 @@ Kết quả `brief`: `run_id`, `model_ok`, `reasons`, số chính (tỷ đồng)
 
 Vì sao bắt buộc: một mã chứng khoán chạy như phi tài chính vẫn ra số và không có cảnh báo nào. Khi mô hình có thêm nhóm, chỉ cần sửa `ROUTING` trong `settings.py`.
 
-## Cổng kiểm
+## Cổng kiểm (cờ, không chặn)
 
 | Mã | Khi nào |
 |---|---|
-| `FUNDING_GAP` | dự phóng thiếu vốn |
+| `FUNDING_GAP` | thiếu vốn sau khi vay tự động: kịch bản "không có vốn bổ sung", vẫn dùng số |
 | `LATEST_QUARTER_NOT_USED` | quý mới nhất có trong dữ liệu nhưng mô hình bỏ |
-| `SCOPE_SUSPECT` | nghi đổi phạm vi hợp nhất: chạy lại với `rebase: true`, chuyên viên phải xem |
-| `LOSS_IN_PATH` | LNST mẹ không dương ở quý mới nhất hoặc ba năm dự phóng đầu: không nhân bội số được |
+| `SCOPE_SUSPECT` | nghi đổi phạm vi hợp nhất: có thể chạy lại với `rebase: true`, chuyên viên nên xem |
+| `NEGATIVE_EARNINGS` | LNST mẹ âm ở quý mới nhất hoặc kỳ dự phóng: định giá tự bỏ P/E khi EPS 12 tháng tới ≤ 0, P/B và lợi nhuận thặng dư vẫn dùng được |
+| `NOT_PUBLISHABLE` | mô hình chưa cho đăng tự động; vẫn dùng số |
+| `NOT_BALANCED` | bảng cân đối dự phóng lệch |
 | `OVERRIDE_OUTSIDE_HISTORY` | giả định nhập tay ngoài khoảng lịch sử |
 
 ## Định giá: hai bước
