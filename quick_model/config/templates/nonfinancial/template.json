@@ -1774,6 +1774,11 @@
       "minority_share"
     ],
     "quarter_stats": {
+      "interest_rate": {
+        "stat": "mean",
+        "window": 1,
+        "lambda": 1.0
+      },
       "gross_margin": {
         "stat": "ttm_momentum",
         "window": 4,

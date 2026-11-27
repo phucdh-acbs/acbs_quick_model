@@ -21,7 +21,7 @@ uvicorn quick_model_api.app:app --host 0.0.0.0 --port 8000 --workers 4
 
 | Method | Đường dẫn | Mô tả |
 |---|---|---|
-| GET | `/health` | `{"status": "ok", "model_version": "L1 v2.6.5"}` |
+| GET | `/health` | `{"status": "ok", "model_version": "L1 v2.6.8"}` |
 | GET | `/v1/families/{family}/data-contract` | Bảng và cột GBQ cần lấy (cache lại theo phiên bản) |
 | GET | `/v1/families/{family}/assumptions` | Giả định có thể đặt qua `overrides` |
 | POST | `/v1/forecast` | Dự phóng một mã |
@@ -58,10 +58,11 @@ Response có cùng cấu trúc với `ForecastOutput.to_dict()` (rút gọn):
 
 ```json
 {
-  "meta": {"ticker": "TCB", "family": "bank", "model_version": "L1 v2.6.5", "origin_year": "2025",
+  "meta": {"ticker": "TCB", "family": "bank", "model_version": "L1 v2.6.8", "origin_year": "2025",
            "last_reported_quarter": "2026Q3", "forecast_years": ["2026", "2027", "2028"],
            "forecast_quarters": ["2026Q4", "2027Q1", "..."], "overrides": [], "disclaimer": "..."},
-  "status": {"ok": true, "publishable": true, "balanced": true, "feasible": true, "errors": 0, "warnings": 27},
+  "status": {"ok": true, "usable": true, "flags": [], "publishable": true, "balanced": true, "feasible": true,
+             "errors": 0, "warnings": 27},
   "annual": {"columns": ["2021 A", "...", "9T2026 A", "2026 F", "2027 F", "2028 F"],
              "rows": [{"line_id": "npat_parent", "label": "LNST cổ đông công ty mẹ", "statement": "IS",
                        "unit": "VND", "values": {"2025 A": 1.9e13, "2026 F": 2.2e13}}]},
@@ -77,6 +78,15 @@ Response có cùng cấu trúc với `ForecastOutput.to_dict()` (rút gọn):
 
 Khi dự phóng có lỗi chặn (`status.ok = false`), response chỉ có `meta`, `status` và `issues`.
 
+### Đọc `status` thế nào (từ v2.6.8)
+
+| Trường | Ý nghĩa | Dùng để |
+|---|---|---|
+| `usable` | `true` khi có kết quả dự phóng và không có lỗi chặn. **Vẫn `true` khi thiếu vốn hay LNST âm** | Quyết định agent có dùng kết quả hay không |
+| `flags` | Lưu ý đi kèm kết quả: `funding_gap` (thiếu vốn), `not_balanced` (bảng cân đối lệch), `negative_earnings` (LNST âm ở kỳ dự phóng) | Gắn cảnh báo cho analyst, hoặc bỏ qua bước nhân P/E khi `negative_earnings` |
+| `publishable` | `true` chỉ khi cân đối, đủ vốn và không lỗi. Dùng để quyết định **công bố ra ngoài**, không phải điều kiện chạy | Chặn đăng tự động khi `false` |
+| `feasible`, `funding_gap_max`, `first_gap_period` | Chi tiết thiếu vốn: số tiền lớn nhất (đồng) và kỳ đầu tiên | Đo mức độ thiếu vốn |
+
 ## 4. `POST /v1/explain`
 
 Body giống `/v1/forecast` và thêm hai trường: `line` (vd `"npat_parent"`) và `period` (`"2026"` hoặc `"2026Q3"`). Mẫu:
@@ -89,7 +99,7 @@ Response: `{"meta": …, "explanation": {"headline", "formula", "value", "prior_
 
 | HTTP | Khi nào |
 |---|---|
-| 200 | Chạy xong; kiểm tra thêm `status.ok` và `status.publishable` |
+| 200 | Chạy xong; dùng `status.usable` để quyết định có dùng kết quả, `status.publishable` để quyết định công bố, `status.flags` để biết lưu ý |
 | 422 | Đầu vào sai: thiếu bảng hay cột, sai `family`, override không tồn tại, không có dữ liệu của mã. `detail` nêu lý do |
 | 500 | Lỗi ngoài dự kiến: gửi request và log cho Phòng Phân tích |
 
@@ -98,7 +108,7 @@ Response: `{"meta": …, "explanation": {"headline", "formula", "value", "prior_
 1. Phân loại mã: ngân hàng dùng `family = "bank"`, còn lại dùng `"nonfinancial"`. Loại bất động sản, chứng khoán, bảo
    hiểm.
 2. Gọi `/data-contract` một lần cho mỗi phiên bản mô hình để dựng truy vấn GBQ.
-3. Chỉ công bố khi `status.publishable = true`. Nếu không, chuyển analyst xem `issues`.
+3. Dùng kết quả khi `status.usable = true` (kể cả thiếu vốn, LNST âm); đọc `status.flags` và `issues` để gắn cảnh báo. Chỉ đăng ra ngoài tự động khi `status.publishable = true`, nếu không chuyển analyst xem `issues`. Xem `HUONG_DAN_NHANH_AGENT.md`.
 4. Agent viết nhận định chỉ trích số từ response; dùng `explain` cho các ô chính.
 5. Áp kịch bản ngành bằng cách gửi cùng `overrides` cho mọi mã trong ngành.
 6. Luôn kèm `meta.model_version` và `meta.disclaimer` trong đầu ra.

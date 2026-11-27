@@ -1,12 +1,28 @@
 # ACBS Quick Model L1: thư viện và API dự phóng nhanh BCTC
 
-Phiên bản mô hình: **L1 v2.6.5** (chốt 25/11/2026). Gói này để team IT test và tích hợp vào luồng dự phóng tự động
+Phiên bản mô hình: **L1 v2.6.8** (chốt 27/11/2026). Gói này để team IT test và tích hợp vào luồng dự phóng tự động
 (sub-agent). Phòng Phân tích cung cấp thư viện và API. Luồng gọi, lịch chạy và truy vấn GBQ do IT quản lý.
 
 > Kết quả là dự phóng tự động từ lịch sử BCTC, **không phải khuyến nghị đầu tư**. Mọi đầu ra dùng đại trà phải kèm
 > ghi chú này (`meta.disclaimer`).
 
-## Thay đổi so với v2.6.4
+## v2.6.8 (so với v2.6.7)
+
+- **Thêm `status.usable` và `status.flags`** cho agent. `usable = true` khi có kết quả và không có lỗi chặn, kể cả khi thiếu vốn hay LNST âm; `flags` liệt kê `funding_gap`, `not_balanced`, `negative_earnings`. `publishable` giữ nguyên nghĩa (dùng để quyết định công bố). Không đổi số dự phóng.
+- Thiếu vốn **không bao giờ** làm thư viện hay API trả lỗi: mô hình vẫn trả kết quả kèm `feasible = false`, `funding_gap_max`, `first_gap_period`. Hướng dẫn ngắn: `docs/HUONG_DAN_NHANH_AGENT.md`.
+
+## v2.6.7 (so với v2.6.6)
+
+- **Ngân hàng:** CIR theo quý = trung bình 4 quý gần nhất (`quarter_stats.cir`, λ = 1), thay 0,65 × EMA 8 quý + 0,35 × EMA 5 năm. Chi phí hoạt động hết bị dự phóng cao hơn thực tế khoảng 10%; LNST ngân hàng năm tới WAPE 18,3% → 15,7% (25 NH). Phi tài chính không đổi.
+- Chỉ đổi cấu hình template, không đổi API.
+
+## v2.6.6 (so với v2.6.5)
+
+- **Phi tài chính:** lãi suất vay mặc định của quý = lãi suất quý gần nhất (`quarter_stats.interest_rate`), thay 0,65 × EMA 8 quý + 0,35 × năm. Lãi vay 1 quý tới sát thực tế hơn (WAPE 20,1% → 14,5% trên mẫu 120 DN); lợi nhuận gần như không đổi.
+- **Ngân hàng:** chi phí tín dụng đi theo quý = 0,65 × trung bình 4 quý + 0,35 × default năm (trước đây chỉ theo năm). Chi phí dự phòng và LNST quý tới sát hơn; LNST năm tới kém hơn khoảng 1,4 điểm % trên mẫu 25 NH.
+- Chỉ đổi cấu hình template, không đổi API.
+
+## v2.6.5 (so với v2.6.4)
 
 - **Sửa lỗi override theo năm:** trước đây sửa một năm của một giả định (ví dụ tăng trưởng doanh thu 2027) làm mọi năm
   còn lại của giả định đó cũng thành mục tiêu năm, nên năm đã có quý thực tế bị ép về số mặc định (doanh thu Q4 và cả
@@ -14,7 +30,7 @@ Phiên bản mô hình: **L1 v2.6.5** (chốt 25/11/2026). Gói này để team 
   (`basis["override_years"]`, suy ra ở `resolve`); các năm còn lại giữ default. Áp dụng cho mọi giả định, cả phi tài chính
   và ngân hàng. Mô hình mặc định (không override) không đổi.
 
-## Thay đổi so với v2.6.3
+## v2.6.4 (so với v2.6.3)
 
 - **Ngân hàng:** default `inv_securities_growth` = `min(EMA 5 năm YoY CK đầu tư, deposit_growth cùng năm)`; theo quý không
   vượt `deposit_growth` cùng quý (cấu hình `quarterly_engine.caps`, bỏ qua khi analyst nhập số). Sửa ánh xạ dòng CK đầu tư
@@ -44,7 +60,7 @@ giữ trạng thái giữa các lần gọi.
 ## 2. Cấu trúc thư mục
 
 ```
-acbs_quick_model_v2.6.5/
+acbs_quick_model_v2.6.8/
 ├── README.md
 ├── pyproject.toml
 ├── quick_model/               engine + cấu hình mô hình (quick_model/config)
@@ -54,6 +70,7 @@ acbs_quick_model_v2.6.5/
 │   ├── HOP_DONG_DU_LIEU.md    lấy gì từ GBQ
 │   ├── HUONG_DAN_THU_VIEN.md  dùng trong Python
 │   ├── HUONG_DAN_API.md       endpoint, request, response, triển khai
+│   ├── HUONG_DAN_NHANH_AGENT.md  khi nào dùng kết quả: status.usable, flags, publishable
 │   ├── KET_QUA.md             ý nghĩa từng phần kết quả, trạng thái, mã cảnh báo
 │   └── phuong_phap/           spec mô hình (công thức, giả định, lịch sử phiên bản)
 ├── examples/
@@ -130,7 +147,7 @@ Tài liệu tương tác ở `http://localhost:8000/docs`.
 
 ## 6. Phiên bản và thay đổi
 
-- `meta.model_version` và `/health` đều trả `"L1 v2.6.5"`.
+- `meta.model_version` và `/health` đều trả `"L1 v2.6.8"`.
 - L1 phi tài chính đã khóa. Nếu `quick_model/config` bị sửa, `tests/test_l1_frozen.py` sẽ báo lỗi.
 - Chỉ Phòng Phân tích được đổi phương pháp, và mỗi lần đổi đi kèm phiên bản mới. Team IT không sửa cấu hình mô hình.
 

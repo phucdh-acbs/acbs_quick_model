@@ -58,7 +58,7 @@ out = S.forecast("HPG", "nonfinancial", frames=frames, years=3,
 | Thuộc tính | Nội dung |
 |---|---|
 | `meta` | Mã, nhóm, `model_version`, năm gốc, quý công bố mới nhất, năm và quý dự phóng, giả định đã đặt, `disclaimer` |
-| `status` | `ok`, `publishable`, `balanced`, `feasible`, `funding_gap_max`, số lỗi và cảnh báo, … |
+| `status` | `ok`, `usable`, `flags`, `publishable`, `balanced`, `feasible`, `funding_gap_max`, số lỗi và cảnh báo, … |
 | `annual` | DataFrame dòng × năm. Gồm cột `line_id`, `label`, `statement` (IS/BS/CF/SCH), `unit`, rồi `"2025 A"` (thực tế), `"6T2026 A"` (lũy kế năm đang chạy), `"2026 F"` (dự phóng) |
 | `quarterly` | DataFrame dòng × quý: `"2026Q2 A"`, `"2026Q3 F"`, … |
 | `ratios` | `{"annual": DataFrame, "quarterly": DataFrame}`: tỷ lệ chính, **đơn vị %** |

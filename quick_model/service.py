@@ -25,12 +25,24 @@ from quick_model.families.base import ForecastResult, forecast_periods
 from quick_model.paths import CONFIG_DIR
 from quick_model.periods import FREQ_ANNUAL, FREQ_QUARTER
 
-MODEL_VERSION = "L1 v2.6.5"
+MODEL_VERSION = "L1 v2.6.8"
 FAMILIES = ("nonfinancial", "bank")  # template mặc định của nhóm trùng tên nhóm
 REQUIRED_TABLES = {"nonfinancial": ("INCOME_STATEMENT", "BALANCE_SHEET", "CASH_FLOW"),
                    "bank": ("INCOME_STATEMENT", "BALANCE_SHEET")}
 OUTPUT_STATEMENTS = ("IS", "BS", "CF", "SCH")
 DISCLAIMER = "Mô hình L1 tự động, không phải khuyến nghị đầu tư."
+
+
+def _flags(status: dict, issues) -> list[str]:
+    """Cờ lưu ý cho agent (không chặn kết quả): thiếu vốn, bảng cân đối lệch, LNST âm ở kỳ dự phóng."""
+    flags = []
+    if status.get("feasible") is False:
+        flags.append("funding_gap")
+    if status.get("balanced") is False:
+        flags.append("not_balanced")
+    if any(i.code == "negative_npat" for i in issues):
+        flags.append("negative_earnings")
+    return flags
 
 
 class ServiceError(ValueError):
@@ -231,6 +243,8 @@ def forecast(ticker: str, family: str = "nonfinancial", *, frames: dict | None =
             "forecast_quarters": r.quarters, "overrides": sorted(overrides or {}), "disclaimer": DISCLAIMER}
     status = {**r.status, "ok": r.values is not None and errors == 0, "errors": errors,
               "warnings": sum(i.severity == "warning" for i in r.issues)}
+    status["usable"] = status["ok"]  # có kết quả dự phóng để dùng, kể cả khi thiếu vốn hay LNST âm (khác publishable)
+    status["flags"] = _flags(status, r.issues)
     out = ForecastOutput(meta, status, issues=r.issues_frame(), _history=h, _result=r)
     if r.values is None:
         return out

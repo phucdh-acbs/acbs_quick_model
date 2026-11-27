@@ -18,6 +18,8 @@ Năm dự phóng đầu tiên = các quý đã công bố + các quý dự phón
 | Trường | Ý nghĩa |
 |---|---|
 | `ok` | Tính xong, không có lỗi chặn |
+| `usable` | **Dùng được kết quả** (v2.6.8): có dự phóng và không có lỗi chặn. Vẫn `true` khi thiếu vốn hay LNST âm |
+| `flags` | Lưu ý đi kèm: `funding_gap`, `not_balanced`, `negative_earnings` |
 | `publishable` | **Được phép công bố**: không lỗi, bảng cân đối cân, tiền khớp (phi tài chính) và không thiếu vốn |
 | `balanced`, `balance_max_residual` | Bảng cân đối cân; chênh lệch lớn nhất (VND, phải ≈ 0) |
 | `cash_reconciled` | Tiền cuối kỳ trên lưu chuyển tiền tệ khớp bảng cân đối (phi tài chính) |
